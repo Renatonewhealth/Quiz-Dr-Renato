@@ -5,6 +5,30 @@
    Inspirado na plataforma inlead.digital
    ======================================== */
 
+/* ==========================================
+   🚨 IMPORTANTE: ESTE PROJETO É MOBILE-FIRST
+   ==========================================
+   
+   Todas as regras CSS são escritas PRIMEIRO para mobile (320px-480px)
+   e depois expandidas para telas maiores usando min-width.
+   
+   BREAKPOINTS (Tailwind):
+   - Base (sem prefixo): Mobile (0px - 639px)
+   - sm: Celulares grandes (640px+)
+   - md: Tablets (768px+)
+   - lg: Desktops (1024px+)
+   - xl: Telas grandes (1280px+)
+   
+   EXEMPLO CORRETO (Mobile-First):
+   ✅ className="text-base md:text-lg lg:text-xl"
+   (texto pequeno no mobile, cresce em telas maiores)
+   
+   EXEMPLO ERRADO (Desktop-First):
+   ❌ className="text-xl md:text-lg sm:text-base"
+   
+   TARGET PRINCIPAL: iPhone/Android (375px - 428px de largura)
+   ========================================== */
+
 :root {
   /* === BACKGROUNDS (Dark Mode) === */
   --bg-primary: #0f0f1a;
@@ -462,18 +486,34 @@ body {
   text-wrap: balance;
 }
 
+/* ==========================================
+   📱 CONTAINERS MOBILE-FIRST
+   ==========================================
+   - Padding menor no mobile (16px)
+   - Padding maior em tablets+ (24px)
+   - Max-width otimizado para leitura mobile
+   ========================================== */
+
 .container-quiz {
   width: 100%;
-  max-width: var(--quiz-max-width);
+  max-width: var(--quiz-max-width); /* 480px - largura ideal mobile */
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-4); /* 16px mobile */
 }
 
 .container-result {
   width: 100%;
-  max-width: var(--result-max-width);
+  max-width: var(--result-max-width); /* 600px */
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-4); /* 16px mobile */
+}
+
+/* Tablet+ (768px): aumentar padding */
+@media (min-width: 768px) {
+  .container-quiz,
+  .container-result {
+    padding: 0 var(--space-6); /* 24px tablet+ */
+  }
 }
 
 /* Glass effect */
@@ -481,4 +521,92 @@ body {
   background: rgba(26, 26, 46, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+/* ==========================================
+   📱 TIPOGRAFIA RESPONSIVA (MOBILE-FIRST)
+   ==========================================
+   Tamanhos começam menores e crescem
+   ========================================== */
+
+.text-hero {
+  font-size: 1.875rem; /* 30px mobile */
+  line-height: 1.2;
+}
+
+.text-title {
+  font-size: 1.5rem; /* 24px mobile */
+  line-height: 1.3;
+}
+
+.text-subtitle {
+  font-size: 1.125rem; /* 18px mobile */
+  line-height: 1.4;
+}
+
+/* Tablet+ (768px): aumentar tipografia */
+@media (min-width: 768px) {
+  .text-hero {
+    font-size: 3rem; /* 48px tablet+ */
+  }
+  
+  .text-title {
+    font-size: 2rem; /* 32px tablet+ */
+  }
+  
+  .text-subtitle {
+    font-size: 1.25rem; /* 20px tablet+ */
+  }
+}
+
+/* ==========================================
+   📱 BOTÕES TOUCH-FRIENDLY
+   ==========================================
+   Mínimo 44px de altura (recomendação Apple/Google)
+   Área de toque generosa para dedos
+   ========================================== */
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ==========================================
+   📱 ESPAÇAMENTOS RESPONSIVOS
+   ==========================================
+   Menos espaço no mobile, mais em desktop
+   ========================================== */
+
+.section-spacing {
+  padding-top: var(--space-8);    /* 32px mobile */
+  padding-bottom: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .section-spacing {
+    padding-top: var(--space-16);   /* 64px tablet+ */
+    padding-bottom: var(--space-16);
+  }
+}
+
+/* ==========================================
+   📱 HIDE/SHOW POR BREAKPOINT
+   ========================================== */
+
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .desktop-only {
+    display: block;
+  }
 }

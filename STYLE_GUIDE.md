@@ -4,14 +4,81 @@
 
 ---
 
+## 🚨 IMPORTANTE: ESTE PROJETO É MOBILE-FIRST
+
+**Todo o código, CSS e componentes são escritos PRIMEIRO para mobile e depois adaptados para telas maiores.**
+
+### O que isso significa na prática?
+
+```
+MOBILE-FIRST (CORRETO) ✅
+┌─────────────────────────────────────────────────────────────┐
+│ Estilos BASE = Mobile (320px - 639px)                       │
+│ sm: prefixo = Celulares grandes (640px+)                    │
+│ md: prefixo = Tablets (768px+)                              │
+│ lg: prefixo = Desktops (1024px+)                            │
+│ xl: prefixo = Telas grandes (1280px+)                       │
+└─────────────────────────────────────────────────────────────┘
+
+DESKTOP-FIRST (ERRADO) ❌
+Estilos BASE = Desktop → depois reduz para mobile
+```
+
+### Exemplos de código Mobile-First
+
+```tsx
+// ✅ CORRETO: texto pequeno no mobile, maior em desktop
+<h1 className="text-2xl md:text-4xl lg:text-5xl">
+  Título
+</h1>
+
+// ✅ CORRETO: padding menor no mobile, maior em desktop
+<div className="p-4 md:p-6 lg:p-8">
+  Conteúdo
+</div>
+
+// ✅ CORRETO: coluna no mobile, linha em desktop
+<div className="flex flex-col md:flex-row">
+  Itens
+</div>
+
+// ❌ ERRADO: nunca comece pelo maior
+<h1 className="text-5xl md:text-4xl sm:text-2xl">
+  Título
+</h1>
+```
+
+### Dispositivos Alvo
+
+| Dispositivo | Largura | Prioridade |
+|-------------|---------|------------|
+| iPhone SE | 375px | Alta |
+| iPhone 12/13/14 | 390px | Alta |
+| iPhone Pro Max | 428px | Alta |
+| Android Médio | 360px | Alta |
+| Samsung Galaxy | 412px | Alta |
+| iPad | 768px | Média |
+| Desktop | 1024px+ | Baixa |
+
+### Checklist Mobile-First
+
+Antes de cada commit, verifique:
+- [ ] Testou no Chrome DevTools em 375px?
+- [ ] Botões têm mínimo 44px de altura (touch-friendly)?
+- [ ] Texto é legível sem zoom?
+- [ ] Formulários são fáceis de preencher?
+- [ ] Animações são suaves (60fps)?
+
+---
+
 ## 📐 Filosofia de Design
 
 ### Princípios Core
-1. **Mobile-First**: Otimizado para celular (90%+ dos acessos)
-2. **Dark Mode Elegante**: Fundo escuro com elementos vibrantes
-3. **Gamificação Visual**: Progresso, feedback e recompensas visuais
-4. **Fluidez**: Transições suaves entre telas
-5. **Conversão**: Design focado em manter engajamento
+1. **📱 Mobile-First**: Otimizado para celular (90%+ dos acessos)
+2. **🌙 Dark Mode Elegante**: Fundo escuro com elementos vibrantes
+3. **🎮 Gamificação Visual**: Progresso, feedback e recompensas visuais
+4. **✨ Fluidez**: Transições suaves entre telas
+5. **🎯 Conversão**: Design focado em manter engajamento
 
 ---
 
