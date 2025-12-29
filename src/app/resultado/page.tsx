@@ -28,10 +28,10 @@ export default function ResultadoPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-[#0f0f1a] flex items-center justify-center">
+      <main className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#667eea] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#a0a0b8]">Carregando resultado...</p>
+          <p className="text-gray-600">Carregando resultado...</p>
         </div>
       </main>
     );
@@ -39,15 +39,15 @@ export default function ResultadoPage() {
 
   if (!result) {
     return (
-      <main className="min-h-screen bg-[#0f0f1a] flex items-center justify-center p-4">
+      <main className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="text-center container-quiz">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(102,126,234,0.1)] flex items-center justify-center">
             <span className="text-2xl">🤔</span>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Nenhum resultado encontrado
           </h1>
-          <p className="text-[#a0a0b8] mb-6">
+          <p className="text-gray-600 mb-6">
             Parece que você ainda não completou o quiz
           </p>
           <button
@@ -76,11 +76,11 @@ export default function ResultadoPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0f0f1a] bg-pattern">
+    <main className="min-h-screen bg-white bg-pattern">
       {/* Background decorativo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#667eea] opacity-10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#764ba2] opacity-10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#667eea] opacity-5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#764ba2] opacity-5 rounded-full blur-3xl" />
       </div>
 
       <div className="container-result relative z-10 min-h-screen flex flex-col py-8">
@@ -91,7 +91,7 @@ export default function ResultadoPage() {
             <Star className="w-6 h-6 text-[#667eea] animate-bounce" style={{ animationDelay: '100ms' }} />
             <Sparkles className="w-6 h-6 text-[#f093fb] animate-bounce" style={{ animationDelay: '200ms' }} />
           </div>
-          <h2 className="text-[#a0a0b8] text-lg">
+          <h2 className="text-gray-600 text-lg">
             {userName ? `Olá, ${userName}!` : 'Parabéns!'} Aqui está seu resultado:
           </h2>
         </div>
@@ -112,25 +112,25 @@ export default function ResultadoPage() {
             </h1>
 
             {/* Score badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(102,126,234,0.1)] border border-[rgba(102,126,234,0.3)] mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(102,126,234,0.05)] border border-[rgba(102,126,234,0.2)] mb-6">
               <Trophy className="w-4 h-4 text-[#667eea]" />
-              <span className="text-white font-semibold">
+              <span className="text-gray-900 font-semibold">
                 {result.totalScore} / {result.maxScore} pontos
               </span>
-              <span className="text-[#a0a0b8]">
+              <span className="text-gray-600">
                 ({Math.round(result.percentage)}%)
               </span>
             </div>
 
             {/* Mensagem */}
-            <p className="text-[#a0a0b8] text-lg leading-relaxed max-w-md mx-auto mb-6">
+            <p className="text-gray-600 text-lg leading-relaxed max-w-md mx-auto mb-6">
               {result.resultMessage}
             </p>
 
             {/* WhatsApp confirmation */}
-            <div className="flex items-center justify-center gap-2 p-4 rounded-xl bg-[rgba(17,153,142,0.1)] border border-[rgba(56,239,125,0.2)]">
-              <CheckCircle className="w-5 h-5 text-[#38ef7d]" />
-              <span className="text-[#38ef7d] font-medium">
+            <div className="flex items-center justify-center gap-2 p-4 rounded-xl bg-green-50 border border-green-200">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <span className="text-green-700 font-medium">
                 Resultado enviado para seu WhatsApp!
               </span>
             </div>
@@ -138,12 +138,12 @@ export default function ResultadoPage() {
 
           {/* Progress visual */}
           <div className="mt-8 animate-fadeInUp delay-200">
-            <div className="bg-[#16162a] rounded-xl p-4 border border-[rgba(102,126,234,0.1)]">
+            <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-[#a0a0b8]">Seu desempenho</span>
-                <span className="text-sm font-medium text-white">{Math.round(result.percentage)}%</span>
+                <span className="text-sm text-gray-600">Seu desempenho</span>
+                <span className="text-sm font-medium text-gray-900">{Math.round(result.percentage)}%</span>
               </div>
-              <div className="h-3 bg-[rgba(102,126,234,0.2)] rounded-full overflow-hidden">
+              <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
                 <div 
                   className={`h-full rounded-full bg-gradient-to-r ${getResultColor()} transition-all duration-1000`}
                   style={{ width: `${result.percentage}%` }}
@@ -174,7 +174,7 @@ export default function ResultadoPage() {
 
         {/* Footer */}
         <footer className="text-center pt-8 animate-fadeInUp delay-400">
-          <p className="text-[#6b6b80] text-sm">
+          <p className="text-gray-500 text-sm">
             Obrigado por participar! 💜
           </p>
         </footer>

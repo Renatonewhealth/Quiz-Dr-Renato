@@ -75,7 +75,7 @@ Antes de cada commit, verifique:
 
 ### Princípios Core
 1. **📱 Mobile-First**: Otimizado para celular (90%+ dos acessos)
-2. **🌙 Dark Mode Elegante**: Fundo escuro com elementos vibrantes
+2. **☀️ Light Mode Clean**: Fundo branco com elementos vibrantes e bordas sutis
 3. **🎮 Gamificação Visual**: Progresso, feedback e recompensas visuais
 4. **✨ Fluidez**: Transições suaves entre telas
 5. **🎯 Conversão**: Design focado em manter engajamento
@@ -100,17 +100,17 @@ Antes de cada commit, verifique:
 --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 ```
 
-### Background (Dark Mode)
+### Background (Light Mode)
 
 ```css
 /* Fundo Principal */
---bg-primary: #0f0f1a;      /* Preto profundo com tom azulado */
---bg-secondary: #1a1a2e;    /* Cards e elementos elevados */
---bg-tertiary: #252542;     /* Hover states */
---bg-card: #16162a;         /* Cards destacados */
+--bg-primary: #ffffff;      /* Branco puro */
+--bg-secondary: #f8f9fa;    /* Cinza muito claro para inputs */
+--bg-tertiary: #e9ecef;     /* Cinza claro para hover */
+--bg-card: #ffffff;         /* Cards brancos com bordas */
 
 /* Overlay para modais */
---bg-overlay: rgba(0, 0, 0, 0.8);
+--bg-overlay: rgba(0, 0, 0, 0.5);
 ```
 
 ### Cores de Texto
@@ -158,8 +158,8 @@ Antes de cada commit, verifique:
 ### Font Stack
 
 ```css
-/* Fonte Principal - Inter (Google Fonts) */
---font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* Fonte Principal - Plus Jakarta Sans (Google Fonts) */
+--font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
 /* Fonte para Números/Dados */
 --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -863,8 +863,8 @@ className="border-[rgba(102,126,234,0.3)]"
 
 ### Fase 1: Setup
 - [ ] Atualizar `globals.css` com variáveis CSS
-- [ ] Configurar fonte Inter no layout
-- [ ] Definir cores do tema no Tailwind
+- [x] Configurar fonte Plus Jakarta Sans no layout
+- [x] Definir cores do tema no Tailwind
 
 ### Fase 2: Componentes Base
 - [ ] Button (Primary e Secondary)
@@ -976,7 +976,7 @@ export function Button({ children, onClick, disabled, loading, variant = 'primar
 - **Tailwind CSS** - Framework de estilização
 - **Framer Motion** - Biblioteca de animações
 - **Lucide React** - Biblioteca de ícones
-- **Inter Font** - Tipografia principal
+- **Plus Jakarta Sans** - Tipografia principal (moderna e humanista)
 
 ---
 

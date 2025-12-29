@@ -13,6 +13,8 @@ export default function QuizPage() {
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -44,6 +46,36 @@ export default function QuizPage() {
     } else {
       setAnswers([...answers, newAnswer]);
     }
+
+    // Auto-advance após 300ms
+    setIsTransitioning(true);
+    setTimeout(() => {
+      if (isLastQuestion) {
+        // Mostrar tela de loading antes do formulário
+        setShowLoading(true);
+        
+        // Animar barra de progresso
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 2;
+          setLoadingProgress(progress);
+          
+          if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              setShowLoading(false);
+              setShowLeadForm(true);
+            }, 200);
+          }
+        }, 40); // 2% a cada 40ms = 2 segundos total
+      } else {
+        setCurrentQuestion(prev => prev + 1);
+        // Verificar se já respondeu a próxima pergunta
+        const nextAnswer = answers.find(a => a.questionId === quizQuestions[currentQuestion + 1]?.id);
+        setSelectedOption(nextAnswer?.optionId || null);
+      }
+      setIsTransitioning(false);
+    }, 300);
   };
 
   const handleNext = () => {
@@ -144,21 +176,56 @@ export default function QuizPage() {
     }
   };
 
+  // Tela de Loading
+  if (showLoading) {
+    return (
+      <main className="min-h-screen bg-white bg-pattern flex items-center justify-center">
+        <div className="container-quiz text-center">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] flex items-center justify-center animate-pulse">
+            <span className="text-4xl">🎯</span>
+          </div>
+          
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">
+            Estamos analisando suas respostas
+          </h2>
+          
+          <p className="text-gray-600 mb-8">
+            Não saia dessa página, estamos quase lá...
+          </p>
+          
+          {/* Barra de progresso */}
+          <div className="max-w-md mx-auto">
+            <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-[#667eea] to-[#764ba2] transition-all duration-100 ease-linear"
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+            <p className="text-sm text-gray-500 mt-3">
+              {loadingProgress}%
+            </p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   // Formulário de Lead
   if (showLeadForm) {
     return (
-      <main className="min-h-screen bg-[#0f0f1a] bg-pattern">
+      <main className="min-h-screen bg-white bg-pattern">
         <div className="container-quiz min-h-screen flex flex-col py-8">
           {/* Header */}
           <div className="text-center mb-8 animate-fadeInUp">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] flex items-center justify-center">
-              <span className="text-2xl">🎉</span>
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] flex items-center justify-center">
+              <span className="text-4xl">🔍</span>
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">
-              Parabéns! Você completou o quiz!
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight">
+              Seu Detector de Invasores Está Pronto!
             </h1>
-            <p className="text-[#a0a0b8]">
-              Preencha seus dados para receber o resultado personalizado
+            <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+              Com base nas suas respostas, calculamos sua probabilidade de infestação parasitária e identificamos os sinais de alerta no seu corpo. 
+              Preencha os dados abaixo para receber sua análise completa pelo Whatsapp.
             </p>
           </div>
 
@@ -166,8 +233,8 @@ export default function QuizPage() {
           <div className="flex-1 flex flex-col justify-center">
             <div className="space-y-4 animate-fadeInUp delay-100">
               <div>
-                <label className="block text-sm font-medium text-[#a0a0b8] mb-2">
-                  Nome completo
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nome
                 </label>
                 <input
                   type="text"
@@ -177,12 +244,12 @@ export default function QuizPage() {
                   className={`input-field ${formErrors.nome ? 'error' : ''}`}
                 />
                 {formErrors.nome && (
-                  <p className="text-[#f5576c] text-sm mt-1">{formErrors.nome}</p>
+                  <p className="text-red-500 text-sm mt-1">{formErrors.nome}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#a0a0b8] mb-2">
+                <label className="block text-sm font-medium text-gray-600 mb-2">
                   E-mail
                 </label>
                 <input
@@ -193,13 +260,13 @@ export default function QuizPage() {
                   className={`input-field ${formErrors.email ? 'error' : ''}`}
                 />
                 {formErrors.email && (
-                  <p className="text-[#f5576c] text-sm mt-1">{formErrors.email}</p>
+                  <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#a0a0b8] mb-2">
-                  WhatsApp
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  WhatsApp (com DDD)
                 </label>
                 <input
                   type="tel"
@@ -209,7 +276,7 @@ export default function QuizPage() {
                   className={`input-field ${formErrors.telefone ? 'error' : ''}`}
                 />
                 {formErrors.telefone && (
-                  <p className="text-[#f5576c] text-sm mt-1">{formErrors.telefone}</p>
+                  <p className="text-red-500 text-sm mt-1">{formErrors.telefone}</p>
                 )}
               </div>
             </div>
@@ -218,7 +285,7 @@ export default function QuizPage() {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="btn-primary flex items-center justify-center gap-2"
+                className="btn-primary flex items-center justify-center gap-2 text-lg py-5 font-bold"
               >
                 {isSubmitting ? (
                   <>
@@ -226,11 +293,11 @@ export default function QuizPage() {
                     Processando...
                   </>
                 ) : (
-                  'Ver Meu Resultado'
+                  'RECEBER MINHA ANÁLISE GRATUITA VIA WHATSAPP'
                 )}
               </button>
 
-              <p className="text-[#6b6b80] text-sm text-center mt-4 flex items-center justify-center gap-2">
+              <p className="text-gray-500 text-sm text-center mt-4 flex items-center justify-center gap-2">
                 🔒 Seus dados estão seguros e não serão compartilhados
               </p>
             </div>
@@ -242,12 +309,12 @@ export default function QuizPage() {
 
   // Quiz Questions
   return (
-    <main className="min-h-screen bg-[#0f0f1a] bg-pattern">
+    <main className="min-h-screen bg-white bg-pattern">
       <div className="container-quiz min-h-screen flex flex-col py-8">
         {/* Progress Bar */}
         <div className="mb-6 animate-fadeInUp">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-[#a0a0b8]">
+            <span className="text-sm text-gray-600">
               Pergunta {currentQuestion + 1} de {quizQuestions.length}
             </span>
             <span className="text-sm text-[#667eea] font-medium">
@@ -265,7 +332,7 @@ export default function QuizPage() {
         {/* Question */}
         <div className={`flex-1 flex flex-col transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
           <div className="mb-8 animate-fadeInUp delay-100">
-            <h2 className="text-xl md:text-2xl font-bold text-white text-center leading-relaxed">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 text-center leading-relaxed">
               {question.question}
             </h2>
           </div>
@@ -283,36 +350,30 @@ export default function QuizPage() {
                   style={{ animationDelay: `${(index + 1) * 100}ms` }}
                   className={`quiz-option animate-slideIn opacity-0 ${isSelected ? 'selected' : ''}`}
                 >
+                  {option.emoji && (
+                    <span className="emoji-background">{option.emoji}</span>
+                  )}
                   <span className="quiz-option-letter">
                     {letters[index]}
                   </span>
-                  <span className="flex-1">{option.text}</span>
+                  <span className="option-text flex-1 text-gray-900">{option.text}</span>
                 </button>
               );
             })}
           </div>
 
           {/* Navigation */}
-          <div className="mt-8 flex gap-3 animate-fadeInUp delay-300">
-            {currentQuestion > 0 && (
+          {currentQuestion > 0 && (
+            <div className="mt-8 flex gap-3 animate-fadeInUp delay-300">
               <button
                 onClick={handleBack}
-                className="btn-secondary flex items-center justify-center gap-2 flex-1"
+                className="btn-icon-only"
+                aria-label="Voltar"
               >
                 <ChevronLeft className="w-5 h-5" />
-                Voltar
               </button>
-            )}
-            
-            <button
-              onClick={handleNext}
-              disabled={!selectedOption}
-              className={`btn-primary flex items-center justify-center gap-2 ${currentQuestion === 0 ? 'w-full' : 'flex-1'}`}
-            >
-              {isLastQuestion ? 'Finalizar' : 'Próxima'}
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </main>

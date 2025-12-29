@@ -9,13 +9,14 @@
  */
 
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-plus-jakarta",
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -70,15 +71,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html lang="pt-BR" className={plusJakartaSans.variable}>
       {/* 
         📱 BODY MOBILE-FIRST:
         - min-h-screen: garante altura mínima em mobile
-        - bg-[#0f0f1a]: dark mode para economia de bateria (OLED)
-        - text-white: contraste otimizado para leitura
+        - bg-white: light mode clean
+        - text-gray-900: contraste otimizado para leitura
         - antialiased: suavização de fontes melhor no mobile
       */}
-      <body className="antialiased min-h-screen bg-[#0f0f1a] text-white overflow-x-hidden">
+      <body className="antialiased min-h-screen bg-white text-gray-900 overflow-x-hidden">
         {children}
       </body>
     </html>

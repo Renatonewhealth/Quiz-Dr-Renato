@@ -1,7 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Sparkles, ArrowRight, Shield, Clock, CheckCircle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -11,97 +12,73 @@ export default function LandingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0f0f1a] bg-pattern relative overflow-hidden">
-      {/* Background decorativo */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <main className="min-h-screen bg-white relative overflow-hidden flex flex-col">
+      {/* Background decorativo sutil */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#667eea] opacity-10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#764ba2] opacity-10 rounded-full blur-3xl" />
       </div>
 
-      <div className="container-quiz relative z-10 flex flex-col min-h-screen py-8 md:py-16">
-        {/* Header */}
-        <header className="text-center mb-8 animate-fadeInUp">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(102,126,234,0.1)] border border-[rgba(102,126,234,0.3)] mb-6">
-            <Sparkles className="w-4 h-4 text-[#667eea]" />
-            <span className="text-sm text-[#a0a0b8]">Quiz Interativo</span>
-          </div>
-        </header>
-
-        {/* Hero Section */}
-        <section className="flex-1 flex flex-col justify-center text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight animate-fadeInUp">
-            Descubra seu{' '}
-            <span className="gradient-text">Perfil de Saúde</span>
-          </h1>
+      {/* Container principal - conteúdo */}
+      <div className="relative z-10 flex-1">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-16 pb-0">
           
-          <p className="text-[#a0a0b8] text-lg md:text-xl mb-8 max-w-md mx-auto animate-fadeInUp delay-100">
-            Responda algumas perguntas rápidas e receba um diagnóstico personalizado diretamente no seu WhatsApp.
-          </p>
-
-          {/* Benefícios */}
-          <div className="grid gap-3 mb-8 animate-fadeInUp delay-200">
-            <div className="flex items-center gap-3 text-left bg-[#16162a] rounded-xl p-4 border border-[rgba(102,126,234,0.1)]">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#667eea] to-[#764ba2] flex items-center justify-center flex-shrink-0">
-                <Clock className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p className="font-medium text-white">Apenas 2 minutos</p>
-                <p className="text-sm text-[#6b6b80]">Quiz rápido e objetivo</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 text-left bg-[#16162a] rounded-xl p-4 border border-[rgba(102,126,234,0.1)]">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#00d4ff] to-[#5b5ee1] flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p className="font-medium text-white">Resultado personalizado</p>
-                <p className="text-sm text-[#6b6b80]">Baseado nas suas respostas</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 text-left bg-[#16162a] rounded-xl p-4 border border-[rgba(102,126,234,0.1)]">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#11998e] to-[#38ef7d] flex items-center justify-center flex-shrink-0">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p className="font-medium text-white">100% seguro</p>
-                <p className="text-sm text-[#6b6b80]">Seus dados estão protegidos</p>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="animate-fadeInUp delay-300">
-            <button
-              onClick={handleStartQuiz}
-              className="w-full py-4 px-8 rounded-xl font-semibold text-white text-lg
-                bg-gradient-to-r from-[#667eea] to-[#764ba2]
-                hover:shadow-[0_10px_40px_rgba(102,126,234,0.4)]
-                hover:-translate-y-0.5
-                active:translate-y-0
-                transition-all duration-300
-                flex items-center justify-center gap-2
-                animate-pulse"
-            >
-              Começar Quiz Gratuito
-              <ArrowRight className="w-5 h-5" />
-            </button>
-
-            <p className="text-[#6b6b80] text-sm mt-4 flex items-center justify-center gap-2">
-              <Shield className="w-4 h-4" />
-              Gratuito • Sem compromisso
+          {/* Hero Section */}
+          <section className="text-center mb-12">
+            {/* Headline */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight px-4 animate-fadeInUp">
+              Você Pode Ter Parasitas Roubando Seus Nutrientes Neste Exato Momento, e Nem Sabe.
+            </h1>
+            
+            {/* Sub-Headline */}
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-10 leading-relaxed max-w-3xl mx-auto px-4 animate-fadeInUp delay-100">
+              Responda 6 perguntas rápidas e descubra qual a probabilidade REAL de invasores silenciosos estarem sabotando seu metabolismo, travando seu peso e drenando sua energia. Leva menos de 90 segundos.
             </p>
-          </div>
-        </section>
 
-        {/* Footer */}
-        <footer className="text-center pt-8 animate-fadeInUp delay-400">
-          <p className="text-[#6b6b80] text-sm">
-            Quiz desenvolvido por{' '}
-            <span className="text-[#667eea] font-medium">Dr. Renato Silveira</span>
-          </p>
-        </footer>
+            {/* CTA Button */}
+            <div className="max-w-md mx-auto px-4 mb-6 animate-fadeInUp delay-200">
+              <button
+                onClick={handleStartQuiz}
+                className="w-full py-4 sm:py-5 px-6 sm:px-8 rounded-xl font-bold text-white text-base sm:text-lg md:text-xl
+                  bg-gradient-to-r from-[#667eea] to-[#764ba2]
+                  hover:shadow-[0_10px_40px_rgba(102,126,234,0.4)]
+                  hover:-translate-y-1
+                  active:translate-y-0
+                  transition-all duration-300
+                  flex items-center justify-center gap-2"
+              >
+                INICIAR ANÁLISE
+                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            </div>
+
+            {/* Credenciais */}
+            <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-0 px-4 leading-relaxed animate-fadeInUp delay-300">
+              Desenvolvido por <span className="font-semibold">Dr Renato Silveira Reis</span>, especialista em nutriendocrinologia, medicina naturalista e farmacêutico.
+            </p>
+          </section>
+
+        </div>
+      </div>
+
+      {/* Foto do Dr. Renato - COLADA NO FUNDO DA PÁGINA */}
+      <div className="relative z-10 w-full -mt-4">
+        <div className="w-full max-w-2xl mx-auto">
+          <Image
+            src="/images/dr-renato.png"
+            alt="Dr. Renato Silveira Reis - Especialista em nutriendocrinologia"
+            width={1080}
+            height={1380}
+            className="w-full h-auto object-contain"
+            style={{ 
+              display: 'block', 
+              margin: 0, 
+              padding: 0,
+              maxHeight: '500px'
+            }}
+            priority
+          />
+        </div>
       </div>
     </main>
   );

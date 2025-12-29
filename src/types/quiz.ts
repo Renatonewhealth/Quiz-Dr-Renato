@@ -2,6 +2,7 @@ export interface QuizOption {
   id: string;
   text: string;
   score: number;
+  emoji?: string;
 }
 
 export interface QuizQuestion {
