@@ -437,7 +437,7 @@ body {
   border: 2px solid var(--option-border);
   background: var(--option-bg);
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 0.875rem; /* 14px mobile */
   font-weight: 500;
   text-align: left;
   cursor: pointer;
@@ -446,6 +446,13 @@ body {
   align-items: center;
   gap: var(--space-3);
   overflow: hidden;
+}
+
+/* Tablet e Desktop - texto maior */
+@media (min-width: 640px) {
+  .quiz-option {
+    font-size: 1rem; /* 16px */
+  }
 }
 
 .quiz-option:hover:not(.selected) {

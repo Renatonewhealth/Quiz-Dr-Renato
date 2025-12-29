@@ -76,7 +76,7 @@ export default function ResultadoPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white bg-pattern">
+    <main className="min-h-screen bg-white">
       {/* Background decorativo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#667eea] opacity-5 rounded-full blur-3xl" />
@@ -91,8 +91,12 @@ export default function ResultadoPage() {
             <Star className="w-6 h-6 text-[#667eea] animate-bounce" style={{ animationDelay: '100ms' }} />
             <Sparkles className="w-6 h-6 text-[#f093fb] animate-bounce" style={{ animationDelay: '200ms' }} />
           </div>
-          <h2 className="text-gray-600 text-lg">
-            {userName ? `Olá, ${userName}!` : 'Parabéns!'} Aqui está seu resultado:
+          <h2 className="text-sm sm:text-base md:text-lg text-gray-700 font-medium">
+            {userName ? (
+              <>Olá, <strong className="text-gray-900 font-bold">{userName}</strong>!</>
+            ) : (
+              <strong className="text-gray-900 font-bold">Parabéns!</strong>
+            )} Aqui está seu resultado:
           </h2>
         </div>
 
@@ -105,7 +109,7 @@ export default function ResultadoPage() {
             </div>
 
             {/* Categoria */}
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2">
               <span className={`bg-gradient-to-r ${getResultColor()} bg-clip-text text-transparent`}>
                 {result.resultCategory}
               </span>
