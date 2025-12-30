@@ -315,10 +315,10 @@ export default function QuizPage() {
               />
             </div>
             
-            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 leading-relaxed max-w-2xl mx-auto mb-4">
               Com base nas suas respostas, identificamos sinais que <strong className="font-bold text-gray-900">NÃO devem ser ignorados.</strong>
             </p>
-            <p className="text-base sm:text-lg font-bold text-[#10b981]">
+            <p className="text-lg sm:text-xl font-bold text-[#10b981]">
               Preencha os dados abaixo e clique no botão para destrancar seu resultado completo no WhatsApp gratuitamente:
             </p>
           </div>
