@@ -20,26 +20,32 @@ export default function LandingPage() {
           
           {/* Hero Section */}
           <section className="text-center mb-4 sm:mb-8">
+            {/* Pre-Headline */}
+            <p className="text-sm sm:text-base md:text-lg text-[#667eea] font-bold mb-3 uppercase tracking-wide animate-fadeInUp">
+              Descoberta científica revela:
+            </p>
+            
             {/* Headline */}
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight px-4 animate-fadeInUp">
-              Você Pode Ter <span className="text-[#667eea]">Parasitas Dentro do Seu Corpo</span> Neste Exato Momento, e Nem Sabe.
+              8 em Cada 10 Mulheres Acima de 35 Têm <span className="text-[#667eea]">Parasitas e Vermes Intestinais</span>, E Isso Está IMPEDINDO o Emagrecimento Delas.
             </h1>
             
             {/* Sub-Headline */}
             <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto px-4 animate-fadeInUp delay-100 font-semibold">
-              Responda <strong className="font-bold text-gray-900">6 perguntas rápidas</strong> e descubra qual a <strong className="font-bold text-gray-900">probabilidade REAL</strong> de invasores silenciosos estarem sabotando seu metabolismo, travando seu peso e drenando sua energia. 
-              <span className="block mt-3 text-base sm:text-lg text-[#667eea] font-bold">⏱️ Leva menos de 90 segundos.</span>
+              <strong className="font-bold text-gray-900">Será que você é uma delas?</strong><br/>
+              Responda <strong className="font-bold text-gray-900">6 perguntas rápidas</strong> e descubra agora se <strong className="font-bold text-gray-900">parasitas invisíveis</strong> estão sabotando seu metabolismo e impedindo que você emagreça de verdade.
             </p>
 
             {/* CTA Button */}
             <div className="max-w-md mx-auto px-4 mb-8 animate-fadeInUp delay-200">
-              <AnimatedFolderButton onClick={handleStartQuiz} text="INICIAR ANÁLISE GRATUITA" />
+              <AnimatedFolderButton onClick={handleStartQuiz} text="INICIAR AUTO-ANÁLISE GRATUITA" />
             </div>
 
             {/* Credenciais */}
             <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-0 sm:mb-0 px-4 leading-relaxed animate-fadeInUp delay-300">
               Desenvolvido por <strong className="font-bold text-gray-900">Dr. Renato Silveira Reis</strong><br/>
-              <span className="text-xs sm:text-sm md:text-base text-gray-600">Especialista em Nutriendocrinologia, Medicina Naturalista e Farmacêutico</span>
+              <span className="text-xs sm:text-sm md:text-base text-gray-600">Especialista em Nutriendocrinologia, Medicina Naturalista e Farmacêutico</span><br/>
+              <span className="text-xs sm:text-sm md:text-base text-[#667eea] font-bold mt-1 inline-block">📱 Mais de 11 milhões de seguidores nas redes sociais</span>
             </p>
           </section>
 
