@@ -58,7 +58,20 @@ export default function QuizPage() {
     setIsTransitioning(true);
     setTimeout(() => {
       if (isLastQuestion) {
-        // Mostrar tela de loading antes do formulário
+        // Calcular score total incluindo a resposta atual
+        const updatedAnswers = existingAnswerIndex >= 0
+          ? answers.map((a, i) => i === existingAnswerIndex ? newAnswer : a)
+          : [...answers, newAnswer];
+        
+        const totalScore = updatedAnswers.reduce((sum, a) => sum + a.score, 0);
+        
+        // Se score >= 5, redirecionar para página de baixo risco (sem formulário)
+        if (totalScore >= 5) {
+          router.push('/resultado-baixo');
+          return;
+        }
+        
+        // Se score <= 4, mostrar tela de loading e depois formulário
         setShowLoading(true);
         
         // Animar barra de progresso
@@ -143,32 +156,36 @@ export default function QuizPage() {
     try {
       const resultado = calcularResultado(answers);
       
+      // Preparar dados das respostas com textos
+      const answersWithText = answers.map(answer => {
+        const question = quizQuestions.find(q => q.id === answer.questionId);
+        const option = question?.options.find(o => o.id === answer.optionId);
+        return {
+          questionId: typeof answer.questionId === 'string' ? parseInt(answer.questionId.replace('q', '')) : answer.questionId,
+          questionText: question?.question || '',
+          selectedOption: option?.text || '',
+          score: answer.score,
+        };
+      });
+      
       // Salvar lead no Supabase
-      const leadResponse = await fetch('/api/salvar-lead', {
+      const leadResponse = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
-          score: resultado.totalScore,
-          resultado: resultado.resultCategory,
-          respostas: answers,
+          name: formData.nome,
+          whatsapp: formData.telefone,
+          email: formData.email,
+          totalScore: resultado.totalScore,
+          riskLevel: resultado.resultCategory,
+          answers: answersWithText,
         }),
       });
       
       if (!leadResponse.ok) {
-        throw new Error('Erro ao salvar dados');
+        const errorData = await leadResponse.json();
+        throw new Error(errorData.error || 'Erro ao salvar dados');
       }
-      
-      // Enviar resultado via WhatsApp
-      await fetch('/api/enviar-whatsapp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          telefone: formData.telefone,
-          nome: formData.nome,
-          resultado: `${resultado.resultCategory}\n\n${resultado.resultMessage}\n\nScore: ${resultado.totalScore}/${resultado.maxScore}`,
-        }),
-      });
       
       // Armazenar resultado para página de resultado
       sessionStorage.setItem('quizResult', JSON.stringify(resultado));
