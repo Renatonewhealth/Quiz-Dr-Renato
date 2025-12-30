@@ -9,13 +9,8 @@ import { QuizAnswer } from '@/types/quiz';
 import { AnimatedBook } from '@/components/ui/animated-book';
 
 export default function QuizPage() {
-  // #region agent log
-  React.useEffect(() => {
-    fetch('http://127.0.0.1:7242/ingest/7e1d4de9-13bb-41f4-a5ac-5bdcfbe019c7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'quiz/page.tsx:10',message:'QuizPage component mounted',data:{timestamp:new Date().toISOString()},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H5'})}).catch(()=>{});
-  }, []);
-  // #endregion
-  
   const router = useRouter();
+  const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -30,6 +25,25 @@ export default function QuizPage() {
     telefone: '',
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+  // Criar sessão ao montar o componente
+  React.useEffect(() => {
+    const createSession = async () => {
+      try {
+        await fetch('/api/quiz-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionId,
+            action: 'start',
+          }),
+        });
+      } catch (error) {
+        console.error('Erro ao criar sessão:', error);
+      }
+    };
+    createSession();
+  }, [sessionId]);
 
   const question = quizQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
@@ -56,7 +70,22 @@ export default function QuizPage() {
 
     // Auto-advance após 300ms
     setIsTransitioning(true);
-    setTimeout(() => {
+    setTimeout(async () => {
+      // Atualizar tracking da sessão
+      try {
+        await fetch('/api/quiz-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionId,
+            action: 'update',
+            question: currentQuestion + 1,
+          }),
+        });
+      } catch (error) {
+        console.error('Erro ao atualizar sessão:', error);
+      }
+
       if (isLastQuestion) {
         // Calcular score total incluindo a resposta atual
         const updatedAnswers = existingAnswerIndex >= 0
@@ -67,6 +96,20 @@ export default function QuizPage() {
         
         // Se score >= 5, redirecionar para página de baixo risco (sem formulário)
         if (totalScore >= 5) {
+          // Marcar sessão como completa
+          try {
+            await fetch('/api/quiz-session', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                session_id: sessionId,
+                action: 'complete',
+                question: currentQuestion + 1,
+              }),
+            });
+          } catch (error) {
+            console.error('Erro ao completar sessão:', error);
+          }
           router.push('/resultado-baixo');
           return;
         }
@@ -185,6 +228,24 @@ export default function QuizPage() {
       if (!leadResponse.ok) {
         const errorData = await leadResponse.json();
         throw new Error(errorData.error || 'Erro ao salvar dados');
+      }
+
+      const leadData = await leadResponse.json();
+      
+      // Marcar sessão como completa com o lead_id
+      try {
+        await fetch('/api/quiz-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionId,
+            action: 'complete',
+            question: quizQuestions.length,
+            lead_id: leadData.leadId,
+          }),
+        });
+      } catch (error) {
+        console.error('Erro ao completar sessão:', error);
       }
       
       // Armazenar resultado para página de resultado
