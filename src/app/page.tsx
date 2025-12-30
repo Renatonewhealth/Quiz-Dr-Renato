@@ -32,7 +32,7 @@ export default function LandingPage() {
             
             {/* Sub-Headline */}
             <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto px-4 animate-fadeInUp delay-100 font-semibold">
-              <strong className="font-bold text-gray-900">Será que você é uma delas?</strong><br/>
+              <span className="text-xl sm:text-2xl md:text-3xl font-black text-[#667eea] block mb-3">Será que você é uma delas?</span>
               Responda <strong className="font-bold text-gray-900">6 perguntas rápidas</strong> e descubra agora se <strong className="font-bold text-gray-900">parasitas invisíveis</strong> estão sabotando seu metabolismo e impedindo que você emagreça de verdade.
             </p>
 
