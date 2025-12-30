@@ -298,9 +298,9 @@ export default function QuizPage() {
       <main className="min-h-screen bg-white">
         <div className="container-quiz min-h-screen flex flex-col justify-center pt-8 pb-8">
           {/* Header */}
-          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-6 sm:px-8 md:px-12">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight max-w-4xl mx-auto">
-              ⚠️ Sua Auto-Análise de Vermes e Parasitas Está Pronta, E Não É O Que Esperávamos...
+          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight max-w-6xl mx-auto">
+              ⚠️ Sua Auto-Análise de Vermes e Parasitas Está Pronta, <span className="text-[#10b981]">E Não É O Que Esperávamos...</span>
             </h1>
             
             {/* Imagem do resultado */}
