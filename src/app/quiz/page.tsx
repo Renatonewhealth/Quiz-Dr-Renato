@@ -179,10 +179,6 @@ export default function QuizPage() {
       errors.nome = 'Nome deve ter pelo menos 2 caracteres';
     }
     
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Email inválido';
-    }
-    
     if (!formData.telefone.trim() || !/^(\+55\s?)?\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(formData.telefone)) {
       errors.telefone = 'Telefone inválido (ex: 11999999999)';
     }
@@ -211,14 +207,14 @@ export default function QuizPage() {
         };
       });
       
-      // Salvar lead no Supabase
+      // Salvar lead no Supabase (usando whatsapp como email se não fornecido)
       const leadResponse = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.nome,
           whatsapp: formData.telefone,
-          email: formData.email,
+          email: formData.email || `${formData.telefone.replace(/\D/g, '')}@whatsapp.lead`,
           totalScore: resultado.totalScore,
           riskLevel: resultado.resultCategory,
           answers: answersWithText,
@@ -302,17 +298,30 @@ export default function QuizPage() {
         <div className="container-quiz min-h-screen flex flex-col justify-center pt-8 pb-8">
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#10b981] to-[#059669] flex items-center justify-center">
-              <span className="text-3xl sm:text-4xl">✅</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 leading-tight">
-              <span className="text-[#10b981]">Seu Detector de Invasores</span> Está Pronto!
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+              Sua auto-análise está pronta, e você <span className="text-[#10b981]">PRECISA</span> ver isso agora.
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl mx-auto mb-4">
-              Com base nas suas respostas, calculamos sua <strong className="font-semibold text-gray-900">probabilidade de infestação parasitária</strong> e identificamos os sinais de alerta no seu corpo. 
+            
+            {/* Placeholder para imagem */}
+            <div className="w-full max-w-md mx-auto mb-4">
+              <div className="aspect-square bg-gray-100 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center">
+                <div className="text-center p-6">
+                  <span className="text-4xl mb-2 block">🖼️</span>
+                  <p className="text-sm text-gray-500 font-medium">
+                    Adicione a imagem em:
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1 font-mono">
+                    public/images/resultado-lead.png
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto mb-4">
+              Com base nas suas respostas, identificamos sinais que <strong className="font-bold text-gray-900">NÃO devem ser ignorados.</strong>
             </p>
             <p className="text-base sm:text-lg font-bold text-[#10b981]">
-              📱 Preencha os dados abaixo para receber sua análise completa pelo WhatsApp
+              Preencha os dados abaixo e clique no botão para destrancar seu resultado completo no WhatsApp:
             </p>
           </div>
 
@@ -332,22 +341,6 @@ export default function QuizPage() {
                 />
                 {formErrors.nome && (
                   <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.nome}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm sm:text-sm font-semibold text-gray-800 mb-1.5">
-                  Seu Melhor E-mail
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="seu@email.com"
-                  className={`w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border-2 border-gray-200 focus:border-[#10b981] focus:ring-2 focus:ring-[#10b981]/20 outline-none transition-all ${formErrors.email ? 'border-red-500' : ''}`}
-                />
-                {formErrors.email && (
-                  <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.email}</p>
                 )}
               </div>
 

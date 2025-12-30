@@ -67,32 +67,42 @@ CREATE POLICY "Service role can manage quiz_sessions" ON quiz_sessions
   USING (true);
 
 -- ==========================================
--- INSTRUÇÕES PARA CRIAR USUÁRIO ADMIN
+-- ✅ SETUP INICIAL COMPLETO!
 -- ==========================================
 -- 
--- 1. Acesse o Supabase Dashboard → Authentication → Users
+-- Agora você precisa criar o usuário admin.
+-- NÃO EXECUTE MAIS NADA AQUI!
+-- 
+-- Siga os próximos passos:
+--
+-- ==========================================
+-- PRÓXIMO PASSO: CRIAR USUÁRIO ADMIN
+-- ==========================================
+-- 
+-- 1. Acesse: Authentication → Users
 -- 2. Clique em "Add user" → "Create new user"
 -- 3. Preencha:
 --    - Email: email do Dr. Renato
 --    - Password: senha forte
---    - Auto Confirm User: Marque esta opção
+--    - Auto Confirm User: ✅ MARQUE ESTA OPÇÃO
 -- 4. Clique em "Create user"
--- 5. COPIE O ID DO USUÁRIO CRIADO (formato: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
--- 6. Execute o INSERT abaixo substituindo:
---    - o email
---    - o nome completo
--- 
--- EXEMPLO:
--- INSERT INTO admin_users (id, email, full_name)
--- VALUES (
---   (SELECT id FROM auth.users WHERE email = 'renato@example.com'),
---   'renato@example.com',
---   'Dr. Renato Silveira'
--- );
+-- 5. VOLTE AQUI e execute o INSERT abaixo substituindo o email
 --
 -- ==========================================
 
--- Exemplo de query para verificar se funcionou:
+-- ⚠️ SÓ EXECUTE ISSO DEPOIS DE CRIAR O USUÁRIO NO PASSO ACIMA!
+-- Descomente e substitua o email:
+--
+-- INSERT INTO admin_users (id, email, full_name)
+-- VALUES (
+--   (SELECT id FROM auth.users WHERE email = 'SEU_EMAIL_AQUI@example.com'),
+--   'SEU_EMAIL_AQUI@example.com',
+--   'Dr. Renato Silveira'
+-- );
+
+-- ==========================================
+-- Para verificar se funcionou:
 -- SELECT * FROM admin_users;
--- SELECT * FROM quiz_analytics LIMIT 10;
+-- SELECT * FROM auth.users;
+-- ==========================================
 
