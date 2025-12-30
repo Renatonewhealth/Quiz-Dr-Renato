@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { quizQuestions } from '@/lib/quiz-data';
 import { calcularResultado } from '@/lib/scoring';
@@ -302,19 +303,16 @@ export default function QuizPage() {
               Sua auto-análise está pronta, e você <span className="text-[#10b981]">PRECISA</span> ver isso agora.
             </h1>
             
-            {/* Placeholder para imagem */}
+            {/* Imagem do resultado */}
             <div className="w-full max-w-md mx-auto mb-4">
-              <div className="aspect-square bg-gray-100 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center">
-                <div className="text-center p-6">
-                  <span className="text-4xl mb-2 block">🖼️</span>
-                  <p className="text-sm text-gray-500 font-medium">
-                    Adicione a imagem em:
-                  </p>
-                  <p className="text-xs text-gray-400 mt-1 font-mono">
-                    public/images/resultado-lead.png
-                  </p>
-                </div>
-              </div>
+              <Image
+                src="/images/resultado-lead.png"
+                alt="Resultado da Análise"
+                width={800}
+                height={800}
+                className="w-full h-auto rounded-2xl shadow-lg"
+                priority
+              />
             </div>
             
             <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto mb-4">
