@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { quizQuestions } from '@/lib/quiz-data';
 import { calcularResultado } from '@/lib/scoring';
 import { QuizAnswer } from '@/types/quiz';
+import { AnimatedBook } from '@/components/ui/animated-book';
 
 export default function QuizPage() {
   // #region agent log
@@ -187,8 +188,8 @@ export default function QuizPage() {
     return (
       <main className="min-h-screen bg-white flex items-center justify-center">
         <div className="container-quiz text-center">
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] flex items-center justify-center animate-pulse">
-            <span className="text-4xl">🎯</span>
+          <div className="mx-auto mb-6 flex items-center justify-center">
+            <AnimatedBook />
           </div>
           
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
@@ -220,28 +221,28 @@ export default function QuizPage() {
   if (showLeadForm) {
     return (
       <main className="min-h-screen bg-white">
-        <div className="container-quiz min-h-screen flex flex-col justify-center pt-16 pb-8">
+        <div className="container-quiz min-h-screen flex flex-col justify-center pt-8 pb-8">
           {/* Header */}
-          <div className="text-center mb-4 animate-fadeInUp px-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] flex items-center justify-center">
-              <span className="text-3xl sm:text-4xl">🔍</span>
+          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-4">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#10b981] to-[#059669] flex items-center justify-center">
+              <span className="text-3xl sm:text-4xl">✅</span>
             </div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 leading-tight">
-              <span className="text-[#667eea]">Seu Detector de Invasores</span> Está Pronto!
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 leading-tight">
+              <span className="text-[#10b981]">Seu Detector de Invasores</span> Está Pronto!
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed max-w-xl mx-auto mb-4">
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl mx-auto mb-4">
               Com base nas suas respostas, calculamos sua <strong className="font-semibold text-gray-900">probabilidade de infestação parasitária</strong> e identificamos os sinais de alerta no seu corpo. 
             </p>
-            <p className="text-xs sm:text-sm text-gray-600 font-medium">
+            <p className="text-base sm:text-lg font-bold text-[#10b981]">
               📱 Preencha os dados abaixo para receber sua análise completa pelo WhatsApp
             </p>
           </div>
 
           {/* Form */}
           <div>
-            <div className="space-y-4 animate-fadeInUp delay-100">
+            <div className="space-y-3 sm:space-y-4 animate-fadeInUp delay-100">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-gray-800 mb-2">
+                <label className="block text-sm sm:text-sm font-semibold text-gray-800 mb-1.5">
                   Nome Completo
                 </label>
                 <input
@@ -249,31 +250,31 @@ export default function QuizPage() {
                   value={formData.nome}
                   onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                   placeholder="Seu nome"
-                  className={`input-field ${formErrors.nome ? 'error' : ''}`}
+                  className={`w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border-2 border-gray-200 focus:border-[#10b981] focus:ring-2 focus:ring-[#10b981]/20 outline-none transition-all ${formErrors.nome ? 'border-red-500' : ''}`}
                 />
                 {formErrors.nome && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.nome}</p>
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.nome}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
-                  E-mail
+                <label className="block text-sm sm:text-sm font-semibold text-gray-800 mb-1.5">
+                  Seu Melhor E-mail
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="seu@email.com"
-                  className={`input-field ${formErrors.email ? 'error' : ''}`}
+                  className={`w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border-2 border-gray-200 focus:border-[#10b981] focus:ring-2 focus:ring-[#10b981]/20 outline-none transition-all ${formErrors.email ? 'border-red-500' : ''}`}
                 />
                 {formErrors.email && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.email}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-gray-800 mb-2">
+                <label className="block text-sm sm:text-sm font-semibold text-gray-800 mb-1.5">
                   📱 WhatsApp (com DDD)
                 </label>
                 <input
@@ -281,19 +282,19 @@ export default function QuizPage() {
                   value={formData.telefone}
                   onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
                   placeholder="(11) 99999-9999"
-                  className={`input-field ${formErrors.telefone ? 'error' : ''}`}
+                  className={`w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border-2 border-gray-200 focus:border-[#10b981] focus:ring-2 focus:ring-[#10b981]/20 outline-none transition-all ${formErrors.telefone ? 'border-red-500' : ''}`}
                 />
                 {formErrors.telefone && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.telefone}</p>
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.telefone}</p>
                 )}
               </div>
             </div>
 
-            <div className="mt-8 animate-fadeInUp delay-200">
+            <div className="mt-6 sm:mt-8 animate-fadeInUp delay-200">
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full py-5 px-6 rounded-xl font-bold text-white text-lg
+                className="w-full py-4 sm:py-5 px-6 rounded-xl font-bold text-white text-base sm:text-lg
                   bg-gradient-to-r from-[#25D366] to-[#128C7E]
                   hover:shadow-[0_10px_40px_rgba(37,211,102,0.4)]
                   hover:-translate-y-1

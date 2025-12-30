@@ -218,6 +218,18 @@ body {
   }
 }
 
+@keyframes shiny-text {
+  0%,
+  90%,
+  100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+  }
+  30%,
+  60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+  }
+}
+
 /* === CLASSES DE ANIMAÇÃO === */
 .animate-fadeInUp {
   animation: fadeInUp 0.5s ease forwards;
@@ -255,6 +267,10 @@ body {
 
 .animate-glow {
   animation: glow 2s ease infinite;
+}
+
+.animate-shiny-text {
+  animation: shiny-text 8s infinite;
 }
 
 /* Delays para stagger effect */
@@ -437,8 +453,8 @@ body {
   border: 2px solid var(--option-border);
   background: var(--option-bg);
   color: var(--text-primary);
-  font-size: 0.875rem; /* 14px mobile */
-  font-weight: 500;
+  font-size: 1rem; /* 16px mobile */
+  font-weight: 600; /* Semibold */
   text-align: left;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -451,7 +467,7 @@ body {
 /* Tablet e Desktop - texto maior */
 @media (min-width: 640px) {
   .quiz-option {
-    font-size: 1rem; /* 16px */
+    font-size: 1.125rem; /* 18px */
   }
 }
 
