@@ -298,9 +298,9 @@ export default function QuizPage() {
       <main className="min-h-screen bg-white">
         <div className="container-quiz min-h-screen flex flex-col justify-center pt-8 pb-8">
           {/* Header */}
-          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
-              Sua auto-análise está pronta, e você <span className="text-[#10b981]">PRECISA</span> ver isso agora.
+          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-6 sm:px-8 md:px-12">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight max-w-4xl mx-auto">
+              ⚠️ Sua Auto-Análise de Vermes e Parasitas Está Pronta, E Não É O Que Esperávamos...
             </h1>
             
             {/* Imagem do resultado */}
@@ -319,7 +319,7 @@ export default function QuizPage() {
               Com base nas suas respostas, identificamos sinais que <strong className="font-bold text-gray-900">NÃO devem ser ignorados.</strong>
             </p>
             <p className="text-base sm:text-lg font-bold text-[#10b981]">
-              Preencha os dados abaixo e clique no botão para destrancar seu resultado completo no WhatsApp:
+              Preencha os dados abaixo e clique no botão para destrancar seu resultado completo no WhatsApp gratuitamente:
             </p>
           </div>
 
@@ -378,7 +378,7 @@ export default function QuizPage() {
                     Processando...
                   </>
                 ) : (
-                  'RECEBER MINHA ANÁLISE GRATUITA VIA WHATSAPP'
+                  'RECEBER RESULTADO DA MINHA AUTO-ANÁLISE VIA WHATSAPP'
                 )}
               </button>
 
