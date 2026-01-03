@@ -11,8 +11,8 @@ export function AnimatedFolderButton({ onClick, text = "INICIAR ANÁLISE" }: Ani
       <style jsx>{`
         .continue-application {
           --color: #fff;
-          --background: #667eea;
-          --background-hover: #5a6dd8;
+          --background: #dc2626;
+          --background-hover: #b91c1c;
           --background-left: #6b7280;
           --folder: #F3E9CB;
           --folder-inner: #BEB393;
@@ -39,7 +39,7 @@ export function AnimatedFolderButton({ onClick, text = "INICIAR ANÁLISE" }: Ani
           color: var(--color);
           background: var(--bg, var(--background));
           width: 100%;
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
         }
 
         .continue-application:hover {
@@ -53,7 +53,7 @@ export function AnimatedFolderButton({ onClick, text = "INICIAR ANÁLISE" }: Ani
           --pby: -3px;
           --pbd: .15s;
           --pex: -24px;
-          box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+          box-shadow: 0 10px 40px rgba(220, 38, 38, 0.4);
           transform: translateY(-2px);
         }
 

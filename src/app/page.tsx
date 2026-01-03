@@ -14,39 +14,88 @@ export default function LandingPage() {
   return (
     <main className="min-h-screen bg-white relative overflow-hidden flex flex-col">
 
+      {/* Header Editorial - Estilo G1 */}
+      <header className="w-full bg-[#dc2626] h-[56px] sm:h-[64px] flex items-center justify-between px-4 sm:px-6 sticky top-0 z-50 shadow-md">
+        {/* Menu Hamburger - Esquerda */}
+        <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors" aria-label="Menu">
+          <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <span className="hidden sm:inline text-sm font-medium uppercase tracking-wide">Menu</span>
+        </button>
+
+        {/* SAÚDE - Centro */}
+        <span className="text-white text-xl sm:text-2xl md:text-3xl font-black tracking-wide uppercase">
+          SAÚDE
+        </span>
+
+        {/* Busca - Direita */}
+        <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors" aria-label="Buscar">
+          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span className="hidden sm:inline text-sm font-medium uppercase tracking-wide">Buscar</span>
+        </button>
+      </header>
+
       {/* Container principal - conteúdo */}
       <div className="relative z-10 sm:flex-1">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 md:pt-20 pb-0">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 md:pt-14 pb-0">
           
-          {/* Hero Section */}
-          <section className="text-center mb-4 sm:mb-8">
-            {/* Pre-Headline */}
-            <p className="text-sm sm:text-base md:text-lg text-[#667eea] font-bold mb-3 uppercase tracking-wide animate-fadeInUp">
+          {/* Hero Section - Estilo Editorial G1 */}
+          <section className="mb-6 sm:mb-10">
+            
+            {/* Pre-Headline - Editorial Tag (Centralizada) */}
+            <p className="text-xs sm:text-sm text-[#dc2626] font-bold mb-4 sm:mb-5 uppercase tracking-[0.1em] animate-fadeInUp text-center">
               Descoberta científica revela:
             </p>
-            
-            {/* Headline */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight px-4 animate-fadeInUp">
-              8 em Cada 10 Mulheres Acima de 35 Têm <span className="text-[#667eea]">Parasitas e Vermes Intestinais</span>, E Isso Está IMPEDINDO o Emagrecimento Delas.
-            </h1>
-            
-            {/* Sub-Headline */}
-            <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto px-4 animate-fadeInUp delay-100 font-semibold">
-              <span className="text-xl sm:text-2xl md:text-3xl font-black text-[#667eea] block mb-3">Será que você é uma delas?</span>
-              Responda <strong className="font-bold text-gray-900">6 perguntas rápidas</strong> e descubra agora se <strong className="font-bold text-gray-900">parasitas invisíveis</strong> estão sabotando seu metabolismo e impedindo que você emagreça de verdade.
-            </p>
 
-            {/* CTA Button */}
-            <div className="max-w-md mx-auto px-4 mb-8 animate-fadeInUp delay-200">
-              <AnimatedFolderButton onClick={handleStartQuiz} text="INICIAR AUTO-ANÁLISE GRATUITA" />
+            {/* Bloco Editorial - Alinhado à Esquerda */}
+            <div className="text-left mb-8 sm:mb-10">
+              
+              {/* Headline - Estilo Jornalístico G1 (menor e à esquerda) */}
+              <h1 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-bold text-gray-900 mb-4 sm:mb-5 leading-[1.2] sm:leading-[1.25] tracking-[-0.01em] animate-fadeInUp">
+                8 em Cada 10 Mulheres Acima de 35 Têm <span className="text-[#dc2626]">Parasitas e Vermes Intestinais</span>, E Isso Está IMPEDINDO o Emagrecimento Delas.
+              </h1>
+
+              {/* Metadados Editoriais - Byline e Data (ABAIXO do título) */}
+              <div className="animate-fadeInUp">
+                <p className="text-sm sm:text-base text-gray-600">
+                  Por <span className="font-semibold text-gray-800">Dr. Renato Silveira Reis</span> — São Paulo
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  06/01/2026 17h17 · Atualizado há 24 minutos
+                </p>
+              </div>
             </div>
+            
+            {/* Sub-Headline e CTA - Centralizado */}
+            <div className="text-center">
+              <div className="text-base sm:text-lg md:text-xl text-gray-600 mb-10 sm:mb-12 leading-[1.6] max-w-2xl mx-auto animate-fadeInUp delay-100">
+                <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#dc2626] block mb-5">Será que você é uma delas?</span>
+                <p className="text-gray-700 leading-[1.75] text-left">
+                  Responda <strong className="font-semibold text-gray-900">6 perguntas rápidas</strong> e descubra agora se <strong className="font-semibold text-gray-900">parasitas invisíveis</strong> estão sabotando seu metabolismo e impedindo que você emagreça de verdade.
+                </p>
+              </div>
 
-            {/* Credenciais */}
-            <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-0 sm:mb-0 px-4 leading-relaxed animate-fadeInUp delay-300">
-              Desenvolvido por <strong className="font-bold text-gray-900">Dr. Renato Silveira Reis</strong><br/>
-              <span className="text-xs sm:text-sm md:text-base text-gray-600">Especialista em Nutriendocrinologia, Medicina Naturalista e Farmacêutico</span><br/>
-              <span className="text-xs sm:text-sm md:text-base text-[#667eea] font-bold mt-1 inline-block">📱 Mais de 11 milhões de seguidores nas redes sociais</span>
-            </p>
+              {/* CTA Button */}
+              <div className="max-w-md mx-auto px-4 mb-10 sm:mb-12 animate-fadeInUp delay-200">
+                <AnimatedFolderButton onClick={handleStartQuiz} text="INICIAR AUTO-ANÁLISE GRATUITA" />
+              </div>
+
+              {/* Credenciais - Estilo Editorial Limpo */}
+              <div className="max-w-lg mx-auto animate-fadeInUp delay-300">
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                  Desenvolvido por <strong className="font-semibold text-gray-900">Dr. Renato Silveira Reis</strong>
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
+                  Especialista em Nutriendocrinologia, Medicina Naturalista e Farmacêutico
+                </p>
+                <p className="text-xs sm:text-sm text-[#dc2626] font-medium mt-2.5">
+                  📱 Mais de 11 milhões de seguidores nas redes sociais
+                </p>
+              </div>
+            </div>
           </section>
 
         </div>
