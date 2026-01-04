@@ -41,7 +41,7 @@ export default function DropoffChart({ data }: DropoffChartProps) {
               border: '1px solid #e5e7eb', 
               borderRadius: '8px' 
             }}
-            formatter={(value: any, name: string, props: any) => [
+            formatter={(value: any, name: string | undefined, props: any) => [
               `${value} pessoas (${props.payload.percentage}%)`,
               'Completaram'
             ]}

@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     // Buscar respostas para cada lead
     const leadsWithResponses = await Promise.all(
       (leads || []).map(async (lead) => {
-        const { data: responses } = await supabaseAdmin
+        const { data: responses } = await supabaseAdmin!
           .from('quiz_responses')
           .select('question_id, question_text, selected_option, option_score')
           .eq('lead_id', lead.id)

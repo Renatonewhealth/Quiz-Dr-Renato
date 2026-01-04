@@ -33,6 +33,7 @@ export interface AnalyticsData {
   leadsPerDay: LeadPerDay[];
   dropoffByQuestion: DropoffData[];
   qualificationSplit: QualificationSplit;
+  funnelData?: FunnelData[];
 }
 
 export interface LeadPerDay {
