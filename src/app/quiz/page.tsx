@@ -296,9 +296,9 @@ export default function QuizPage() {
   if (showLeadForm) {
     return (
       <main className="min-h-screen bg-white">
-        <div className="container-quiz min-h-screen flex flex-col justify-center pt-8 pb-8">
+        <div className="container-quiz min-h-screen flex flex-col justify-center px-4 sm:px-6 py-8 sm:py-12 md:py-16">
           {/* Header */}
-          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp px-4">
+          <div className="text-center mb-6 sm:mb-8 animate-fadeInUp">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight max-w-6xl mx-auto">
               ⚠️ Sua Auto-Análise de Vermes e Parasitas Está Pronta, <span className="text-[#10b981]">E Não É O Que Esperávamos...</span>
             </h1>
