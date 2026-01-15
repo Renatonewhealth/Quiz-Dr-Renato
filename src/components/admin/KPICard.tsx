@@ -55,3 +55,4 @@ export default function KPICard({ label, value, icon: Icon, trend, color = 'purp
   );
 }
 
+
