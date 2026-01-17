@@ -249,7 +249,7 @@ export default function QuizPage() {
       sessionStorage.setItem('quizResult', JSON.stringify(resultado));
       sessionStorage.setItem('userName', formData.nome);
       
-      router.push('/resultado');
+      router.push('/resultado2');
     } catch (error) {
       console.error('Erro:', error);
       alert('Ocorreu um erro. Por favor, tente novamente.');

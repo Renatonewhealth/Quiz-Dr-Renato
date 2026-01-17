@@ -75,7 +75,7 @@ export default function Espera1_1Page() {
           >
             QUERO OS 2 KITS EXTRAS
           </button>
-          <a href="#" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
+          <a href="/dwns1-1" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
             Não quero o tratamento completo, quero apenas 1 kit
           </a>
         </section>

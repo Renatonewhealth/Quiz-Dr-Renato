@@ -87,7 +87,7 @@ export default function Dwns1_1Page() {
           >
             SIM, QUERO GARANTIR 1 KIT EXTRA POR R$247
           </button>
-          <a href="#" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
+          <a href="/espera1-2" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
             Não quero aproveitar essa oferta especial, e sei que nunca mais vou ter a chance de acessar ela novamente
           </a>
         </section>
