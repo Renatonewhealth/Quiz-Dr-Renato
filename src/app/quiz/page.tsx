@@ -127,8 +127,7 @@ export default function QuizPage() {
           if (progress >= 100) {
             clearInterval(interval);
             setTimeout(() => {
-              setShowLoading(false);
-              setShowLeadForm(true);
+              router.push('/resultado2');
             }, 500);
           }
         }, 60); // 2% a cada 60ms = 3 segundos total
