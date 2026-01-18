@@ -74,7 +74,7 @@ export default function Resultado2Page() {
         {/* 5. Provas Sociais - 3 Imagens */}
         <section className="px-4 py-8 space-y-4">
           {/* Imagem 1 - 3 Kits */}
-          <div className="w-[78%] mx-auto relative">
+          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/3-kits.png"
@@ -87,10 +87,10 @@ export default function Resultado2Page() {
             <div className="tarja-pulse absolute top-2 -right-3 bg-green-500 text-white text-[10px] font-bold py-1 px-4 shadow-lg">
               MAIS ESCOLHIDO
             </div>
-          </div>
+          </a>
 
           {/* Imagem 2 - 2 Kits */}
-          <div className="w-[78%] mx-auto">
+          <a href="https://checkout.payt.com.br/5f42cb789e6bdbac21808eef0ab77711" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/2-kits.png"
@@ -99,10 +99,10 @@ export default function Resultado2Page() {
                 className="object-cover"
               />
             </div>
-          </div>
+          </a>
 
           {/* Imagem 3 - 1 Kit */}
-          <div className="w-[78%] mx-auto">
+          <a href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/1-kit.png"
@@ -111,7 +111,7 @@ export default function Resultado2Page() {
                 className="object-cover"
               />
             </div>
-          </div>
+          </a>
         </section>
       </div>
 

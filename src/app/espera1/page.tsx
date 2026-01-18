@@ -67,14 +67,12 @@ export default function Espera1Page() {
 
         {/* Botão CTA */}
         <section className="px-4 py-8">
-          <button
-            className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg active:scale-[0.98] transition-all duration-150 animate-pulse"
-            onClick={() => {
-              console.log('CTA clicked');
-            }}
+          <a
+            href="https://checkout.payt.com.br/ec93387fb1597198dfe0e16bb2914e41"
+            className="block w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg active:scale-[0.98] transition-all duration-150 animate-pulse text-center"
           >
             QUERO O OZENKIT
-          </button>
+          </a>
           <a href="/dwns1" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
             Não quero aproveitar essa oferta especial, e sei que nunca mais vou ter a chance de acessar ela novamente
           </a>
