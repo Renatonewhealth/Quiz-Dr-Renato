@@ -9,15 +9,15 @@ export default function Espera1_1Page() {
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
       </Script>
-      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69bae955237e0fc6aeb64ab3/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69baf123acddada823a5c15c/v4/player.js" as="script" />
       <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
-      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/69bae933d54d8d20f1fe9c4e/main.m3u8" as="fetch" />
+      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/69baf10c596c6131b735b414/main.m3u8" as="fetch" />
       <link rel="dns-prefetch" href="https://cdn.converteai.net" />
       <link rel="dns-prefetch" href="https://scripts.converteai.net" />
       <link rel="dns-prefetch" href="https://images.converteai.net" />
       <link rel="dns-prefetch" href="https://api.vturb.com.br" />
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes loading {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
@@ -26,6 +26,9 @@ export default function Espera1_1Page() {
           background: linear-gradient(90deg, #2ec6a8 0%, #2ec6a8 40%, #5dd9c0 50%, #2ec6a8 60%, #2ec6a8 100%);
           background-size: 200% 100%;
           animation: loading 2s linear infinite;
+        }
+        .esconder {
+          display: none;
         }
       `}</style>
 
@@ -58,17 +61,29 @@ export default function Espera1_1Page() {
         <section className="w-full">
           <div
             dangerouslySetInnerHTML={{
-              __html: '<vturb-smartplayer id="vid-69bae955237e0fc6aeb64ab3" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
+              __html: '<vturb-smartplayer id="vid-69baf123acddada823a5c15c" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
             }}
           />
           <Script
-            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69bae955237e0fc6aeb64ab3/v4/player.js"
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69baf123acddada823a5c15c/v4/player.js"
             strategy="afterInteractive"
           />
+          {/* Script de delay - libera os botões após 170 segundos do vídeo */}
+          <Script id="vturb-delay" strategy="afterInteractive">
+            {`
+              var delaySeconds = 170;
+              var player = document.querySelector("vturb-smartplayer");
+              player.addEventListener("player:ready", function() {
+                player.displayHiddenElements(delaySeconds, [".esconder"], {
+                  persist: true
+                });
+              });
+            `}
+          </Script>
         </section>
 
-        {/* Botão CTA */}
-        <section className="px-4 py-8">
+        {/* Botão CTA (escondido até o delay do vídeo) */}
+        <section className="esconder px-4 py-8">
           <a
             href="https://checkout.payt.com.br/6922cd2196e63386cbbcb0e8ec6105d4"
             className="block w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg active:scale-[0.98] transition-all duration-150 animate-pulse text-center"
