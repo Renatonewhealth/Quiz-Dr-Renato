@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+import Script from 'next/script';
 import { AnimatedFolderButton } from '@/components/ui/animated-folder-button';
 
 export default function LandingPage() {
@@ -13,6 +15,28 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen bg-white relative overflow-hidden flex flex-col">
+
+      {/* Meta Pixel Code */}
+      <Script id="meta-pixel" strategy="afterInteractive">
+        {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '1426395781843685');
+          fbq('track', 'PageView');
+        `}
+      </Script>
+      <noscript>
+        <img height="1" width="1" style={{ display: 'none' }}
+          src="https://www.facebook.com/tr?id=1426395781843685&ev=PageView&noscript=1"
+          alt=""
+        />
+      </noscript>
 
       {/* Header Editorial - Estilo G1 */}
       <header className="w-full bg-[#dc2626] h-[56px] sm:h-[64px] flex items-center justify-between px-4 sm:px-6 sticky top-0 z-50 shadow-md">
@@ -55,7 +79,7 @@ export default function LandingPage() {
               
               {/* Headline - Estilo Jornalístico G1 (menor e à esquerda) */}
               <h1 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-bold text-gray-900 mb-4 sm:mb-5 leading-[1.2] sm:leading-[1.25] tracking-[-0.01em] animate-fadeInUp">
-                8 em Cada 10 Mulheres Acima de 35 Têm <span className="text-[#dc2626]">Parasitas e Vermes Intestinais</span>, E Isso Está IMPEDINDO o Emagrecimento Delas.
+                8 em Cada 10 Mulheres Acima de 35 Têm <span className="text-[#dc2626]">Alto Potencial de Parasitas e Vermes Intestinais</span>, E Isso Está IMPEDINDO o Emagrecimento Delas.
               </h1>
 
               {/* Metadados Editoriais - Byline e Data (ABAIXO do título) */}
@@ -123,7 +147,24 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="relative z-10 w-full bg-black text-white py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
+          <div className="text-center space-y-4">
+            {/* Links de Políticas */}
+            <div className="flex items-center justify-center gap-4 text-sm">
+              <Link href="/politica-de-privacidade" className="text-gray-400 hover:text-white transition-colors underline">
+                Política de Privacidade
+              </Link>
+              <span className="text-gray-600">|</span>
+              <Link href="/termos-de-uso" className="text-gray-400 hover:text-white transition-colors underline">
+                Termos de Uso
+              </Link>
+            </div>
+
+            {/* Disclaimer Facebook/Meta */}
+            <p className="text-xs text-gray-500 leading-relaxed max-w-2xl mx-auto">
+              Este site não é afiliado ao Facebook™️ ou à Meta Platforms, Inc. Facebook™️ é uma marca registrada da Meta Platforms, Inc. Os resultados podem variar de acordo com fatores individuais. As informações apresentadas têm caráter educacional e não constituem promessa ou garantia de resultados.
+            </p>
+
+            {/* Copyright */}
             <p className="text-sm sm:text-base text-gray-400">
               © {new Date().getFullYear()} Dr. Renato Silveira Reis. Todos os direitos reservados.
             </p>
