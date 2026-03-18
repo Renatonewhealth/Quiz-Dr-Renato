@@ -1,8 +1,22 @@
 'use client';
 
+import Script from 'next/script';
+
 export default function Espera1_1Page() {
   return (
     <main className="min-h-screen bg-white">
+      {/* Vturb Preloads */}
+      <Script id="vturb-plt" strategy="beforeInteractive">
+        {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
+      </Script>
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69bae955237e0fc6aeb64ab3/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/69bae933d54d8d20f1fe9c4e/main.m3u8" as="fetch" />
+      <link rel="dns-prefetch" href="https://cdn.converteai.net" />
+      <link rel="dns-prefetch" href="https://scripts.converteai.net" />
+      <link rel="dns-prefetch" href="https://images.converteai.net" />
+      <link rel="dns-prefetch" href="https://api.vturb.com.br" />
+
       <style jsx>{`
         @keyframes loading {
           0% { background-position: 200% 0; }
@@ -40,29 +54,17 @@ export default function Espera1_1Page() {
           </p>
         </section>
 
-        {/* VSL Player - Vertical (9:16) */}
-        <section className="w-full bg-black">
-          <div className="relative w-full" style={{ aspectRatio: '9/16', minHeight: '75vh' }}>
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
-              <div className="text-center text-gray-400">
-                <div className="relative">
-                  {/* Play Button */}
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center border-2 border-white/30 hover:bg-white/20 transition-colors cursor-pointer">
-                    <svg
-                      className="w-8 h-8 text-white ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-                <p className="text-sm font-medium text-white/70">VSL Player</p>
-                <p className="text-xs text-white/50 mt-1">Formato Vertical 9:16</p>
-                <p className="text-xs text-white/40 mt-0.5">Toque para reproduzir</p>
-              </div>
-            </div>
-          </div>
+        {/* VSL Player - Vturb */}
+        <section className="w-full">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '<vturb-smartplayer id="vid-69bae955237e0fc6aeb64ab3" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
+            }}
+          />
+          <Script
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69bae955237e0fc6aeb64ab3/v4/player.js"
+            strategy="afterInteractive"
+          />
         </section>
 
         {/* Botão CTA */}

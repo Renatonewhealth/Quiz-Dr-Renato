@@ -18,13 +18,16 @@ export default function Resultado2Page() {
       <link rel="dns-prefetch" href="https://images.converteai.net" />
       <link rel="dns-prefetch" href="https://api.vturb.com.br" />
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes pulse-scale {
           0%, 100% { transform: rotate(30deg) scale(1); }
           50% { transform: rotate(30deg) scale(1.08); }
         }
         .tarja-pulse {
           animation: pulse-scale 1.5s ease-in-out infinite;
+        }
+        .esconder {
+          display: none;
         }
       `}</style>
       {/* Container responsivo para desktop */}
@@ -70,10 +73,22 @@ export default function Resultado2Page() {
             src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69bae76dacddada823a5a2e5/v4/player.js"
             strategy="afterInteractive"
           />
+          {/* Script de delay - libera os kits após 2310 segundos do vídeo */}
+          <Script id="vturb-delay" strategy="afterInteractive">
+            {`
+              var delaySeconds = 2310;
+              var player = document.querySelector("vturb-smartplayer");
+              player.addEventListener("player:ready", function() {
+                player.displayHiddenElements(delaySeconds, [".esconder"], {
+                  persist: true
+                });
+              });
+            `}
+          </Script>
         </section>
 
-        {/* 5. Provas Sociais - 3 Imagens */}
-        <section className="px-4 py-8 space-y-4">
+        {/* 5. Provas Sociais - 3 Imagens (escondidas até o delay do vídeo) */}
+        <section className="esconder px-4 py-8 space-y-4">
           {/* Imagem 1 - 3 Kits */}
           <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
