@@ -85,6 +85,13 @@ export default function RootLayout({
             document.head.appendChild(a);
           `}
         </Script>
+        {/* Utmify UTM Tracking - Todas as páginas */}
+        <Script
+          src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+          data-utmify-prevent-xcod-sck=""
+          data-utmify-prevent-subids=""
+          strategy="afterInteractive"
+        />
       </head>
       {/*
         📱 BODY MOBILE-FIRST:
