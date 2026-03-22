@@ -47,7 +47,7 @@ export default function Espera1_2Page() {
         {/* Headline Principal */}
         <section className="px-4 pt-4 pb-4">
           <h1 className="text-2xl sm:text-3xl font-black text-center text-[#f59e0b] leading-tight">
-            Parabéns! Você é elegível para um bônus exclusivo da H9 Pharma…
+            Parabéns! Você foi escolhida para ganhar um bônus exclusivo da H9 Pharma…
           </h1>
         </section>
 
