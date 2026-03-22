@@ -29,6 +29,9 @@ export default function Espera1_2Page() {
           background-size: 200% 100%;
           animation: loading 2s linear infinite;
         }
+        .esconder {
+          display: none;
+        }
       `}</style>
 
       {/* Container responsivo para desktop */}
@@ -76,8 +79,8 @@ export default function Espera1_2Page() {
           />
         </section>
 
-        {/* Botão CTA */}
-        <section className="px-4 py-8">
+        {/* Botão CTA - escondido até delay */}
+        <section className="px-4 py-8 esconder">
           <a
             href="https://checkout.payt.com.br/ec93387fb1597198dfe0e16bb2914e41"
             className="block w-full max-w-md mx-auto"
@@ -92,6 +95,19 @@ export default function Espera1_2Page() {
             Não quero aproveitar essa oferta especial, e sei que nunca mais vou ter a chance de acessar ela novamente
           </a>
         </section>
+
+        {/* Script de delay - libera elementos após 431s */}
+        <Script id="vturb-delay" strategy="afterInteractive">
+          {`
+            var delaySeconds = 431;
+            var player = document.querySelector("vturb-smartplayer");
+            player.addEventListener("player:ready", function() {
+              player.displayHiddenElements(delaySeconds, [".esconder"], {
+                persist: true
+              });
+            });
+          `}
+        </Script>
       </div>
 
       {/* Footer */}
