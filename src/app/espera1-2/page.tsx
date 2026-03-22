@@ -83,12 +83,13 @@ export default function Espera1_2Page() {
         <section className="px-4 py-8 esconder">
           <a
             href="https://checkout.payt.com.br/ec93387fb1597198dfe0e16bb2914e41"
-            className="block w-full max-w-md mx-auto"
+            className="block w-[78%] mx-auto"
           >
             <img
               src="/images/2-kits-ozenkit.png"
               alt="2 Kits OzenKit (120 dias) - 12x R$49,80"
-              className="w-full rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+              className="w-full rounded-lg"
+              style={{ aspectRatio: '3/4', objectFit: 'cover' }}
             />
           </a>
           <a href="/dwns1" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
