@@ -49,27 +49,23 @@ export async function GET() {
     const qualified = qualificationData?.filter(l => l.total_score <= 4).length || 0;
     const nonQualified = qualificationData?.filter(l => l.total_score >= 5).length || 0;
 
-    // 3. Drop-off por pergunta
-    const { data: dropoffData } = await supabaseAdmin
-      .from('quiz_responses')
-      .select('question_id, lead_id');
+    // 3. Drop-off por pergunta (baseado em quiz_sessions)
+    const { data: sessionsData } = await supabaseAdmin
+      .from('quiz_sessions')
+      .select('last_question');
 
-    // Agrupar por question_id
-    const dropoffMap = new Map<number, Set<string>>();
-    dropoffData?.forEach(response => {
-      if (!dropoffMap.has(response.question_id)) {
-        dropoffMap.set(response.question_id, new Set());
-      }
-      dropoffMap.get(response.question_id)?.add(response.lead_id);
-    });
+    const totalSessions = sessionsData?.length || 0;
 
-    const dropoffByQuestion = Array.from(dropoffMap.entries())
-      .map(([question_id, leadIds]) => ({
-        question_id,
-        completed: leadIds.size,
-        percentage: totalLeads ? Math.round((leadIds.size / (totalLeads || 1)) * 100) : 0,
-      }))
-      .sort((a, b) => a.question_id - b.question_id);
+    // Calcular quantas pessoas passaram por cada pergunta
+    const dropoffByQuestion = [];
+    for (let q = 1; q <= 8; q++) {
+      const passedThisQuestion = sessionsData?.filter(s => s.last_question >= q).length || 0;
+      dropoffByQuestion.push({
+        question_id: q,
+        completed: passedThisQuestion,
+        percentage: totalSessions ? Math.round((passedThisQuestion / totalSessions) * 100) : 0,
+      });
+    }
 
     // 4. Leads por dia (últimos 30 dias)
     const { data: leadsPerDayData } = await supabaseAdmin
@@ -106,6 +102,7 @@ export async function GET() {
 
     return NextResponse.json({
       totalLeads: totalLeads || 0,
+      totalSessions: sessionsStarted || 0,
       qualifiedLeads: qualified,
       nonQualifiedLeads: nonQualified,
       conversionRate,
@@ -120,8 +117,7 @@ export async function GET() {
       funnelData: [
         { stage: 'Sessões Iniciadas', count: sessionsStarted || 0, percentage: 100 },
         { stage: 'Quiz Completado', count: sessionsCompleted || 0, percentage: sessionsStarted ? Math.round(((sessionsCompleted || 0) / sessionsStarted) * 100) : 0 },
-        { stage: 'Viram Formulário', count: qualified, percentage: sessionsStarted ? Math.round((qualified / sessionsStarted) * 100) : 0 },
-        { stage: 'Enviaram Formulário', count: qualified, percentage: sessionsStarted ? Math.round((qualified / sessionsStarted) * 100) : 0 },
+        { stage: 'Leads Capturados', count: totalLeads || 0, percentage: sessionsStarted ? Math.round(((totalLeads || 0) / sessionsStarted) * 100) : 0 },
       ],
     });
   } catch (error) {
