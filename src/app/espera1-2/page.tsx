@@ -82,7 +82,7 @@ export default function Espera1_2Page() {
         {/* Botão CTA - escondido até delay */}
         <section className="px-4 py-8 esconder">
           <a
-            href="https://checkout.payt.com.br/ec93387fb1597198dfe0e16bb2914e41"
+            href="https://checkout.payt.com.br/ec93387fb1597198dfe0e16bb2914e41?split=12"
             className="block w-[78%] mx-auto"
           >
             <img

@@ -85,7 +85,7 @@ export default function Espera1_1Page() {
         {/* Botão CTA (escondido até o delay do vídeo) */}
         <section className="esconder px-4 py-8">
           <a
-            href="https://checkout.payt.com.br/6922cd2196e63386cbbcb0e8ec6105d4"
+            href="https://checkout.payt.com.br/6922cd2196e63386cbbcb0e8ec6105d4?split=12"
             className="block w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg active:scale-[0.98] transition-all duration-150 animate-pulse text-center"
           >
             QUERO OS 2 KITS EXTRAS

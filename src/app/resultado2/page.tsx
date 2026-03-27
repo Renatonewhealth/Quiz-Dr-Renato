@@ -90,7 +90,7 @@ export default function Resultado2Page() {
         {/* 5. Provas Sociais - 3 Imagens (escondidas até o delay do vídeo) */}
         <section className="esconder px-4 py-8 space-y-4">
           {/* Imagem 1 - 3 Kits */}
-          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de" className="block w-[78%] mx-auto relative">
+          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de?split=12" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/3-kits.png"
@@ -106,7 +106,7 @@ export default function Resultado2Page() {
           </a>
 
           {/* Imagem 2 - 2 Kits */}
-          <a href="https://checkout.payt.com.br/5f42cb789e6bdbac21808eef0ab77711" className="block w-[78%] mx-auto">
+          <a href="https://checkout.payt.com.br/5f42cb789e6bdbac21808eef0ab77711?split=12" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/2-kits.png"
@@ -118,7 +118,7 @@ export default function Resultado2Page() {
           </a>
 
           {/* Imagem 3 - 1 Kit */}
-          <a href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839" className="block w-[78%] mx-auto">
+          <a href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839?split=12" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/1-kit.png"
