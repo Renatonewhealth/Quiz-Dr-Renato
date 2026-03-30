@@ -1,5 +1,7 @@
 'use client';
 
+import Script from 'next/script';
+
 export default function Dwns1_1Page() {
   return (
     <main className="min-h-screen bg-white">
@@ -76,14 +78,22 @@ export default function Dwns1_1Page() {
           </div>
         </section>
 
-        {/* Botão CTA */}
+        {/* Botão CTA One-Click Buy */}
         <section className="px-4 pb-12">
-          <a
-            href="https://checkout.payt.com.br/93ed47503f85a84ab5e6f02830439114?split=12"
-            className="block w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg active:scale-[0.98] transition-all duration-150 animate-pulse text-center"
-          >
-            SIM, QUERO GARANTIR 1 KIT EXTRA POR R$247
-          </a>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+                <div style="text-align: center">
+                  <a href="#" payt_action="oneclick_buy" data-object="4ON72L-RV6DWE" style="background: rgb(40, 167, 69); color: rgb(255, 255, 255); padding: 11px; text-decoration: none; font-size: 19px; font-family: sans-serif; border-radius: 10px; display: block; margin: 10px auto; width: max-content;"> SIM, QUERO 1 KIT EXTRA POR R$247 </a>
+                  <select payt_element='installment' style='display: none' data-object='4ON72L-RV6DWE'></select>
+                </div>
+              `
+            }}
+          />
+          <Script
+            src="https://checkout.payt.com.br/multiple-oneclickbuyscript/RDEWEP.js"
+            strategy="afterInteractive"
+          />
           <a href="/espera1-2" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
             Não quero aproveitar essa oferta especial, e sei que nunca mais vou ter a chance de acessar ela novamente
           </a>
