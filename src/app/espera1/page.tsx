@@ -72,19 +72,22 @@ export default function Espera1Page() {
           />
         </section>
 
-        {/* Botão CTA - escondido até delay */}
+        {/* Botão CTA One-Click Buy - escondido até delay */}
         <section className="px-4 py-8 esconder">
-          <a
-            href="https://checkout.payt.com.br/ec93387fb1597198dfe0e16bb2914e41?split=12"
-            className="block w-[78%] mx-auto"
-          >
-            <img
-              src="/images/2-kits-ozenkit.png"
-              alt="2 Kits OzenKit (120 dias) - 12x R$49,80"
-              className="w-full rounded-lg"
-              style={{ aspectRatio: '3/4', objectFit: 'cover' }}
-            />
-          </a>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+                <div style="text-align: center">
+                  <a href="#" payt_action="oneclick_buy" data-object="L88OKL-4ZJ2MP" style="background: rgb(0, 242, 229); color: rgb(255, 255, 255); padding: 9px; text-decoration: none; font-size: 16px; font-family: sans-serif; border-radius: 8px; display: block; margin: 10px auto; width: max-content;"> QUERO ACELERAR MEU RESULTADO COM OZENKIT </a>
+                  <select payt_element='installment' style='display: none' data-object='L88OKL-4ZJ2MP'></select>
+                </div>
+              `
+            }}
+          />
+          <Script
+            src="https://checkout.payt.com.br/multiple-oneclickbuyscript/RDEWEP.js"
+            strategy="afterInteractive"
+          />
           <a href="/dwns1" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
             Não quero aproveitar essa oferta especial, e sei que nunca mais vou ter a chance de acessar ela novamente
           </a>

@@ -82,14 +82,22 @@ export default function Espera1_1Page() {
           </Script>
         </section>
 
-        {/* Botão CTA (escondido até o delay do vídeo) */}
+        {/* Botão CTA One-Click Buy (escondido até o delay do vídeo) */}
         <section className="esconder px-4 py-8">
-          <a
-            href="https://checkout.payt.com.br/6922cd2196e63386cbbcb0e8ec6105d4?split=12"
-            className="block w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg active:scale-[0.98] transition-all duration-150 animate-pulse text-center"
-          >
-            QUERO OS 2 KITS EXTRAS
-          </a>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+                <div style="text-align: center">
+                  <a href="#" payt_action="oneclick_buy" data-object="RA5DYR-4M2NGA" style="background: rgb(0, 227, 205); color: rgb(255, 255, 255); padding: 10px; text-decoration: none; font-size: 17px; font-family: sans-serif; border-radius: 9px; display: block; margin: 10px auto; width: max-content;"> QUERO MAIS 2 KITS DESPARAFIT COM DESCONTO </a>
+                  <select payt_element='installment' style='display: none' data-object='RA5DYR-4M2NGA'></select>
+                </div>
+              `
+            }}
+          />
+          <Script
+            src="https://checkout.payt.com.br/multiple-oneclickbuyscript/RDEWEP.js"
+            strategy="afterInteractive"
+          />
           <a href="/dwns1-1" className="block text-center text-base text-gray-500 hover:text-gray-700 mt-4 underline transition-colors">
             Não quero o tratamento completo, quero apenas 1 kit
           </a>
