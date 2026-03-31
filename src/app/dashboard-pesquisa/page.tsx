@@ -8,7 +8,7 @@ import {
 
 const COLORS = ['#dc2626', '#f87171', '#fca5a5', '#fecaca', '#fee2e2', '#ef4444', '#b91c1c', '#991b1b', '#7f1d1d'];
 
-interface ChartItem { name: string; value: number; }
+interface ChartItem { name: string; value: number; [key: string]: string | number; }
 interface TextResposta {
   id: string;
   created_at: string;
@@ -127,7 +127,6 @@ export default function DashboardPesquisaPage() {
                     cy="45%"
                     outerRadius={80}
                     dataKey="value"
-                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                     labelLine={false}
                   >
                     {data.estadoCivilData.map((_, i) => (
