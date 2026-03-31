@@ -162,26 +162,42 @@ export default function QuestionarioPage() {
   // Tela final
   if (submitted) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col items-center justify-center px-4">
-        <div className="max-w-md w-full text-center">
+      <main className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col items-center px-4 py-10">
+        <div className="max-w-2xl w-full text-center">
           <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center shadow-lg mx-auto mb-6">
             <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
             Obrigada pelas suas respostas! 🎉
           </h1>
-          <p className="text-base text-gray-600 mb-8 leading-relaxed">
-            Você nos ajudou muito! Como prometido, aqui está o seu presente exclusivo do Dr. Renato:
+          <p className="text-base text-gray-600 mb-6 leading-relaxed">
+            Como prometido, aqui está o seu presente exclusivo do Dr. Renato — <strong className="text-gray-800">Guia Pele Saudável</strong>, 100% gratuito!
           </p>
+
+          {/* Botão de download */}
           <a
-            href="#"
-            className="block w-full bg-gradient-to-r from-green-600 to-green-500 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg text-center mb-4"
+            href="/pele-saudavel.pdf"
+            download="Guia Pele Saudável - Dr. Renato.pdf"
+            className="inline-block bg-gradient-to-r from-green-600 to-green-500 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-lg mb-8"
           >
-            🎁 BAIXAR MEU PRESENTE GRATUITO
+            ⬇️ BAIXAR O GUIA AGORA
           </a>
-          <p className="text-xs text-gray-400">O link do PDF será adicionado em breve.</p>
+
+          {/* PDF embutido */}
+          <div className="w-full rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-white">
+            <div className="bg-gray-800 px-4 py-3 flex items-center gap-2">
+              <span className="text-red-400 text-lg">📄</span>
+              <span className="text-white text-sm font-medium">Guia Pele Saudável — Dr. Renato Silveira</span>
+            </div>
+            <iframe
+              src="/pele-saudavel.pdf"
+              className="w-full"
+              style={{ height: '80vh', minHeight: '500px' }}
+              title="Guia Pele Saudável"
+            />
+          </div>
         </div>
       </main>
     );
