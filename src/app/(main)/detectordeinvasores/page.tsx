@@ -127,7 +127,8 @@ export default function QuizPage() {
           if (progress >= 100) {
             clearInterval(interval);
             setTimeout(() => {
-              router.push('/resultado2');
+              const source = sessionStorage.getItem('quiz_source');
+              router.push(source === 'google' ? '/google-vsl' : '/resultado2');
             }, 500);
           }
         }, 60); // 2% a cada 60ms = 3 segundos total
@@ -248,7 +249,8 @@ export default function QuizPage() {
       sessionStorage.setItem('quizResult', JSON.stringify(resultado));
       sessionStorage.setItem('userName', formData.nome);
       
-      router.push('/resultado2');
+      const source = sessionStorage.getItem('quiz_source');
+      router.push(source === 'google' ? '/google-vsl' : '/resultado2');
     } catch (error) {
       console.error('Erro:', error);
       alert('Ocorreu um erro. Por favor, tente novamente.');

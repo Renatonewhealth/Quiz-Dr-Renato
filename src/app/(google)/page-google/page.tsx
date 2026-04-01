@@ -9,6 +9,7 @@ export default function PageGoogle() {
   const router = useRouter();
 
   const handleStartQuiz = () => {
+    sessionStorage.setItem('quiz_source', 'google');
     router.push('/detectordeinvasores');
   };
 
