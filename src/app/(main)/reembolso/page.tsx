@@ -306,12 +306,18 @@ export default function ReembolsoPage() {
       e.data_recebimento = 'Informe a data de recebimento.'
     } else {
       const days = daysBetween(formData.data_recebimento)
-      if (days < 30) {
+      if (days < 0) {
+        e.data_recebimento = 'A data de recebimento não pode ser no futuro.'
+      } else if (days <= 7) {
+        // Dentro do prazo de arrependimento (até 7 dias) - permitido
+      } else if (days < 30) {
         e.data_recebimento =
-          'A garantia exige uso minimo de 30 dias do produto. De acordo com a data informada, voce ainda nao atingiu esse prazo. Por favor, continue utilizando o produto conforme as instrucoes e retorne apos completar 30 dias de uso.'
-      } else if (days > 60) {
+          'O prazo de 7 dias para direito de arrependimento já passou. A garantia de satisfação entra em vigor após 30 dias de uso. Por favor, continue utilizando o produto conforme as instruções e retorne após completar 30 dias de uso.'
+      } else if (days <= 60) {
+        // Dentro do prazo da garantia (30 a 60 dias) - permitido
+      } else {
         const expiry = addDays(formData.data_recebimento, 60)
-        e.data_recebimento = `O prazo da garantia de 60 dias ja expirou. De acordo com a data informada, sua garantia encerrou em ${expiry}. Infelizmente nao e possivel solicitar reembolso apos esse prazo.`
+        e.data_recebimento = `O prazo da garantia de 60 dias já expirou. De acordo com a data informada, sua garantia encerrou em ${expiry}. Infelizmente não é possível solicitar reembolso após esse prazo.`
       }
     }
     setErrors(e)
@@ -341,8 +347,12 @@ export default function ReembolsoPage() {
     const e: Record<string, string> = {}
     if (!formData.dias_uso) {
       e.dias_uso = 'Informe os dias de uso.'
-    } else if (parseInt(formData.dias_uso) < 30) {
-      e.dias_uso = 'O uso minimo para solicitar reembolso e de 30 dias.'
+    } else {
+      const diasRecebimento = daysBetween(formData.data_recebimento)
+      const isArrependimento = diasRecebimento <= 7
+      if (!isArrependimento && parseInt(formData.dias_uso) < 30) {
+        e.dias_uso = 'O uso mínimo para solicitar reembolso pela garantia é de 30 dias.'
+      }
     }
     if (!formData.capsulas_por_dia.trim())
       e.capsulas_por_dia = 'Preencha este campo.'
