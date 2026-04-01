@@ -67,6 +67,81 @@ export default function TermosDeUso() {
           <p>
             Para dúvidas sobre estes termos, entre em contato pelo e-mail: <strong>contato@drrenatosilveira.com.br</strong>
           </p>
+
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mt-12 mb-2">POLÍTICA DE GARANTIA E REEMBOLSO</h2>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">1. GARANTIA DE SATISFAÇÃO DE 60 DIAS</h3>
+          <p>
+            O Desparafit oferece garantia de satisfação de 60 (sessenta) dias corridos, contados a partir da data de entrega do produto confirmada pelo código de rastreio.
+          </p>
+          <p>
+            Caso o cliente não esteja satisfeito com os resultados após utilizar o produto corretamente e seguir o protocolo conforme as instruções, poderá solicitar o reembolso integral do valor pago, desde que cumpra <strong>TODOS</strong> os requisitos estabelecidos nesta política.
+          </p>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">2. REQUISITOS OBRIGATÓRIOS PARA SOLICITAÇÃO DE REEMBOLSO</h3>
+          <p>Para que a solicitação de reembolso seja aceita e processada, o cliente <strong>DEVE</strong>:</p>
+
+          <h4 className="font-semibold text-gray-900 mt-4">2.1. Prazo Mínimo de Uso</h4>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Ter utilizado o produto por no mínimo 30 (trinta) dias corridos antes de solicitar o reembolso.</li>
+            <li>A solicitação deve ser feita dentro do prazo de 60 (sessenta) dias a partir da data de entrega.</li>
+          </ul>
+
+          <h4 className="font-semibold text-gray-900 mt-4">2.2. Contato Prévio com Suporte</h4>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Entrar em contato com nossa equipe de atendimento ao cliente <strong>ANTES</strong> de iniciar o processo formal de reembolso.</li>
+            <li>O suporte fornecerá o link para o formulário oficial de solicitação de reembolso.</li>
+          </ul>
+
+          <h4 className="font-semibold text-gray-900 mt-4">2.3. Preenchimento Completo do Formulário de Reembolso</h4>
+          <p>O cliente deverá preencher todas as etapas do formulário oficial, incluindo:</p>
+          <p><strong>a) Dados do Pedido:</strong> Número do pedido, e-mail utilizado na compra, CPF do titular, código de rastreio e data de recebimento.</p>
+          <p><strong>b) Comprovação de Recebimento:</strong></p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Foto de todos os produtos recebidos no pedido</li>
+            <li>Comprovante de entrega (print do rastreio mostrando entrega realizada)</li>
+          </ul>
+          <p><strong>c) Comprovação de Uso:</strong></p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Foto das embalagens abertas demonstrando utilização do produto</li>
+            <li>Selfie do cliente segurando o produto ao lado de dispositivo móvel exibindo a data atual</li>
+          </ul>
+          <p><strong>d) Questionário de Uso:</strong> Responder detalhadamente às perguntas sobre a forma de utilização do produto, incluindo frequência, dosagem, horários e hábitos durante o protocolo.</p>
+          <p><strong>e) Declaração de Veracidade:</strong> Assinalar as declarações confirmando que todas as informações prestadas são verdadeiras e que o produto foi utilizado conforme as instruções por no mínimo 30 dias.</p>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">3. ANÁLISE E PROCESSAMENTO</h3>
+          <p>3.1. Após o envio completo do formulário com todos os documentos e informações obrigatórias, nossa equipe realizará a análise da solicitação em até 7 (sete) dias úteis.</p>
+          <p>3.2. O cliente será notificado por e-mail sobre o resultado da análise.</p>
+          <p>3.3. Caso aprovado, o reembolso será processado em até 10 (dez) dias úteis na mesma forma de pagamento utilizada na compra.</p>
+          <p>3.4. Solicitações incompletas, com informações inconsistentes ou sem a devida comprovação de uso serão negadas.</p>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">4. NÃO É NECESSÁRIA DEVOLUÇÃO DOS PRODUTOS</h3>
+          <p>
+            O cliente <strong>NÃO</strong> precisa devolver os produtos restantes para solicitar o reembolso. Basta cumprir todos os requisitos descritos no item 2.
+          </p>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">5. SOBRE OS PRODUTOS E EMBALAGENS</h3>
+          <p>5.1. As imagens dos produtos exibidas no site e materiais promocionais são meramente ilustrativas.</p>
+          <p>5.2. Devido a constantes melhorias na formulação e disponibilidade de embalagens, o cliente poderá receber produtos com embalagens visualmente diferentes das apresentadas no momento da compra.</p>
+          <p>5.3. Garantimos que, independentemente da embalagem, a formulação e qualidade do produto serão equivalentes ou superiores ao anunciado.</p>
+          <p>5.4. Variações de embalagem <strong>NÃO</strong> constituem motivo válido para solicitação de reembolso, desde que a formulação do produto seja mantida.</p>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">6. SITUAÇÕES QUE INVALIDAM A GARANTIA</h3>
+          <p>A garantia <strong>NÃO</strong> será aplicável nos seguintes casos:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Solicitação fora do prazo de 60 dias após a entrega</li>
+            <li>Uso do produto por menos de 30 dias</li>
+            <li>Não preenchimento completo do formulário de reembolso</li>
+            <li>Ausência de comprovação fotográfica obrigatória</li>
+            <li>Informações falsas ou inconsistentes</li>
+            <li>Não seguimento das instruções de uso do protocolo</li>
+            <li>Produtos adquiridos de revendedores não autorizados</li>
+          </ul>
+
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">7. DISPOSIÇÕES GERAIS</h3>
+          <p>7.1. Ao realizar a compra, o cliente declara ter lido e concordado integralmente com esta Política de Garantia e Reembolso.</p>
+          <p>7.2. A empresa se reserva o direito de atualizar esta política a qualquer momento, sendo válida a versão vigente no momento da compra.</p>
+          <p>7.3. Casos omissos serão analisados individualmente pela equipe responsável.</p>
         </div>
       </div>
     </main>

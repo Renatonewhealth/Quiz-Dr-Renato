@@ -106,7 +106,7 @@ export default function Resultado2Page() {
           </a>
 
           {/* Imagem 2 - 2 Kits */}
-          <a href="https://checkout.payt.com.br/5f42cb789e6bdbac21808eef0ab77711?split=12" className="block w-[78%] mx-auto">
+          <a href="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12#" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/2-kits.png"
@@ -128,6 +128,11 @@ export default function Resultado2Page() {
               />
             </div>
           </a>
+          {/* Disclaimer termos */}
+          <p className="text-xs text-gray-400 text-center pt-2 pb-4">
+            Ao comprar qualquer um dos kits Desparafit você concorda com os{' '}
+            <a href="/termos-de-uso" className="underline hover:text-gray-600">termos de uso</a> da H9 Pharma.
+          </p>
         </section>
       </div>
 
