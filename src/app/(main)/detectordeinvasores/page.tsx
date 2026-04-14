@@ -128,7 +128,8 @@ export default function QuizPage() {
             clearInterval(interval);
             setTimeout(() => {
               const source = sessionStorage.getItem('quiz_source');
-              router.push(source === 'google' ? '/google-vsl' : '/resultado2');
+              const dest = source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2';
+              router.push(dest);
             }, 500);
           }
         }, 60); // 2% a cada 60ms = 3 segundos total
@@ -250,7 +251,8 @@ export default function QuizPage() {
       sessionStorage.setItem('userName', formData.nome);
       
       const source = sessionStorage.getItem('quiz_source');
-      router.push(source === 'google' ? '/google-vsl' : '/resultado2');
+      const dest = source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2';
+      router.push(dest);
     } catch (error) {
       console.error('Erro:', error);
       alert('Ocorreu um erro. Por favor, tente novamente.');
