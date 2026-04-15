@@ -46,6 +46,26 @@ export default function QuizPage() {
     createSession();
   }, [sessionId]);
 
+  // Pré-preencher pergunta 1 (sexo) se vier da /page-google
+  React.useEffect(() => {
+    const prefillQ1 = sessionStorage.getItem('quiz_prefill_q1');
+    if (prefillQ1) {
+      const q1 = quizQuestions[0];
+      const option = q1.options.find((o) => o.id === prefillQ1);
+      if (option) {
+        setAnswers([
+          {
+            questionId: q1.id,
+            optionId: option.id,
+            score: option.score,
+          },
+        ]);
+        setCurrentQuestion(1);
+        sessionStorage.removeItem('quiz_prefill_q1');
+      }
+    }
+  }, []);
+
   const question = quizQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
   const isLastQuestion = currentQuestion === quizQuestions.length - 1;

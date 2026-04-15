@@ -3,13 +3,13 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AnimatedFolderButton } from '@/components/ui/animated-folder-button';
 
 export default function PageGoogle() {
   const router = useRouter();
 
-  const handleStartQuiz = () => {
+  const handleGenderSelect = (gender: 'q1-a' | 'q1-b') => {
     sessionStorage.setItem('quiz_source', 'google');
+    sessionStorage.setItem('quiz_prefill_q1', gender);
     router.push('/detectordeinvasores');
   };
 
@@ -25,7 +25,7 @@ export default function PageGoogle() {
 
       {/* Container principal */}
       <div className="relative z-10 sm:flex-1">
-        <div className="max-w-3xl mx-auto px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 md:pt-14 pb-0">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 md:pt-14 pb-8">
 
           <section className="mb-6 sm:mb-10">
 
@@ -35,7 +35,7 @@ export default function PageGoogle() {
 
             <div className="text-left mb-8 sm:mb-10">
               <h1 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-bold text-gray-900 mb-4 sm:mb-5 leading-[1.2] sm:leading-[1.25] tracking-[-0.01em] animate-fadeInUp">
-                8 em Cada 10 Mulheres Acima de 35 Têm <span className="text-[#dc2626]">Alto Potencial de Parasitas e Vermes Intestinais</span>, E Isso Está IMPEDINDO o Emagrecimento Delas.
+                Por que tantas mulheres acima dos 35 <span className="text-[#dc2626]">não conseguem emagrecer</span> mesmo fazendo tudo certo?
               </h1>
 
               <div className="animate-fadeInUp">
@@ -49,15 +49,50 @@ export default function PageGoogle() {
             </div>
 
             <div className="text-center">
-              <div className="text-base sm:text-lg md:text-xl text-gray-600 mb-10 sm:mb-12 leading-[1.6] max-w-2xl mx-auto animate-fadeInUp delay-100">
-                <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#dc2626] block mb-5">Será que você é uma delas?</span>
+              <div className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 leading-[1.6] max-w-2xl mx-auto animate-fadeInUp delay-100">
+                <p className="text-gray-700 leading-[1.75] text-left mb-4">
+                  Pode ter a ver com algo que poucos médicos investigam: <strong className="font-semibold text-gray-900">parasitas intestinais</strong>.
+                </p>
+                <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#dc2626] block mb-3">Será que você é uma delas?</span>
                 <p className="text-gray-700 leading-[1.75] text-left">
-                  Responda <strong className="font-semibold text-gray-900">6 perguntas rápidas</strong> e descubra agora se <strong className="font-semibold text-gray-900">parasitas invisíveis</strong> estão sabotando seu metabolismo e impedindo que você emagreça de verdade.
+                  Faça a análise gratuita respondendo <strong className="font-semibold text-gray-900">6 perguntas rápidas</strong> abaixo e descubra!
                 </p>
               </div>
 
-              <div className="max-w-md mx-auto px-4 mb-10 sm:mb-12 animate-fadeInUp delay-200">
-                <AnimatedFolderButton onClick={handleStartQuiz} text="INICIAR AUTO-ANÁLISE GRATUITA" />
+              {/* Pergunta 1: Sexo — 2 cards grandes */}
+              <div className="max-w-xl mx-auto mb-10 animate-fadeInUp delay-200">
+                <p className="text-base sm:text-lg font-semibold text-gray-800 mb-4 text-center">
+                  Para começar, qual é o seu sexo?
+                </p>
+                <div className="grid grid-cols-2 gap-4 px-2">
+                  {/* Card Masculino */}
+                  <button
+                    type="button"
+                    onClick={() => handleGenderSelect('q1-a')}
+                    className="group relative aspect-square rounded-2xl border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-blue-100 hover:border-[#dc2626] hover:shadow-lg active:scale-95 transition-all duration-200 overflow-hidden"
+                  >
+                    <span className="absolute inset-0 flex items-center justify-center text-[8rem] sm:text-[10rem] opacity-25 group-hover:opacity-40 transition-opacity select-none pointer-events-none">
+                      👨
+                    </span>
+                    <span className="relative z-10 flex items-center justify-center h-full text-xl sm:text-2xl font-black text-gray-900 uppercase tracking-wide">
+                      Masculino
+                    </span>
+                  </button>
+
+                  {/* Card Feminino */}
+                  <button
+                    type="button"
+                    onClick={() => handleGenderSelect('q1-b')}
+                    className="group relative aspect-square rounded-2xl border-2 border-gray-200 bg-gradient-to-br from-pink-50 to-pink-100 hover:border-[#dc2626] hover:shadow-lg active:scale-95 transition-all duration-200 overflow-hidden"
+                  >
+                    <span className="absolute inset-0 flex items-center justify-center text-[8rem] sm:text-[10rem] opacity-25 group-hover:opacity-40 transition-opacity select-none pointer-events-none">
+                      👩
+                    </span>
+                    <span className="relative z-10 flex items-center justify-center h-full text-xl sm:text-2xl font-black text-gray-900 uppercase tracking-wide">
+                      Feminino
+                    </span>
+                  </button>
+                </div>
               </div>
 
               <div className="max-w-lg mx-auto animate-fadeInUp delay-300">
