@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Script from 'next/script';
+import OneKitUpsellLink from '@/components/OneKitUpsellLink';
 
 export default function NativeVslPage() {
   return (
@@ -116,8 +117,12 @@ export default function NativeVslPage() {
             </div>
           </a>
 
-          {/* Imagem 3 - 1 Kit */}
-          <a href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839?split=12" className="block w-[78%] mx-auto">
+          {/* Imagem 3 - 1 Kit (com upsell modal) */}
+          <OneKitUpsellLink
+            href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839?split=12"
+            promoHref="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12&coupon=PRESENTE#"
+            className="block w-[78%] mx-auto"
+          >
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/1-kit.png"
@@ -126,7 +131,7 @@ export default function NativeVslPage() {
                 className="object-cover"
               />
             </div>
-          </a>
+          </OneKitUpsellLink>
           {/* Disclaimer termos */}
           <p className="text-xs text-gray-400 text-center pt-2 pb-4">
             Ao comprar qualquer um dos kits Desparafit você concorda com os{' '}
