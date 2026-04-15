@@ -128,7 +128,7 @@ export default function OneKitUpsellLink({
               </a>
               <a
                 href={href}
-                className="block w-full text-sm text-gray-500 hover:text-gray-700 text-center underline py-2 transition-colors"
+                className="block w-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 font-semibold text-center py-4 px-4 rounded-lg transition-colors"
               >
                 Quero apenas 1 kit
               </a>
