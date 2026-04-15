@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, ReactNode, MouseEvent } from 'react';
+import { useState, useEffect, useRef, ReactNode } from 'react';
 
 interface OneKitUpsellLinkProps {
   href: string;        // Fallback 1 kit checkout URL
@@ -24,8 +24,7 @@ export default function OneKitUpsellLink({
   const [secondsLeft, setSecondsLeft] = useState(300);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleClick = () => {
     setState('loading');
     setTimeout(() => {
       setState('modal');
@@ -69,9 +68,20 @@ export default function OneKitUpsellLink({
 
   return (
     <>
-      <a href={href} onClick={handleClick} className={className}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
+        className={`cursor-pointer ${className || ''}`}
+      >
         {children}
-      </a>
+      </div>
 
       {/* Loading Overlay */}
       {state === 'loading' && (
