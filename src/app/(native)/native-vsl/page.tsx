@@ -36,7 +36,7 @@ export default function NativeVslPage() {
         <section className="w-full pt-4 px-4 pb-1">
           <div className="relative w-full aspect-video">
             <Image
-              src="/images/hero-resultado.png"
+              src="/images/hero-resultado-abril2026.png"
               alt="Resultado do Quiz"
               fill
               className="object-cover"
