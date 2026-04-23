@@ -11,7 +11,7 @@ export default function NativeVslPage() {
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
       </Script>
-      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69de880488720c90802c7a30/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69ea0c006ef5029c0c572da7/v4/player.js" as="script" />
       <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
       <link rel="dns-prefetch" href="https://cdn.converteai.net" />
       <link rel="dns-prefetch" href="https://scripts.converteai.net" />
@@ -66,11 +66,11 @@ export default function NativeVslPage() {
         <section className="w-full">
           <div
             dangerouslySetInnerHTML={{
-              __html: '<vturb-smartplayer id="vid-69de880488720c90802c7a30" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
+              __html: '<vturb-smartplayer id="vid-69ea0c006ef5029c0c572da7" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
             }}
           />
           <Script
-            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69de880488720c90802c7a30/v4/player.js"
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69ea0c006ef5029c0c572da7/v4/player.js"
             strategy="afterInteractive"
           />
           {/* Script de delay - libera os kits após 2310 segundos do vídeo */}
