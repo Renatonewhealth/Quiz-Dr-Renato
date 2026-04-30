@@ -901,7 +901,7 @@ function Step5({ data, errors, update }: StepProps) {
       <div className="space-y-10">
         <div data-field="portfolio_url" className="flex flex-col gap-2">
           <Label htmlFor="portfolio_url" required>
-            Link do Google Docs com suas copies dos últimos 12 meses
+            Cole um link do docs com seu portfólio de copys que você pode mostrar dos últimos 12 meses
           </Label>
           <input
             id="portfolio_url"
