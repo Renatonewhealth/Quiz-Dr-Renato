@@ -504,7 +504,7 @@ function StepIntro({ onStart }: { onStart: () => void }) {
         <h1
           className="font-[family-name:var(--font-instrument-serif)] text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.02em] text-[#FAFAFA]"
         >
-          Processo Seletivo Copywriter Sênior/Pleno com bastante experiência
+          Processo Seletivo Copywriter Sênior (ou pleno sangue no olho que tenha bastante experiência)
         </h1>
         <div className="text-[#A3A3A3] max-w-xl leading-relaxed text-base sm:text-lg space-y-4">
           <p>
