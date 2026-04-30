@@ -27,6 +27,7 @@ export const copyApplicationSchema = z.object({
   results_brought: nonEmpty('Esse campo é obrigatório.'),
   books_read: nonEmpty('Esse campo é obrigatório.'),
   top_copywriters: nonEmpty('Esse campo é obrigatório.'),
+  recommended_by: z.string().trim().optional().or(z.literal('')),
 
   // Step 4 - Teste técnico
   answer_unique_mechanism: nonEmpty('Responda com profundidade.').min(
@@ -49,6 +50,9 @@ export const copyApplicationSchema = z.object({
       (v) => /docs\.google\.com|drive\.google\.com/i.test(v),
       'O link precisa ser do Google Docs ou Google Drive.'
     ),
+  opportunity_preference: z.enum(['fixed-moderate', 'aggressive-only', 'either'], {
+    message: 'Selecione uma opção.',
+  }),
   free_space: z.string().trim().optional().or(z.literal('')),
 
   // Honeypot + meta
@@ -76,6 +80,7 @@ export const stepSchemas = {
     results_brought: true,
     books_read: true,
     top_copywriters: true,
+    recommended_by: true,
   }),
   4: copyApplicationSchema.pick({
     answer_unique_mechanism: true,
@@ -84,6 +89,7 @@ export const stepSchemas = {
   }),
   5: copyApplicationSchema.pick({
     portfolio_url: true,
+    opportunity_preference: true,
     free_space: true,
   }),
 } as const;

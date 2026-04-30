@@ -29,6 +29,14 @@ export const YEARS_OPTIONS: { value: string; label: string }[] = [
   { value: '+5', label: '+5 anos' },
 ];
 
+export type OpportunityPreference = 'fixed-moderate' | 'aggressive-only' | 'either' | null;
+
+export const OPPORTUNITY_OPTIONS: { value: NonNullable<OpportunityPreference>; label: string }[] = [
+  { value: 'fixed-moderate', label: 'Fixo + % moderada' },
+  { value: 'aggressive-only', label: '% agressiva (sem fixo)' },
+  { value: 'either', label: 'Tanto faz' },
+];
+
 export type CopyApplication = {
   id: string;
   created_at: string;
@@ -44,10 +52,12 @@ export type CopyApplication = {
   results_brought: string;
   books_read: string;
   top_copywriters: string;
+  recommended_by: string | null;
   answer_unique_mechanism: string;
   answer_superstructure: string;
   answer_offer_block: string;
   portfolio_url: string;
+  opportunity_preference: OpportunityPreference;
   free_space: string | null;
   status: CopyApplicationStatus;
   internal_rating: number | null;
@@ -84,6 +94,11 @@ export function statusLabel(status: CopyApplicationStatus): string {
 
 export function seniorityLabel(value: string): string {
   return SENIORITY_OPTIONS.find((s) => s.value === value)?.label ?? value;
+}
+
+export function opportunityLabel(value: OpportunityPreference): string {
+  if (!value) return '—';
+  return OPPORTUNITY_OPTIONS.find((o) => o.value === value)?.label ?? value;
 }
 
 export function formatCompletionTime(seconds: number | null): string {

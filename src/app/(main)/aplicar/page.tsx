@@ -8,6 +8,7 @@ import type { ZodError } from 'zod';
 // ---------------- Types ----------------
 type YearsExperience = '<1' | '1-2' | '3-5' | '+5' | '';
 type Seniority = 'junior' | 'pleno-novo' | 'pleno-senior' | 'senior' | '';
+type OpportunityPreference = 'fixed-moderate' | 'aggressive-only' | 'either' | '';
 
 type FormData = {
   // Step 1
@@ -24,12 +25,14 @@ type FormData = {
   results_brought: string;
   books_read: string;
   top_copywriters: string;
+  recommended_by: string;
   // Step 4
   answer_unique_mechanism: string;
   answer_superstructure: string;
   answer_offer_block: string;
   // Step 5
   portfolio_url: string;
+  opportunity_preference: OpportunityPreference;
   free_space: string;
   // Honeypot
   website: string;
@@ -47,10 +50,12 @@ const initialData: FormData = {
   results_brought: '',
   books_read: '',
   top_copywriters: '',
+  recommended_by: '',
   answer_unique_mechanism: '',
   answer_superstructure: '',
   answer_offer_block: '',
   portfolio_url: '',
+  opportunity_preference: '',
   free_space: '',
   website: '',
 };
@@ -156,7 +161,7 @@ function OptionCard({
       ].join(' ')}
       aria-pressed={selected}
     >
-      <span className="block text-sm font-medium">{children}</span>
+      <div className="text-sm font-medium">{children}</div>
     </button>
   );
 }
@@ -489,13 +494,13 @@ function StepIntro({ onStart }: { onStart: () => void }) {
   const steps = [
     { n: '1', label: 'Responder o formulário' },
     { n: '2', label: 'Fazer um mini teste prático' },
-    { n: '3', label: 'Realizar uma demanda como freelancer inicialmente (exemplo: fazer X ADS por Y reais)' },
-    { n: '4', label: 'Caso bata a meta estipulada dessa demanda inicial como freela, ganha o contrato fixo + % do lucro da operação' },
+    { n: '3', label: 'Realizar uma demanda como freelancer inicialmente (exemplo: X ADS por Y reais)' },
+    { n: '4', label: 'Caso bata a meta dessa demanda inicial, entra no projeto no modelo combinado (fixo + % ou % agressiva, dependendo do expert)' },
   ];
   return (
     <section className="space-y-12">
       <div className="space-y-6">
-        <p className={captionCls}>Processo Seletivo · @renatosilveirareis</p>
+        <p className={captionCls}>Processo Seletivo · Copywriter Sênior</p>
         <h1
           className="font-[family-name:var(--font-instrument-serif)] text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.02em] text-[#FAFAFA]"
         >
@@ -503,25 +508,27 @@ function StepIntro({ onStart }: { onStart: () => void }) {
         </h1>
         <div className="text-[#A3A3A3] max-w-xl leading-relaxed text-base sm:text-lg space-y-4">
           <p>
-            Esse formulário tem como objetivo achar os candidatos ideais à vaga de Copywriter Sênior/Pleno com bastante experiência para a operação de Direct Response do expert Renato Silveira Reis.
-          </p>
-          <p>
-            Renato é um expert com altíssimo nível de credibilidade, <span className="text-[#FAFAFA] font-medium">+ de 13 milhões de seguidores</span> nas redes sociais e atua no nicho de saúde em diversas frentes (emagrecimento, rejuvenescimento etc.).
+            Esse formulário tem como objetivo achar copywriters seniores e plenos experientes para entrar em <span className="text-[#FAFAFA] font-medium">operações com experts que faturam +7 dígitos por mês com Direct Response</span>.
           </p>
           <p className="text-sm italic text-[#666666]">
-            Obs: operação 100% white com alto potencial de escala, para quem tem interesse em sair do black.
+            Todas as operações são 100% white, com alto potencial de escala — ideal pra quem quer sair do black e construir carreira de longo prazo.
           </p>
           <p>
-            Nessa operação temos diversas frentes, desde infoprodutos até os próprios protocolos físicos do Renato, com produção interna.
+            Não estamos procurando apenas mais um funcionário. Queremos alguém que entre como <span className="text-[#FAFAFA] font-medium">parceiro estratégico</span>, com perfil pra eventualmente assumir como <span className="text-[#FAFAFA] font-medium">Head de Direct Response</span> de uma das operações e tocar o barco junto com a gente.
           </p>
-          <p>
-            Estamos em busca de um copywriter com experiência em direct response para ajudar com o funil como um todo, ADS, otimizações, demandas pontuais do posicionamento do Renato etc., para trabalhar como braço direito do CMO da operação <span className="text-[#FAFAFA]">@trheitor</span>.
-          </p>
+          <div className="border-l-2 border-[#E8E3D8]/30 pl-4 space-y-3">
+            <p className="text-sm text-[#A3A3A3]">
+              <span className="text-[#FAFAFA] font-medium">Sobre os modelos de remuneração:</span>
+            </p>
+            <p className="text-sm">
+              Varia de projeto pra projeto. Em operações já estabelecidas, oferecemos <span className="text-[#FAFAFA]">fixo + %</span> do lucro. Em projetos iniciais com novos experts (ainda sem capex pra contratação fixa), trabalhamos com <span className="text-[#FAFAFA]">% mais agressiva sem fixo</span> — pra quem quer entrar mais como sócio do que como contratado.
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="space-y-5">
-        <p className={captionCls}>O processo seletivo será feito em 4 etapas</p>
+        <p className={captionCls}>O processo seletivo é feito em 4 etapas</p>
         <ol className="space-y-5">
           {steps.map((s) => (
             <li key={s.n} className="flex items-baseline gap-5">
@@ -750,18 +757,17 @@ function Step3({ data, errors, update }: StepProps) {
       <div className="space-y-10">
         <div data-field="results_brought" className="flex flex-col gap-2">
           <Label htmlFor="results_brought" required>
-            Resultados que você trouxe para essas operações
+            Quanto suas copies geraram diretamente em receita para outras operações?
           </Label>
           <textarea
             id="results_brought"
             value={data.results_brought}
             onChange={(e) => update('results_brought', e.target.value)}
-            placeholder="Números, métricas, escalas."
+            placeholder="Ex: VSL X gerou R$ 1,2M em 90 dias para a operação Y. Advertorial Z escalou de 5k/dia pra 30k/dia em USD..."
             className={textareaCls}
           />
           <p className="text-[#666666] text-xs mt-1 leading-relaxed">
-            Ads, VSLs, funnels. Não minta — confirmaremos com os donos das
-            operações.
+            Quantifique em <span className="text-[#A3A3A3]">R$ ou USD</span>, e explique <span className="text-[#A3A3A3]">como</span> (qual asset, qual operação, em quanto tempo). Não minta — confirmaremos com os donos das operações.
           </p>
           <FieldError msg={errors.results_brought} />
         </div>
@@ -792,6 +798,23 @@ function Step3({ data, errors, update }: StepProps) {
             className={textareaCls}
           />
           <FieldError msg={errors.top_copywriters} />
+        </div>
+
+        <div data-field="recommended_by" className="flex flex-col gap-2">
+          <Label htmlFor="recommended_by">
+            Tem alguém do mercado que pode te recomendar pra essa posição?
+          </Label>
+          <textarea
+            id="recommended_by"
+            value={data.recommended_by}
+            onChange={(e) => update('recommended_by', e.target.value)}
+            placeholder="Se sim, escreva o nome dessa(s) pessoa(s) — pode ser dono de operação, copywriter sênior, gestor de tráfego, alguém conhecido no mercado que possamos contatar."
+            className={textareaCls}
+          />
+          <p className="text-[#666666] text-xs mt-1 leading-relaxed">
+            Opcional, mas pesa muito. Se não tiver, deixa em branco.
+          </p>
+          <FieldError msg={errors.recommended_by} />
         </div>
       </div>
     </section>
@@ -854,6 +877,24 @@ function Step4({ data, errors, update }: StepProps) {
 }
 
 function Step5({ data, errors, update }: StepProps) {
+  const opportunityOptions: { value: OpportunityPreference; label: string; helper: string }[] = [
+    {
+      value: 'fixed-moderate',
+      label: 'Fixo médio + % moderada',
+      helper: 'Operações já estabelecidas, mais segurança e previsibilidade.',
+    },
+    {
+      value: 'aggressive-only',
+      label: 'Só % agressiva (sem fixo)',
+      helper: 'Projetos iniciais, perfil de sócio. Mais risco, mais upside.',
+    },
+    {
+      value: 'either',
+      label: 'Tanto faz',
+      helper: 'Aberto a avaliar caso a caso, dependendo do projeto e do expert.',
+    },
+  ];
+
   return (
     <section>
       <StepHeader caption="Etapa 5 de 5 · Portfólio" title="Seu trabalho" />
@@ -872,6 +913,34 @@ function Step5({ data, errors, update }: StepProps) {
             className={inputCls}
           />
           <FieldError msg={errors.portfolio_url} />
+        </div>
+
+        <div data-field="opportunity_preference" className="flex flex-col gap-3">
+          <Label htmlFor="opportunity_preference_group" required>
+            Qual tipo de oportunidade te interessa mais?
+          </Label>
+          <p className="text-[#A3A3A3] text-sm leading-relaxed -mt-1 mb-2">
+            Em alguns projetos precisamos de gente pra <span className="text-[#FAFAFA]">tocar o barco</span> — e estamos dispostos a dar bem mais por isso, dependendo do expert. Não tem resposta certa, queremos só entender seu apetite.
+          </p>
+          <div
+            id="opportunity_preference_group"
+            className="grid grid-cols-1 gap-3"
+            role="radiogroup"
+          >
+            {opportunityOptions.map((opt) => (
+              <OptionCard
+                key={opt.value}
+                selected={data.opportunity_preference === opt.value}
+                onClick={() => update('opportunity_preference', opt.value)}
+              >
+                <div className="flex flex-col items-start text-left gap-1 w-full">
+                  <span className="font-medium text-[#FAFAFA]">{opt.label}</span>
+                  <span className="text-xs text-[#A3A3A3] leading-relaxed">{opt.helper}</span>
+                </div>
+              </OptionCard>
+            ))}
+          </div>
+          <FieldError msg={errors.opportunity_preference} />
         </div>
 
         <div data-field="free_space" className="flex flex-col gap-2">

@@ -10,6 +10,7 @@ import {
   CopyApplicationStatus,
   STATUS_OPTIONS,
   formatCompletionTime,
+  opportunityLabel,
   seniorityLabel,
   statusBadgeClasses,
   statusLabel,
@@ -125,9 +126,10 @@ export default function CandidateDetail({ application, reviewerEmail }: Props) {
 
           {/* 2 - Resultados e referências */}
           <Section title="Resultados e referências">
-            <Field label="Resultados trazidos" value={app.results_brought} />
+            <Field label="Receita gerada (R$/USD) e como" value={app.results_brought} multiline />
             <Field label="Livros lidos" value={app.books_read} />
             <Field label="Top 3 copywriters" value={app.top_copywriters} />
+            <Field label="Indicação no mercado" value={app.recommended_by} multiline />
           </Section>
 
           {/* 3 - Respostas técnicas (highlighted) */}
@@ -168,6 +170,11 @@ export default function CandidateDetail({ application, reviewerEmail }: Props) {
             ) : (
               <p className="text-sm text-[#666666]">Sem portfólio.</p>
             )}
+          </Section>
+
+          {/* 4.5 - Preferência de oportunidade */}
+          <Section title="Preferência de oportunidade">
+            <Field label="Modelo preferido" value={opportunityLabel(app.opportunity_preference)} />
           </Section>
 
           {/* 5 - Espaço livre */}
