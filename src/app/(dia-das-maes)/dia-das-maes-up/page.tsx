@@ -1,5 +1,7 @@
 'use client';
 
+import Script from 'next/script';
+
 export default function DiaDasMaesUpPage() {
   return (
     <main className="min-h-screen bg-white">
@@ -59,15 +61,24 @@ export default function DiaDasMaesUpPage() {
           </div>
         </section>
 
-        {/* Imagem do produto - Placeholder */}
+        {/* Imagem do produto com one-click buy */}
         <section className="px-4 pb-6">
-          <div className="placeholder-pulse block w-[78%] sm:w-[60%] mx-auto aspect-[3/4] rounded-xl bg-gradient-to-br from-teal-50 to-teal-100 border-2 border-dashed border-[#2ec6a8] flex flex-col items-center justify-center text-center p-6">
-            <svg className="w-14 h-14 text-[#2ec6a8] mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <p className="text-sm font-bold text-[#2ec6a8] uppercase tracking-wider">Placeholder Imagem do Produto</p>
-            <p className="text-xs text-teal-600 mt-2">Substituir pela imagem com link one-click do checkout</p>
-          </div>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+                <div style="text-align: center">
+                  <a href="#" payt_action="oneclick_buy" data-object="453A8R-LY7JYA" style="display: block; margin: 0 auto; width: 78%; max-width: 380px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
+                    <img src="/images/desparafit-dia-das-maes.png" alt="2 Kits Desparafit - 12x R$49,80" style="width: 100%; display: block;" />
+                  </a>
+                  <select payt_element='installment' style='display: none' data-object='453A8R-LY7JYA'></select>
+                </div>
+              `
+            }}
+          />
+          <Script
+            src="https://checkout.payt.com.br/multiple-oneclickbuyscript/RDEWEP.js"
+            strategy="afterInteractive"
+          />
         </section>
 
         {/* Garantia */}

@@ -53,10 +53,13 @@ export default function DiaDasMaesPage() {
 
         {/* Imagem do produto */}
         <section className="px-4 pb-6">
-          <a href="#" className="block w-[78%] sm:w-[60%] mx-auto relative">
+          <a
+            href="https://checkout.payt.com.br/427e7b560791241bc2c96df6ab7f5c8b?split=12"
+            className="block w-[78%] sm:w-[60%] mx-auto relative"
+          >
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/korean-nano-kit-v3.png"
+                src="/images/korean-nano-kit-v4.png"
                 alt="2 Kits Korean Nano - 12x R$72,09"
                 fill
                 className="object-cover"
