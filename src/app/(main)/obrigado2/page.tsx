@@ -25,7 +25,7 @@ export default function Obrigado2Page() {
         <section className="pb-8">
           <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
             <p className="text-base sm:text-lg text-gray-700 text-center leading-relaxed">
-              Seus kits do Desparafit já estão sendo preparados e vão chegar na sua casa nos próximos dias, por hora, você pode acessar o aplicativo Desparafit e todos os bônus digitais da oferta (veja seu email).
+              Sua compra foi processada com sucesso. Você vai receber em instantes um e-mail com a confirmação do pedido e todas as informações de acompanhamento.
             </p>
           </div>
         </section>
