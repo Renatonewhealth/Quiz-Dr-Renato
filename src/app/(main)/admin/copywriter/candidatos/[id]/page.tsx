@@ -23,6 +23,7 @@ export default async function CandidateDetailPage({ params }: { params: Params }
     );
   }
 
+  // Primeiro busca a aplicação
   const { data, error } = await supabaseAdmin
     .from('copy_applications')
     .select('*')
@@ -48,23 +49,20 @@ export default async function CandidateDetailPage({ params }: { params: Params }
     );
   }
 
-  // Fetch reviewer email if present
-  let reviewerEmail: string | null = null;
   const app = data as CopyApplication;
+
+  // Busca o reviewer só se existir (não bloqueia render se a query falhar)
+  let reviewerEmail: string | null = null;
   if (app.reviewed_by) {
-    try {
-      const { data: admin } = await supabaseAdmin
-        .from('admin_users')
-        .select('email, full_name')
-        .eq('id', app.reviewed_by)
-        .maybeSingle();
-      reviewerEmail =
-        (admin as { email?: string; full_name?: string } | null)?.email ??
-        (admin as { email?: string; full_name?: string } | null)?.full_name ??
-        null;
-    } catch {
-      reviewerEmail = null;
-    }
+    const { data: admin } = await supabaseAdmin
+      .from('admin_users')
+      .select('email, full_name')
+      .eq('id', app.reviewed_by)
+      .maybeSingle();
+    reviewerEmail =
+      (admin as { email?: string; full_name?: string } | null)?.email ??
+      (admin as { email?: string; full_name?: string } | null)?.full_name ??
+      null;
   }
 
   return <CandidateDetail application={app} reviewerEmail={reviewerEmail} />;

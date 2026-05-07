@@ -323,6 +323,9 @@ export default function CandidatesTable({ initialData }: Props) {
                       className={`border-t border-[#1F1F1F] transition-colors cursor-pointer ${
                         isSel ? 'bg-[#1A1A1A]' : 'hover:bg-[#1A1A1A]'
                       }`}
+                      onMouseEnter={() => {
+                        router.prefetch(`/admin/copywriter/candidatos/${app.id}`);
+                      }}
                       onClick={(e) => {
                         const target = e.target as HTMLElement;
                         if (target.closest('[data-no-row-click]')) return;
