@@ -10,7 +10,7 @@ export default function GoogleLayout({
       {/* Google Pixel - Utmify Google */}
       <Script id="google-pixel" strategy="afterInteractive">
         {`
-          window.googlePixelId = "69cc545c8c9b94b79289addf";
+          window.googlePixelId = "69fc1edc7cd4138c7da54929";
           var a = document.createElement("script");
           a.setAttribute("async", "");
           a.setAttribute("defer", "");
