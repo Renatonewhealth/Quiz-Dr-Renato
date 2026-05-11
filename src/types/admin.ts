@@ -26,11 +26,14 @@ export interface QuizResponseDetail {
 }
 
 export interface AnalyticsData {
+  range?: { from: string; to: string };
   totalLeads: number;
+  totalSessions?: number;
   qualifiedLeads: number;
   nonQualifiedLeads: number;
   conversionRate: number;
   leadsPerDay: LeadPerDay[];
+  sessionsPerDay?: LeadPerDay[];
   dropoffByQuestion: DropoffData[];
   qualificationSplit: QualificationSplit;
   funnelData?: FunnelData[];
@@ -45,6 +48,7 @@ export interface DropoffData {
   question_id: number;
   completed: number;
   percentage: number;
+  dropFromPrev?: number;
 }
 
 export interface QualificationSplit {

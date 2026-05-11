@@ -1,11 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Users, UserCheck, UserX, TrendingUp, RefreshCw } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
+import { Users, UserCheck, UserX, TrendingUp, RefreshCw, Activity, Target } from 'lucide-react';
 import KPICard from '@/components/admin/KPICard';
 import LeadsTable from '@/components/admin/LeadsTable';
 import ConversionFunnel from '@/components/admin/ConversionFunnel';
 import DropoffChart from '@/components/admin/DropoffChart';
+import DateRangePicker, {
+  type DateRange,
+  presetToRange,
+} from '@/components/admin/DateRangePicker';
 import { AnalyticsData, LeadWithResponses } from '@/types/admin';
 
 export default function AdminDashboardPage() {
@@ -14,11 +18,19 @@ export default function AdminDashboardPage() {
   const [totalLeadsCount, setTotalLeadsCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange>(() => presetToRange('30d'));
   const pageSize = 10;
 
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = useCallback(async () => {
     try {
-      const response = await fetch('/api/admin/analytics');
+      const params = new URLSearchParams({
+        from: dateRange.from.toISOString(),
+        to: dateRange.to.toISOString(),
+      });
+      const response = await fetch(`/api/admin/analytics?${params.toString()}`, {
+        cache: 'no-store',
+      });
       if (response.ok) {
         const data = await response.json();
         setAnalytics(data);
@@ -26,20 +38,25 @@ export default function AdminDashboardPage() {
     } catch (error) {
       console.error('Erro ao buscar analytics:', error);
     }
-  };
+  }, [dateRange]);
 
-  const fetchLeads = async (page: number) => {
-    try {
-      const response = await fetch(`/api/admin/leads?page=${page}&limit=${pageSize}`);
-      if (response.ok) {
-        const data = await response.json();
-        setLeads(data.leads);
-        setTotalLeadsCount(data.totalCount);
+  const fetchLeads = useCallback(
+    async (page: number) => {
+      try {
+        const response = await fetch(`/api/admin/leads?page=${page}&limit=${pageSize}`, {
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setLeads(data.leads);
+          setTotalLeadsCount(data.totalCount);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar leads:', error);
       }
-    } catch (error) {
-      console.error('Erro ao buscar leads:', error);
-    }
-  };
+    },
+    [pageSize]
+  );
 
   useEffect(() => {
     const loadData = async () => {
@@ -48,11 +65,12 @@ export default function AdminDashboardPage() {
       setIsLoading(false);
     };
     loadData();
-  }, [currentPage]);
+  }, [currentPage, fetchAnalytics, fetchLeads]);
 
-  const handleRefresh = () => {
-    fetchAnalytics();
-    fetchLeads(currentPage);
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await Promise.all([fetchAnalytics(), fetchLeads(currentPage)]);
+    setIsRefreshing(false);
   };
 
   if (isLoading) {
@@ -66,32 +84,46 @@ export default function AdminDashboardPage() {
     );
   }
 
+  const totalSessions = analytics?.totalSessions ?? 0;
+  const totalLeads = analytics?.totalLeads ?? 0;
+  const sessionToLeadRate = totalSessions > 0 ? Math.round((totalLeads / totalSessions) * 100) : 0;
+
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Dashboard Analytics
-          </h1>
-          <p className="text-gray-600">
-            Visão geral dos leads e conversões do quiz
-          </p>
+      <div className="flex flex-col gap-4 mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard Analytics</h1>
+            <p className="text-gray-600">Visão geral do quiz, sessões e leads capturados</p>
+          </div>
+          <button
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            Atualizar
+          </button>
         </div>
-        <button
-          onClick={handleRefresh}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
-        >
-          <RefreshCw className="w-4 h-4" />
-          Atualizar
-        </button>
+
+        {/* Date range filter */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <DateRangePicker value={dateRange} onChange={setDateRange} />
+        </div>
       </div>
 
       {/* KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <KPICard
-          label="Total de Leads"
-          value={analytics?.totalLeads || 0}
+          label="Sessões no Quiz"
+          value={totalSessions}
+          icon={Activity}
+          color="blue"
+        />
+        <KPICard
+          label="Leads Capturados"
+          value={totalLeads}
           icon={Users}
           color="purple"
         />
@@ -101,6 +133,24 @@ export default function AdminDashboardPage() {
           icon={UserCheck}
           color="green"
         />
+        <KPICard
+          label="Sessão → Lead"
+          value={`${sessionToLeadRate}%`}
+          icon={Target}
+          color="orange"
+        />
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {analytics?.funnelData && <ConversionFunnel data={analytics.funnelData} />}
+        {analytics?.dropoffByQuestion && analytics.dropoffByQuestion.length > 0 && (
+          <DropoffChart data={analytics.dropoffByQuestion} />
+        )}
+      </div>
+
+      {/* Secondary KPIs */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <KPICard
           label="Baixo Risco"
           value={analytics?.nonQualifiedLeads || 0}
@@ -113,16 +163,12 @@ export default function AdminDashboardPage() {
           icon={TrendingUp}
           color="orange"
         />
-      </div>
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {analytics?.funnelData && (
-          <ConversionFunnel data={analytics.funnelData} />
-        )}
-        {analytics?.dropoffByQuestion && analytics.dropoffByQuestion.length > 0 && (
-          <DropoffChart data={analytics.dropoffByQuestion} />
-        )}
+        <KPICard
+          label="Conversão Quiz Completo"
+          value={`${analytics?.funnelData?.[1]?.percentage || 0}%`}
+          icon={Target}
+          color="green"
+        />
       </div>
 
       {/* Leads Table */}
@@ -136,6 +182,3 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
-
-
-
