@@ -57,13 +57,13 @@ export default function HairvitmaxPage() {
         {/* Imagem do produto */}
         <section className="px-4 pt-6 pb-6">
           <a
-            href="https://checkout.payt.com.br/427e7b560791241bc2c96df6ab7f5c8b?split=12"
+            href="https://checkout.payt.com.br/2153440b490d20b849adb00e395cda04?split=12#"
             className="block w-[78%] sm:w-[60%] mx-auto relative"
           >
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/korean-nano-kit-v4.png"
-                alt="2 Kits HairVitMax - 12x R$72,09"
+                src="/images/hairvitmax-kit.png"
+                alt="2 Kits HairVit Max - 12x R$61,74"
                 fill
                 className="object-cover"
                 priority
