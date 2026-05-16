@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
+import CheckoutTracker from "@/components/CheckoutTracker";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -60,6 +61,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased min-h-screen bg-white text-gray-900 overflow-x-hidden">
+        <CheckoutTracker />
         {children}
       </body>
     </html>

@@ -2,19 +2,57 @@
 
 import { useEffect, useState } from 'react';
 
+function isPaytCheckout(url: string | null | undefined): boolean {
+  if (!url) return false;
+  return /checkout\.payt\.com\.br\/[A-Za-z0-9]/.test(url);
+}
+
 export default function BackRedirectPage() {
-  const [referrer, setReferrer] = useState<string | null>(null);
+  const [target, setTarget] = useState<string | null>(null);
 
   useEffect(() => {
-    // Captura a página anterior (checkout) para redirecionar de volta
-    if (document.referrer) {
-      setReferrer(document.referrer);
+    // Prioridade de origem do checkout:
+    // 1. ?url= na query string (caso a Payt repasse)
+    // 2. localStorage (salvo quando a pessoa clicou pra ir pro checkout)
+    // 3. document.referrer (se for um checkout válido)
+    let resolved: string | null = null;
+
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlParam = params.get('url') || params.get('checkout');
+      if (isPaytCheckout(urlParam)) {
+        resolved = urlParam;
+      }
+    } catch {
+      /* ignore */
     }
+
+    if (!resolved) {
+      try {
+        const stored = localStorage.getItem('last_checkout_url');
+        if (isPaytCheckout(stored)) {
+          resolved = stored;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+
+    if (!resolved && isPaytCheckout(document.referrer)) {
+      resolved = document.referrer;
+    }
+
+    setTarget(resolved);
   }, []);
 
   const handleVoltar = () => {
-    if (referrer) {
-      window.location.href = referrer;
+    if (target) {
+      // Adiciona o cupom na URL do checkout se ainda não tiver
+      let dest = target;
+      if (!/[?&]coupon=/i.test(dest)) {
+        dest += (dest.includes('?') ? '&' : '?') + 'coupon=PRESENTE';
+      }
+      window.location.href = dest;
     } else {
       window.history.back();
     }
