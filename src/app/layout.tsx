@@ -12,13 +12,13 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Quiz - Dr. Renato Silveira",
+  title: "Dr Renato Silveira",
   description: "Descubra seu perfil de saúde com nosso quiz interativo. Responda algumas perguntas e receba um diagnóstico personalizado.",
   keywords: ["quiz", "saúde", "dr renato silveira", "diagnóstico", "médico"],
   authors: [{ name: "Dr. Renato Silveira" }],
   robots: "index, follow",
   openGraph: {
-    title: "Quiz - Dr. Renato Silveira",
+    title: "Dr Renato Silveira",
     description: "Descubra seu perfil de saúde com nosso quiz interativo.",
     type: "website",
     locale: "pt_BR",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Quiz Dr. Renato",
+    title: "Dr Renato Silveira",
   },
   formatDetection: {
     telephone: true,
