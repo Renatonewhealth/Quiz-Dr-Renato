@@ -51,28 +51,61 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const fromMs = from.getTime();
+    const toMs = to.getTime();
     const fromIso = from.toISOString();
     const toIso = to.toISOString();
 
-    // ---- Leads no período ----
-    const { data: qualificationData } = await supabaseAdmin
+    // Detecta qual coluna de timestamp uma linha tem (tabelas podem usar
+    // created_at, started_at ou updated_at). Filtra em JS pra não quebrar
+    // a query caso a coluna não exista (PostgREST erra em select de coluna
+    // inexistente e zera tudo).
+    function rowTimestamp(row: Record<string, unknown>): number | null {
+      const raw =
+        (row.created_at as string | undefined) ??
+        (row.started_at as string | undefined) ??
+        (row.inserted_at as string | undefined) ??
+        (row.updated_at as string | undefined);
+      if (!raw) return null;
+      const t = new Date(raw).getTime();
+      return isNaN(t) ? null : t;
+    }
+
+    function inRange(row: Record<string, unknown>): boolean {
+      const t = rowTimestamp(row);
+      if (t === null) return true; // sem timestamp: não exclui
+      return t >= fromMs && t <= toMs;
+    }
+
+    function rowDateKey(row: Record<string, unknown>): string {
+      const t = rowTimestamp(row);
+      const d = t === null ? new Date() : new Date(t);
+      return d.toISOString().split('T')[0];
+    }
+
+    // ---- Leads ----
+    const { data: leadsRaw, error: leadsErr } = await supabaseAdmin
       .from('leads')
-      .select('total_score, created_at')
-      .gte('created_at', fromIso)
-      .lte('created_at', toIso);
+      .select('*');
 
-    const leadsCount = qualificationData?.length ?? 0;
-    const qualified = qualificationData?.filter((l) => l.total_score <= 4).length || 0;
-    const nonQualified = qualificationData?.filter((l) => l.total_score >= 5).length || 0;
+    const allLeadsRows = (leadsRaw ?? []) as Record<string, unknown>[];
+    const qualificationData = allLeadsRows.filter(inRange);
 
-    // ---- Quiz Sessions no período ----
-    const { data: sessionsData } = await supabaseAdmin
+    const leadsCount = qualificationData.length;
+    const qualified = qualificationData.filter(
+      (l) => Number(l.total_score) <= 4
+    ).length;
+    const nonQualified = qualificationData.filter(
+      (l) => Number(l.total_score) >= 5
+    ).length;
+
+    // ---- Quiz Sessions ----
+    const { data: sessionsRaw, error: sessionsErr } = await supabaseAdmin
       .from('quiz_sessions')
-      .select('last_question, completed, created_at')
-      .gte('created_at', fromIso)
-      .lte('created_at', toIso);
+      .select('*');
 
-    const allSessions = sessionsData ?? [];
+    const allSessionsRows = (sessionsRaw ?? []) as Record<string, unknown>[];
+    const allSessions = allSessionsRows.filter(inRange);
     const totalSessions = allSessions.length;
 
     // Drop-off por pergunta: quantos chegaram a (responderam) cada Q.
@@ -81,7 +114,9 @@ export async function GET(request: NextRequest) {
     const dropoffByQuestion = [];
     let prevCount = totalSessions;
     for (let q = 1; q <= TOTAL_QUESTIONS; q++) {
-      const passed = allSessions.filter((s) => (s.last_question ?? 0) >= q).length;
+      const passed = allSessions.filter(
+        (s) => Number(s.last_question ?? 0) >= q
+      ).length;
       const percentageOfTotal = totalSessions
         ? Math.round((passed / totalSessions) * 100)
         : 0;
@@ -99,8 +134,8 @@ export async function GET(request: NextRequest) {
 
     // ---- Leads por dia ----
     const leadsPerDayMap = new Map<string, number>();
-    qualificationData?.forEach((lead) => {
-      const date = new Date(lead.created_at).toISOString().split('T')[0];
+    qualificationData.forEach((lead) => {
+      const date = rowDateKey(lead);
       leadsPerDayMap.set(date, (leadsPerDayMap.get(date) || 0) + 1);
     });
 
@@ -111,7 +146,7 @@ export async function GET(request: NextRequest) {
     // ---- Sessions por dia (útil pra ver curva diária) ----
     const sessionsPerDayMap = new Map<string, number>();
     allSessions.forEach((session) => {
-      const date = new Date(session.created_at).toISOString().split('T')[0];
+      const date = rowDateKey(session);
       sessionsPerDayMap.set(date, (sessionsPerDayMap.get(date) || 0) + 1);
     });
 
@@ -126,7 +161,9 @@ export async function GET(request: NextRequest) {
       : 0;
 
     // ---- Funnel ----
-    const sessionsCompleted = allSessions.filter((s) => s.completed).length;
+    const sessionsCompleted = allSessions.filter(
+      (s) => s.completed === true
+    ).length;
 
     return NextResponse.json({
       range: { from: fromIso, to: toIso },
@@ -169,6 +206,17 @@ export async function GET(request: NextRequest) {
             : 0,
         },
       ],
+      _debug: {
+        leadsError: leadsErr?.message ?? null,
+        sessionsError: sessionsErr?.message ?? null,
+        totalLeadsRowsNoFilter: allLeadsRows.length,
+        totalSessionsRowsNoFilter: allSessionsRows.length,
+        leadsColumns: allLeadsRows[0] ? Object.keys(allLeadsRows[0]) : [],
+        sessionsColumns: allSessionsRows[0]
+          ? Object.keys(allSessionsRows[0])
+          : [],
+        sampleSession: allSessionsRows[0] ?? null,
+      },
     });
   } catch (error) {
     console.error('Erro ao buscar analytics:', error);
