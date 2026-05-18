@@ -77,7 +77,7 @@ export default function Resultado2Page() {
           {/* Script de delay - libera os kits após 2310 segundos do vídeo */}
           <Script id="vturb-delay" strategy="afterInteractive">
             {`
-              var delaySeconds = 2310;
+              var delaySeconds = 2308;
               var player = document.querySelector("vturb-smartplayer");
               player.addEventListener("player:ready", function() {
                 player.displayHiddenElements(delaySeconds, [".esconder"], {

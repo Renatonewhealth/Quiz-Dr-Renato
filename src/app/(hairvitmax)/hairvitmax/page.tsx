@@ -1,10 +1,22 @@
 'use client';
 
 import Image from 'next/image';
+import Script from 'next/script';
 
 export default function HairvitmaxPage() {
   return (
     <main className="min-h-screen bg-white">
+      {/* Vturb Preloads */}
+      <Script id="vturb-plt" strategy="beforeInteractive">
+        {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
+      </Script>
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a0a7e6207a4624290ed1cc0/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="dns-prefetch" href="https://cdn.converteai.net" />
+      <link rel="dns-prefetch" href="https://scripts.converteai.net" />
+      <link rel="dns-prefetch" href="https://images.converteai.net" />
+      <link rel="dns-prefetch" href="https://api.vturb.com.br" />
+
       <style jsx>{`
         @keyframes pulse-scale {
           0%, 100% { transform: rotate(30deg) scale(1); }
@@ -42,20 +54,33 @@ export default function HairvitmaxPage() {
           </p>
         </section>
 
-        {/* VSL Placeholder */}
-        <section className="px-4 pb-6">
-          <div className="placeholder-pulse w-full max-w-[400px] mx-auto aspect-video rounded-xl bg-gradient-to-br from-pink-50 to-pink-100 border-2 border-dashed border-pink-300 flex flex-col items-center justify-center text-center p-6">
-            <svg className="w-12 h-12 text-pink-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-sm font-bold text-pink-600 uppercase tracking-wider">Placeholder VSL</p>
-            <p className="text-xs text-pink-500 mt-1">Substituir pelo embed do vturb-smartplayer</p>
-          </div>
+        {/* VSL Player - Vturb */}
+        <section className="w-full">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '<vturb-smartplayer id="vid-6a0a7e6207a4624290ed1cc0" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
+            }}
+          />
+          <Script
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a0a7e6207a4624290ed1cc0/v4/player.js"
+            strategy="afterInteractive"
+          />
+          {/* Script de delay - libera a imagem do checkout após 948 segundos do vídeo */}
+          <Script id="vturb-delay" strategy="afterInteractive">
+            {`
+              var delaySeconds = 948;
+              var player = document.querySelector("vturb-smartplayer");
+              player.addEventListener("player:ready", function() {
+                player.displayHiddenElements(delaySeconds, [".esconder"], {
+                  persist: true
+                });
+              });
+            `}
+          </Script>
         </section>
 
-        {/* Imagem do produto */}
-        <section className="px-4 pt-6 pb-6">
+        {/* Imagem do produto - escondida até delay */}
+        <section className="esconder px-4 pt-6 pb-6">
           <a
             href="https://checkout.payt.com.br/2153440b490d20b849adb00e395cda04?split=12#"
             className="block w-[78%] sm:w-[60%] mx-auto relative"
