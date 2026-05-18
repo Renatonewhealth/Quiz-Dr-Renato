@@ -108,8 +108,8 @@ export default function HairvitmaxUpPage() {
           />
         </section>
 
-        {/* Garantia */}
-        <section className="px-4 pb-10">
+        {/* Garantia - escondida até delay */}
+        <section className="esconder px-4 pb-10">
           <p className="text-xs text-gray-500 text-center">
             🛡️ Garantia de 60 dias. Não funcionou? Devolvemos seu dinheiro, basta seguir os termos e condições e entrar em contato conosco.
           </p>
