@@ -75,6 +75,9 @@ export async function POST(request: NextRequest) {
     const ua = request.headers.get('user-agent');
     const isBotUA = isBot(ua);
 
+    const nowIso = new Date().toISOString();
+    const serverNowMs = Date.now();
+
     const rows = (body.events as ClientEvent[])
       .filter((ev) => {
         if (!ev || typeof ev !== 'object') return false;
@@ -82,29 +85,44 @@ export async function POST(request: NextRequest) {
         if (!ev.session_id) return false;
         return true;
       })
-      .map((ev) => ({
-        created_at: ev.timestamp ?? new Date().toISOString(),
-        session_id: sanitizeString(ev.session_id, 100)!,
-        visitor_id: sanitizeString(ev.visitor_id, 100),
-        event_type: ev.event_type!,
-        page_slug: sanitizeString(ev.page_slug, 200),
-        variant: sanitizeString(ev.variant, 50),
-        question_id:
-          typeof ev.question_id === 'number' && Number.isFinite(ev.question_id)
-            ? Math.floor(ev.question_id)
-            : null,
-        metadata:
-          ev.metadata && typeof ev.metadata === 'object' ? ev.metadata : {},
-        utm_source: sanitizeString(ev.utm_source, 200),
-        utm_medium: sanitizeString(ev.utm_medium, 200),
-        utm_campaign: sanitizeString(ev.utm_campaign, 200),
-        utm_term: sanitizeString(ev.utm_term, 200),
-        utm_content: sanitizeString(ev.utm_content, 200),
-        referrer: sanitizeString(ev.referrer, 500),
-        ip_address: ip,
-        user_agent: ua,
-        is_bot: isBotUA,
-      }));
+      .map((ev) => {
+        // Usa timestamp do servidor por padrão. Só aceita o do cliente
+        // se estiver dentro de ±5 min do server time (clock skew tolerável)
+        // — assim relógios bagunçados não jogam evento pra outro dia.
+        let createdAt = nowIso;
+        if (ev.timestamp) {
+          const clientMs = new Date(ev.timestamp).getTime();
+          if (
+            Number.isFinite(clientMs) &&
+            Math.abs(clientMs - serverNowMs) < 5 * 60 * 1000
+          ) {
+            createdAt = new Date(clientMs).toISOString();
+          }
+        }
+        return {
+          created_at: createdAt,
+          session_id: sanitizeString(ev.session_id, 100)!,
+          visitor_id: sanitizeString(ev.visitor_id, 100),
+          event_type: ev.event_type!,
+          page_slug: sanitizeString(ev.page_slug, 200),
+          variant: sanitizeString(ev.variant, 50),
+          question_id:
+            typeof ev.question_id === 'number' && Number.isFinite(ev.question_id)
+              ? Math.floor(ev.question_id)
+              : null,
+          metadata:
+            ev.metadata && typeof ev.metadata === 'object' ? ev.metadata : {},
+          utm_source: sanitizeString(ev.utm_source, 200),
+          utm_medium: sanitizeString(ev.utm_medium, 200),
+          utm_campaign: sanitizeString(ev.utm_campaign, 200),
+          utm_term: sanitizeString(ev.utm_term, 200),
+          utm_content: sanitizeString(ev.utm_content, 200),
+          referrer: sanitizeString(ev.referrer, 500),
+          ip_address: ip,
+          user_agent: ua,
+          is_bot: isBotUA,
+        };
+      });
 
     if (rows.length === 0) {
       return NextResponse.json({ success: true, inserted: 0 });

@@ -132,35 +132,45 @@ export default function AdminDashboardPage() {
   const [variantFilter, setVariantFilter] = useState<string>('');
   const [includeBots, setIncludeBots] = useState(false);
 
-  const fetchData = useCallback(async () => {
-    try {
-      setError(null);
-      const params = new URLSearchParams({
-        from: dateRange.from.toISOString(),
-        to: dateRange.to.toISOString(),
-      });
-      if (pageFilter) params.set('page', pageFilter);
-      if (variantFilter) params.set('variant', variantFilter);
-      if (includeBots) params.set('includeBots', '1');
+  const fetchData = useCallback(
+    async (signal?: AbortSignal) => {
+      try {
+        setError(null);
+        const params = new URLSearchParams({
+          from: dateRange.from.toISOString(),
+          to: dateRange.to.toISOString(),
+        });
+        if (pageFilter) params.set('page', pageFilter);
+        if (variantFilter) params.set('variant', variantFilter);
+        if (includeBots) params.set('includeBots', '1');
 
-      const res = await fetch(`/api/admin/analytics?${params.toString()}`, {
-        cache: 'no-store',
-      });
-      if (!res.ok) {
-        const json = await res.json().catch(() => ({}));
-        setError(json.error || `Erro ${res.status}`);
-        return;
+        const res = await fetch(`/api/admin/analytics?${params.toString()}`, {
+          cache: 'no-store',
+          signal,
+        });
+        if (!res.ok) {
+          const json = await res.json().catch(() => ({}));
+          setError(json.error || `Erro ${res.status}`);
+          return;
+        }
+        const json = (await res.json()) as AnalyticsResponse;
+        if (signal?.aborted) return;
+        setData(json);
+      } catch (e) {
+        if (e instanceof Error && e.name === 'AbortError') return;
+        setError(e instanceof Error ? e.message : 'Erro ao buscar dados');
       }
-      const json = (await res.json()) as AnalyticsResponse;
-      setData(json);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro ao buscar dados');
-    }
-  }, [dateRange, pageFilter, variantFilter, includeBots]);
+    },
+    [dateRange, pageFilter, variantFilter, includeBots]
+  );
 
   useEffect(() => {
+    const ctrl = new AbortController();
     setLoading(true);
-    fetchData().finally(() => setLoading(false));
+    fetchData(ctrl.signal).finally(() => {
+      if (!ctrl.signal.aborted) setLoading(false);
+    });
+    return () => ctrl.abort();
   }, [fetchData]);
 
   const handleRefresh = async () => {

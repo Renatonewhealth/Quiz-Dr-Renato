@@ -159,14 +159,35 @@ function flush(useBeacon = false) {
   const body = JSON.stringify({ events });
   const url = '/api/track';
 
-  if (useBeacon && navigator.sendBeacon) {
-    try {
-      const blob = new Blob([body], { type: 'application/json' });
-      navigator.sendBeacon(url, blob);
-      return;
-    } catch {
-      // fallback pra fetch
+  // Pra eventos críticos (navegação iminente, immediate=true) usamos
+  // BOTH sendBeacon E keepalive fetch. Beacon é silencioso e robusto
+  // pra unload, mas alguns adblockers/proxies bloqueiam. Keepalive
+  // garante segunda tentativa. Servidor não dedupa, mas double-count
+  // raro é melhor do que perder o evento.
+  if (useBeacon) {
+    let beaconSent = false;
+    if (navigator.sendBeacon) {
+      try {
+        // text/plain evita CORS preflight (sendBeacon não suporta preflight)
+        const blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
+        beaconSent = navigator.sendBeacon(url, blob);
+      } catch {
+        beaconSent = false;
+      }
     }
+    if (!beaconSent) {
+      try {
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+          keepalive: true,
+        }).catch(() => {});
+      } catch {
+        /* ignore */
+      }
+    }
+    return;
   }
 
   try {
