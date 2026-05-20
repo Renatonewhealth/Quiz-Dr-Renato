@@ -205,6 +205,28 @@ export interface TrackOptions {
   immediate?: boolean; // se true, envia agora (beacon)
 }
 
+function readCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie
+    .split('; ')
+    .find((c) => c.startsWith(name + '='));
+  if (!match) return null;
+  return decodeURIComponent(match.slice(name.length + 1));
+}
+
+/**
+ * Resolve a variante de A/B test:
+ *   1. Se opts.variant explícito → usa
+ *   2. Senão, lê cookie `tr_variant` (setado pelo middleware no formato
+ *      "experimento:variante") e usa como variante
+ *   3. Senão null
+ */
+function resolveVariant(explicit: string | null | undefined): string | null {
+  if (explicit) return explicit;
+  const cookie = readCookie('tr_variant');
+  return cookie || null;
+}
+
 export function track(eventType: EventType, opts: TrackOptions = {}) {
   if (typeof window === 'undefined') return;
 
@@ -217,7 +239,7 @@ export function track(eventType: EventType, opts: TrackOptions = {}) {
     visitor_id,
     event_type: eventType,
     page_slug: opts.page_slug ?? pageSlug(),
-    variant: opts.variant ?? null,
+    variant: resolveVariant(opts.variant),
     question_id: opts.question_id ?? null,
     metadata: opts.metadata ?? {},
     timestamp: new Date().toISOString(),

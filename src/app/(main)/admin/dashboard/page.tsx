@@ -11,7 +11,9 @@ import {
   PlayCircle,
   CheckCircle2,
   UserCheck,
+  TestTube,
 } from 'lucide-react';
+import Link from 'next/link';
 import {
   BarChart,
   Bar,
@@ -203,14 +205,23 @@ export default function AdminDashboardPage() {
               Funil completo: page view → início do quiz → perguntas → conclusão
             </p>
           </div>
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 disabled:opacity-50"
-          >
-            <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-            Atualizar
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin/experiments"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 text-sm font-medium"
+            >
+              <TestTube className="w-4 h-4 text-[#667eea]" />
+              Experimentos A/B
+            </Link>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+              Atualizar
+            </button>
+          </div>
         </div>
 
         {/* Filtros */}
