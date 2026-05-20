@@ -4,12 +4,26 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
+interface TrackingEvent {
+  id: string;
+  created_at: string;
+  session_id: string;
+  visitor_id: string | null;
+  event_type: string;
+  page_slug: string | null;
+  variant: string | null;
+  question_id: number | null;
+  metadata: Record<string, unknown> | null;
+  is_bot: boolean | null;
+}
+
+const TOTAL_QUESTIONS = 8;
+
 export async function GET(request: NextRequest) {
   try {
-    // Verificar autenticação
+    // Auth
     const supabase = await createSupabaseServerClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-
     if (authError || !user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
     }
@@ -19,7 +33,6 @@ export async function GET(request: NextRequest) {
       .select('id')
       .eq('id', user.id)
       .single();
-
     if (!adminData) {
       return NextResponse.json({ error: 'Acesso negado' }, { status: 403 });
     }
@@ -31,191 +44,239 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // ---- Date range ----
+    // Date range
     const { searchParams } = request.nextUrl;
     const fromParam = searchParams.get('from');
     const toParam = searchParams.get('to');
+    const includeBots = searchParams.get('includeBots') === '1';
+    const variantFilter = searchParams.get('variant');
+    const pageFilter = searchParams.get('page');
 
-    // Padrão: últimos 30 dias
     const now = new Date();
     const defaultFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-
     const from = fromParam ? new Date(fromParam) : defaultFrom;
     const to = toParam ? new Date(toParam) : now;
 
-    // Validar datas
     if (isNaN(from.getTime()) || isNaN(to.getTime())) {
-      return NextResponse.json(
-        { error: 'Datas inválidas' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Datas inválidas' }, { status: 400 });
     }
 
-    const fromMs = from.getTime();
-    const toMs = to.getTime();
     const fromIso = from.toISOString();
     const toIso = to.toISOString();
 
-    // Detecta qual coluna de timestamp uma linha tem (tabelas podem usar
-    // created_at, started_at ou updated_at). Filtra em JS pra não quebrar
-    // a query caso a coluna não exista (PostgREST erra em select de coluna
-    // inexistente e zera tudo).
-    function rowTimestamp(row: Record<string, unknown>): number | null {
-      const raw =
-        (row.created_at as string | undefined) ??
-        (row.started_at as string | undefined) ??
-        (row.inserted_at as string | undefined) ??
-        (row.updated_at as string | undefined);
-      if (!raw) return null;
-      const t = new Date(raw).getTime();
-      return isNaN(t) ? null : t;
+    // Busca eventos no período. Limite alto pra não cortar dados reais.
+    let query = supabaseAdmin
+      .from('tracking_events')
+      .select('*')
+      .gte('created_at', fromIso)
+      .lte('created_at', toIso)
+      .order('created_at', { ascending: true })
+      .limit(50000);
+
+    if (!includeBots) {
+      query = query.eq('is_bot', false);
+    }
+    if (variantFilter) {
+      query = query.eq('variant', variantFilter);
+    }
+    if (pageFilter) {
+      query = query.eq('page_slug', pageFilter);
     }
 
-    function inRange(row: Record<string, unknown>): boolean {
-      const t = rowTimestamp(row);
-      if (t === null) return true; // sem timestamp: não exclui
-      return t >= fromMs && t <= toMs;
+    const { data: rawEvents, error: evErr } = await query;
+    if (evErr) {
+      return NextResponse.json(
+        { error: 'Erro ao buscar eventos', details: evErr.message },
+        { status: 500 }
+      );
     }
 
-    function rowDateKey(row: Record<string, unknown>): string {
-      const t = rowTimestamp(row);
-      const d = t === null ? new Date() : new Date(t);
-      return d.toISOString().split('T')[0];
+    const events = (rawEvents ?? []) as TrackingEvent[];
+
+    // --------- Agregações ---------
+    // Por tipo
+    const byType = new Map<string, TrackingEvent[]>();
+    for (const ev of events) {
+      const list = byType.get(ev.event_type) ?? [];
+      list.push(ev);
+      byType.set(ev.event_type, list);
     }
 
-    // ---- Leads ----
-    const { data: leadsRaw, error: leadsErr } = await supabaseAdmin
-      .from('leads')
-      .select('*');
+    function uniqueSessionsOfType(type: string): Set<string> {
+      const set = new Set<string>();
+      for (const ev of byType.get(type) ?? []) set.add(ev.session_id);
+      return set;
+    }
 
-    const allLeadsRows = (leadsRaw ?? []) as Record<string, unknown>[];
-    const qualificationData = allLeadsRows.filter(inRange);
+    function uniqueVisitorsOfType(type: string): Set<string> {
+      const set = new Set<string>();
+      for (const ev of byType.get(type) ?? []) {
+        if (ev.visitor_id) set.add(ev.visitor_id);
+      }
+      return set;
+    }
 
-    const leadsCount = qualificationData.length;
-    const qualified = qualificationData.filter(
-      (l) => Number(l.total_score) <= 4
-    ).length;
-    const nonQualified = qualificationData.filter(
-      (l) => Number(l.total_score) >= 5
-    ).length;
+    // Page views únicos (sessões únicas por page_slug)
+    const pageViewsBySlug = new Map<string, { sessions: Set<string>; visitors: Set<string> }>();
+    for (const ev of byType.get('page_view') ?? []) {
+      const slug = ev.page_slug ?? '/';
+      const entry = pageViewsBySlug.get(slug) ?? {
+        sessions: new Set<string>(),
+        visitors: new Set<string>(),
+      };
+      entry.sessions.add(ev.session_id);
+      if (ev.visitor_id) entry.visitors.add(ev.visitor_id);
+      pageViewsBySlug.set(slug, entry);
+    }
 
-    // ---- Quiz Sessions ----
-    const { data: sessionsRaw, error: sessionsErr } = await supabaseAdmin
-      .from('quiz_sessions')
-      .select('*');
+    const topPages = Array.from(pageViewsBySlug.entries())
+      .map(([slug, entry]) => ({
+        page_slug: slug,
+        unique_sessions: entry.sessions.size,
+        unique_visitors: entry.visitors.size,
+      }))
+      .sort((a, b) => b.unique_sessions - a.unique_sessions);
 
-    const allSessionsRows = (sessionsRaw ?? []) as Record<string, unknown>[];
-    const allSessions = allSessionsRows.filter(inRange);
-    const totalSessions = allSessions.length;
+    // Funnel principal: total page views → quiz start → cada pergunta → completed → lead
+    const totalPageViewSessions = uniqueSessionsOfType('page_view').size;
+    const quizStartSessions = uniqueSessionsOfType('quiz_start');
+    const quizCompletedSessions = uniqueSessionsOfType('quiz_completed');
+    const leadCapturedSessions = uniqueSessionsOfType('lead_captured');
 
-    // Drop-off por pergunta: quantos chegaram a (responderam) cada Q.
-    // last_question = N significa que a pessoa respondeu até a pergunta N (1-indexed).
-    const TOTAL_QUESTIONS = 8;
-    const dropoffByQuestion = [];
-    let prevCount = totalSessions;
+    // Por pergunta: sessions únicas que responderam Q >= q
+    // Pegamos o maior question_id respondido por sessão.
+    const maxQuestionBySession = new Map<string, number>();
+    for (const ev of byType.get('quiz_question_answered') ?? []) {
+      const sid = ev.session_id;
+      const q = ev.question_id ?? 0;
+      const cur = maxQuestionBySession.get(sid) ?? 0;
+      if (q > cur) maxQuestionBySession.set(sid, q);
+    }
+
+    const dropoffByQuestion: Array<{
+      question_id: number;
+      sessions: number;
+      percentage_of_start: number;
+      drop_from_prev: number;
+    }> = [];
+    const startCount = quizStartSessions.size;
+    let prevCount = startCount;
     for (let q = 1; q <= TOTAL_QUESTIONS; q++) {
-      const passed = allSessions.filter(
-        (s) => Number(s.last_question ?? 0) >= q
-      ).length;
-      const percentageOfTotal = totalSessions
-        ? Math.round((passed / totalSessions) * 100)
-        : 0;
-      const dropFromPrev = prevCount > 0
-        ? Math.round(((prevCount - passed) / prevCount) * 100)
-        : 0;
+      let passed = 0;
+      for (const [, maxQ] of maxQuestionBySession.entries()) {
+        if (maxQ >= q) passed++;
+      }
       dropoffByQuestion.push({
         question_id: q,
-        completed: passed,
-        percentage: percentageOfTotal,
-        dropFromPrev,
+        sessions: passed,
+        percentage_of_start: startCount > 0 ? Math.round((passed / startCount) * 100) : 0,
+        drop_from_prev: prevCount > 0 ? Math.round(((prevCount - passed) / prevCount) * 100) : 0,
       });
       prevCount = passed;
     }
 
-    // ---- Leads por dia ----
-    const leadsPerDayMap = new Map<string, number>();
-    qualificationData.forEach((lead) => {
-      const date = rowDateKey(lead);
-      leadsPerDayMap.set(date, (leadsPerDayMap.get(date) || 0) + 1);
-    });
-
-    const leadsPerDay = Array.from(leadsPerDayMap.entries())
-      .map(([date, count]) => ({ date, count }))
+    // Por dia (page views únicos por dia)
+    const pageViewsPerDayMap = new Map<string, Set<string>>();
+    for (const ev of byType.get('page_view') ?? []) {
+      const day = new Date(ev.created_at).toISOString().split('T')[0];
+      const set = pageViewsPerDayMap.get(day) ?? new Set<string>();
+      set.add(ev.session_id);
+      pageViewsPerDayMap.set(day, set);
+    }
+    const pageViewsPerDay = Array.from(pageViewsPerDayMap.entries())
+      .map(([date, set]) => ({ date, count: set.size }))
       .sort((a, b) => a.date.localeCompare(b.date));
 
-    // ---- Sessions por dia (útil pra ver curva diária) ----
-    const sessionsPerDayMap = new Map<string, number>();
-    allSessions.forEach((session) => {
-      const date = rowDateKey(session);
-      sessionsPerDayMap.set(date, (sessionsPerDayMap.get(date) || 0) + 1);
-    });
-
-    const sessionsPerDay = Array.from(sessionsPerDayMap.entries())
-      .map(([date, count]) => ({ date, count }))
+    const quizStartsPerDayMap = new Map<string, Set<string>>();
+    for (const ev of byType.get('quiz_start') ?? []) {
+      const day = new Date(ev.created_at).toISOString().split('T')[0];
+      const set = quizStartsPerDayMap.get(day) ?? new Set<string>();
+      set.add(ev.session_id);
+      quizStartsPerDayMap.set(day, set);
+    }
+    const quizStartsPerDay = Array.from(quizStartsPerDayMap.entries())
+      .map(([date, set]) => ({ date, count: set.size }))
       .sort((a, b) => a.date.localeCompare(b.date));
 
-    // ---- Conversion rate ----
-    const totalScored = qualified + nonQualified;
-    const conversionRate = totalScored > 0
-      ? Math.round((qualified / totalScored) * 100)
-      : 0;
-
-    // ---- Funnel ----
-    const sessionsCompleted = allSessions.filter(
-      (s) => s.completed === true
-    ).length;
+    // Por variante (pra A/B)
+    const byVariant = new Map<
+      string,
+      { page_views: Set<string>; quiz_starts: Set<string>; completed: Set<string>; leads: Set<string> }
+    >();
+    function variantBucket(v: string | null): string {
+      return v ?? 'default';
+    }
+    function ensureVariant(v: string) {
+      if (!byVariant.has(v)) {
+        byVariant.set(v, {
+          page_views: new Set<string>(),
+          quiz_starts: new Set<string>(),
+          completed: new Set<string>(),
+          leads: new Set<string>(),
+        });
+      }
+      return byVariant.get(v)!;
+    }
+    for (const ev of events) {
+      const v = variantBucket(ev.variant);
+      const bucket = ensureVariant(v);
+      if (ev.event_type === 'page_view') bucket.page_views.add(ev.session_id);
+      else if (ev.event_type === 'quiz_start') bucket.quiz_starts.add(ev.session_id);
+      else if (ev.event_type === 'quiz_completed') bucket.completed.add(ev.session_id);
+      else if (ev.event_type === 'lead_captured') bucket.leads.add(ev.session_id);
+    }
+    const variantStats = Array.from(byVariant.entries())
+      .map(([variant, b]) => ({
+        variant,
+        page_views: b.page_views.size,
+        quiz_starts: b.quiz_starts.size,
+        completed: b.completed.size,
+        leads: b.leads.size,
+        start_rate:
+          b.page_views.size > 0
+            ? Math.round((b.quiz_starts.size / b.page_views.size) * 100)
+            : 0,
+        completion_rate:
+          b.quiz_starts.size > 0
+            ? Math.round((b.completed.size / b.quiz_starts.size) * 100)
+            : 0,
+        lead_rate:
+          b.quiz_starts.size > 0
+            ? Math.round((b.leads.size / b.quiz_starts.size) * 100)
+            : 0,
+      }))
+      .sort((a, b) => b.page_views - a.page_views);
 
     return NextResponse.json({
       range: { from: fromIso, to: toIso },
-      totalLeads: leadsCount,
-      totalSessions,
-      qualifiedLeads: qualified,
-      nonQualifiedLeads: nonQualified,
-      conversionRate,
-      leadsPerDay,
-      sessionsPerDay,
-      dropoffByQuestion,
-      qualificationSplit: {
-        qualified,
-        nonQualified,
-        qualifiedPercentage: leadsCount
-          ? Math.round((qualified / leadsCount) * 100)
-          : 0,
-        nonQualifiedPercentage: leadsCount
-          ? Math.round((nonQualified / leadsCount) * 100)
-          : 0,
+      filters: { includeBots, variant: variantFilter, page: pageFilter },
+      totals: {
+        total_events: events.length,
+        unique_sessions: new Set(events.map((e) => e.session_id)).size,
+        unique_visitors: new Set(
+          events.map((e) => e.visitor_id).filter(Boolean) as string[]
+        ).size,
+        page_views_sessions: totalPageViewSessions,
+        quiz_starts: quizStartSessions.size,
+        quiz_completed: quizCompletedSessions.size,
+        leads_captured: leadCapturedSessions.size,
       },
-      funnelData: [
-        {
-          stage: 'Sessões Iniciadas',
-          count: totalSessions,
-          percentage: 100,
-        },
-        {
-          stage: 'Quiz Completado',
-          count: sessionsCompleted,
-          percentage: totalSessions
-            ? Math.round((sessionsCompleted / totalSessions) * 100)
-            : 0,
-        },
-        {
-          stage: 'Leads Capturados',
-          count: leadsCount,
-          percentage: totalSessions
-            ? Math.round((leadsCount / totalSessions) * 100)
-            : 0,
-        },
+      funnel: [
+        { stage: 'Visitas (page view)', count: totalPageViewSessions },
+        { stage: 'Iniciou o quiz', count: quizStartSessions.size },
+        { stage: 'Completou o quiz', count: quizCompletedSessions.size },
+        { stage: 'Capturou lead', count: leadCapturedSessions.size },
       ],
-      _debug: {
-        leadsError: leadsErr?.message ?? null,
-        sessionsError: sessionsErr?.message ?? null,
-        totalLeadsRowsNoFilter: allLeadsRows.length,
-        totalSessionsRowsNoFilter: allSessionsRows.length,
-        leadsColumns: allLeadsRows[0] ? Object.keys(allLeadsRows[0]) : [],
-        sessionsColumns: allSessionsRows[0]
-          ? Object.keys(allSessionsRows[0])
-          : [],
-        sampleSession: allSessionsRows[0] ?? null,
+      topPages,
+      pageViewsPerDay,
+      quizStartsPerDay,
+      dropoffByQuestion,
+      variantStats,
+      uniqueVisitorsByType: {
+        page_view: uniqueVisitorsOfType('page_view').size,
+        quiz_start: uniqueVisitorsOfType('quiz_start').size,
+        quiz_completed: uniqueVisitorsOfType('quiz_completed').size,
+        lead_captured: uniqueVisitorsOfType('lead_captured').size,
       },
     });
   } catch (error) {

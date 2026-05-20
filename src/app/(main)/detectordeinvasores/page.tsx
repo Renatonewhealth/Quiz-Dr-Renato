@@ -8,6 +8,7 @@ import { quizQuestions } from '@/lib/quiz-data';
 import { calcularResultado } from '@/lib/scoring';
 import { QuizAnswer } from '@/types/quiz';
 import { AnimatedBook } from '@/components/ui/animated-book';
+import { track } from '@/lib/tracker';
 
 export default function QuizPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function QuizPage() {
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  // Criar sessão ao montar o componente
+  // Criar sessão ao montar o componente (sistema antigo, mantido por compat)
   React.useEffect(() => {
     const createSession = async () => {
       try {
@@ -44,6 +45,23 @@ export default function QuizPage() {
       }
     };
     createSession();
+
+    // Tracking novo: quiz_start (dedupe via sessionStorage pra não dobrar
+    // se o componente re-montar)
+    try {
+      const fired = sessionStorage.getItem('tr_quiz_start_fired');
+      if (!fired) {
+        const source = sessionStorage.getItem('quiz_source');
+        const variant = source || null;
+        track('quiz_start', {
+          variant,
+          metadata: { source: source ?? 'default' },
+        });
+        sessionStorage.setItem('tr_quiz_start_fired', '1');
+      }
+    } catch {
+      /* ignore */
+    }
   }, [sessionId]);
 
   // Pré-preencher pergunta 1 (sexo) se vier da /page-google
@@ -89,10 +107,26 @@ export default function QuizPage() {
       setAnswers([...answers, newAnswer]);
     }
 
+    // Tracking novo: pergunta respondida (1-indexed)
+    try {
+      const source = sessionStorage.getItem('quiz_source');
+      track('quiz_question_answered', {
+        question_id: currentQuestion + 1,
+        variant: source || null,
+        metadata: {
+          question_key: question.id,
+          option_id: optionId,
+          score,
+        },
+      });
+    } catch {
+      /* ignore */
+    }
+
     // Auto-advance após 100ms
     setIsTransitioning(true);
     setTimeout(async () => {
-      // Atualizar tracking da sessão
+      // Atualizar tracking da sessão (sistema antigo)
       try {
         await fetch('/api/quiz-session', {
           method: 'POST',
@@ -117,7 +151,7 @@ export default function QuizPage() {
         
         // Se score >= 5, redirecionar para página de baixo risco (sem formulário)
         if (totalScore >= 5) {
-          // Marcar sessão como completa
+          // Marcar sessão como completa (sistema antigo)
           try {
             await fetch('/api/quiz-session', {
               method: 'POST',
@@ -131,6 +165,23 @@ export default function QuizPage() {
           } catch (error) {
             console.error('Erro ao completar sessão:', error);
           }
+
+          // Tracking novo: quiz_completed (baixo risco)
+          try {
+            const source = sessionStorage.getItem('quiz_source');
+            track('quiz_completed', {
+              variant: source || null,
+              metadata: {
+                total_score: totalScore,
+                outcome: 'low_risk',
+                destination: '/resultado-baixo',
+              },
+              immediate: true,
+            });
+          } catch {
+            /* ignore */
+          }
+
           router.push('/resultado-baixo');
           return;
         }
@@ -269,9 +320,33 @@ export default function QuizPage() {
       // Armazenar resultado para página de resultado
       sessionStorage.setItem('quizResult', JSON.stringify(resultado));
       sessionStorage.setItem('userName', formData.nome);
-      
+
       const source = sessionStorage.getItem('quiz_source');
       const dest = source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2';
+
+      // Tracking novo: lead_captured + quiz_completed
+      try {
+        track('lead_captured', {
+          variant: source || null,
+          metadata: {
+            total_score: resultado.totalScore,
+            risk_level: resultado.resultCategory,
+            lead_id: leadData.leadId,
+          },
+        });
+        track('quiz_completed', {
+          variant: source || null,
+          metadata: {
+            total_score: resultado.totalScore,
+            outcome: 'high_risk_lead',
+            destination: dest,
+          },
+          immediate: true,
+        });
+      } catch {
+        /* ignore */
+      }
+
       router.push(dest);
     } catch (error) {
       console.error('Erro:', error);
