@@ -182,19 +182,41 @@ export default function QuizPage() {
             /* ignore */
           }
 
+          // Aguarda 250ms pra garantir que o sendBeacon/fetch saiu antes
+          // do unload da página (in-app browsers tipo FB IAB abortam fetches
+          // em navegação se a request mal começou)
+          await new Promise((resolve) => setTimeout(resolve, 250));
           router.push('/resultado-baixo');
           return;
         }
         
-        // Se score <= 4, mostrar tela de loading e depois formulário
+        // Tracking novo: quiz_completed (auto-advance, score<=4, VSL alta)
+        // Dispara AGORA (não no final da animação) pra garantir que o evento
+        // chega antes do unload da página.
+        try {
+          const source = sessionStorage.getItem('quiz_source');
+          track('quiz_completed', {
+            variant: source || null,
+            metadata: {
+              total_score: totalScore,
+              outcome: 'high_risk_vsl',
+              destination: source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2',
+            },
+            immediate: true,
+          });
+        } catch {
+          /* ignore */
+        }
+
+        // Se score <= 4, mostrar tela de loading e depois redirecionar pra VSL
         setShowLoading(true);
-        
+
         // Animar barra de progresso
         let progress = 0;
         const interval = setInterval(() => {
           progress += 2;
           setLoadingProgress(progress);
-          
+
           if (progress >= 100) {
             clearInterval(interval);
             setTimeout(() => {
@@ -347,6 +369,8 @@ export default function QuizPage() {
         /* ignore */
       }
 
+      // Aguarda 250ms pra garantir entrega dos eventos antes da navegação
+      await new Promise((resolve) => setTimeout(resolve, 250));
       router.push(dest);
     } catch (error) {
       console.error('Erro:', error);
