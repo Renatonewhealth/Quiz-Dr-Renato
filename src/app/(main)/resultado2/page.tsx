@@ -11,13 +11,13 @@ export default function Resultado2Page() {
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
       </Script>
-      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69ea0c006ef5029c0c572da7/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/ab-test/6a0a7ca088fa039cb5e99599/player.js" as="script" />
       <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
-      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/69bae64bab9c7e1e9b718a03/main.m3u8" as="fetch" />
       <link rel="dns-prefetch" href="https://cdn.converteai.net" />
       <link rel="dns-prefetch" href="https://scripts.converteai.net" />
       <link rel="dns-prefetch" href="https://images.converteai.net" />
-      <link rel="dns-prefetch" href="https://api.vturb.com.br" />
+      <link rel="dns-prefetch" href="https://m3u8.vturb.net" />
+      <link rel="dns-prefetch" href="https://license.vturb.com" />
 
       <style jsx global>{`
         @keyframes pulse-scale {
@@ -63,26 +63,55 @@ export default function Resultado2Page() {
           </p>
         </section>
 
-        {/* 4. VSL Player - Vturb */}
+        {/* 4. VSL Player - Vturb (AB Test) */}
         <section className="w-full">
           <div
             dangerouslySetInnerHTML={{
-              __html: '<vturb-smartplayer id="vid-69ea0c006ef5029c0c572da7" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
+              __html: '<vturb-smartplayer id="ab-6a0a7ca088fa039cb5e99599" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>'
             }}
           />
           <Script
-            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69ea0c006ef5029c0c572da7/v4/player.js"
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/ab-test/6a0a7ca088fa039cb5e99599/player.js"
             strategy="afterInteractive"
           />
-          {/* Script de delay - libera os kits após 2310 segundos do vídeo */}
+          {/* Script de delay - mapeia delay por player id (AB test) */}
           <Script id="vturb-delay" strategy="afterInteractive">
             {`
-              var delaySeconds = 2308;
-              var player = document.querySelector("vturb-smartplayer");
-              player.addEventListener("player:ready", function() {
-                player.displayHiddenElements(delaySeconds, [".esconder"], {
-                  persist: true
-                });
+              var listPitch = {
+                '69bae76dacddada823a5a2e5': { delay: 2315, utm: 'src=vsl_v3' },
+                '69ea0c006ef5029c0c572da7': { delay: 2303, utm: 'src=vsl_v4' }
+              };
+
+              var alreadyInitialized = false;
+
+              var updateLinksWithUTM = function(utmParam) {
+                var links = document.querySelectorAll('a[href]:not([href*="#"])');
+                var separator = '?';
+                var queryString = separator + utmParam;
+                for (var i = 0; i < links.length; i++) {
+                  var link = links[i];
+                  if (link.href.indexOf(utmParam) !== -1) continue;
+                  if (utmParam === undefined) return;
+                  var baseUrl = link.href.split('?')[0];
+                  link.href = baseUrl + queryString;
+                }
+              };
+
+              document.addEventListener('player:ready', function(event) {
+                if (alreadyInitialized) return;
+
+                var detail = event.detail || {};
+                var config = detail.config || {};
+                var player = detail.player || document.querySelector('vturb-smartplayer');
+                var playerId = config.id;
+                var pitchConfig = listPitch[playerId];
+
+                if (!playerId || !pitchConfig) return;
+
+                alreadyInitialized = true;
+
+                player.displayHiddenElements(pitchConfig.delay, ['.esconder'], { persist: true });
+                // updateLinksWithUTM(pitchConfig.utm);
               });
             `}
           </Script>

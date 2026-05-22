@@ -196,11 +196,13 @@ export default function QuizV2Page() {
             {/* Headline (original do funil) */}
             <section className="pt-5 pb-3 text-center">
               <h1 className="text-[1.5rem] sm:text-3xl font-bold text-gray-900 leading-[1.22] tracking-tight">
-                8 em Cada 10 Mulheres Acima de 35 Têm{' '}
+                8 em Cada 10 Mulheres Acima de 35 anos Têm Alto Potencial de{' '}
                 <span className="bg-yellow-300 px-1.5 py-0.5">
-                  Alto Potencial de Parasitas e Vermes Intestinais
+                  Vermes e Parasitas Intestinais
                 </span>
-                , E Isso Está IMPEDINDO o Emagrecimento Delas.
+                , E Isso Está{' '}
+                <span className="bg-yellow-300 px-1.5 py-0.5">IMPEDINDO</span> o
+                Emagrecimento Delas.
               </h1>
             </section>
 
@@ -216,9 +218,9 @@ export default function QuizV2Page() {
 
             {/* Imagem hero */}
             <section className="pb-5">
-              <div className="relative w-full aspect-[16/10] max-w-xl mx-auto">
+              <div className="relative w-full aspect-[5/3] max-w-2xl mx-auto">
                 <Image
-                  src="/images/quiz-v2-hero.png"
+                  src="/images/quiz-v2-hero-v3.png"
                   alt="Dr. Renato Silveira"
                   fill
                   className="object-contain"
