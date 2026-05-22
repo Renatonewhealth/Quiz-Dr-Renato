@@ -216,7 +216,7 @@ export default function QuizV2Page() {
 
             {/* Imagem hero */}
             <section className="pb-5">
-              <div className="relative w-full rounded-2xl overflow-hidden bg-gray-50 aspect-[16/10] max-w-sm sm:max-w-md mx-auto">
+              <div className="relative w-full aspect-[16/10] max-w-xl mx-auto">
                 <Image
                   src="/images/quiz-v2-hero.png"
                   alt="Dr. Renato Silveira"
