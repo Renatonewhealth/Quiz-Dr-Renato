@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Check, Loader2 } from 'lucide-react';
 import { quizQuestions } from '@/lib/quiz-data';
 import { calcularResultado } from '@/lib/scoring';
@@ -216,21 +217,35 @@ export default function QuizV2Page() {
               </p>
             </section>
 
-            {/* Imagem hero */}
-            <section className="pb-5">
-              <div className="relative w-full aspect-[5/3] max-w-2xl mx-auto">
-                <Image
-                  src="/images/quiz-v2-hero-v3.png"
-                  alt="Dr. Renato Silveira"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
+            {/* Imagem hero - clique rola pra Q1 */}
+            <section className="pb-5 -mx-5 sm:mx-0">
+              <button
+                type="button"
+                onClick={() => {
+                  document
+                    .getElementById('quiz-cta')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                aria-label="Ir para o quiz"
+                className="block w-full max-w-3xl mx-auto cursor-pointer"
+              >
+                <div className="relative w-full aspect-[16/9] sm:aspect-[5/3]">
+                  <Image
+                    src="/images/quiz-v2-hero-v4.png"
+                    alt="Dr. Renato Silveira"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </button>
             </section>
 
             {/* Call pra responder */}
-            <p className="text-center text-[0.7rem] sm:text-sm text-gray-500 font-medium tracking-wider uppercase pb-2">
+            <p
+              id="quiz-cta"
+              className="text-center text-[0.7rem] sm:text-sm text-gray-500 font-medium tracking-wider uppercase pb-2 scroll-mt-4"
+            >
               ↓ Responda o quiz e veja seu resultado ↓
             </p>
 
@@ -352,6 +367,40 @@ export default function QuizV2Page() {
           </>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="w-full bg-black text-white py-8 mt-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center gap-4 text-sm">
+              <Link
+                href="/politica-de-privacidade"
+                className="text-gray-400 hover:text-white transition-colors underline"
+              >
+                Política de Privacidade
+              </Link>
+              <span className="text-gray-600">|</span>
+              <Link
+                href="/termos-de-uso"
+                className="text-gray-400 hover:text-white transition-colors underline"
+              >
+                Termos de Uso
+              </Link>
+            </div>
+            <p className="text-xs text-gray-500 leading-relaxed max-w-2xl mx-auto">
+              Este site não é afiliado ao Facebook™️ ou à Meta Platforms, Inc.
+              Facebook™️ é uma marca registrada da Meta Platforms, Inc. Os
+              resultados podem variar de acordo com fatores individuais. As
+              informações apresentadas têm caráter educacional e não constituem
+              promessa ou garantia de resultados.
+            </p>
+            <p className="text-sm text-gray-400">
+              © {new Date().getFullYear()} Dr. Renato Silveira Reis. Todos os
+              direitos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
