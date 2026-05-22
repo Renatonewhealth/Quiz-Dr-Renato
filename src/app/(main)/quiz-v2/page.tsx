@@ -193,20 +193,20 @@ export default function QuizV2Page() {
         {/* Conteúdo da primeira pergunta inclui marketing copy */}
         {isFirstQuestion ? (
           <>
-            {/* Headline com highlight amarelo no número */}
-            <section className="pt-6 pb-4 text-center">
-              <h1 className="text-[1.65rem] sm:text-3xl font-bold text-gray-900 leading-[1.25] tracking-tight">
+            {/* Headline (original do funil) */}
+            <section className="pt-5 pb-3 text-center">
+              <h1 className="text-[1.5rem] sm:text-3xl font-bold text-gray-900 leading-[1.22] tracking-tight">
                 8 em Cada 10 Mulheres Acima de 35 Têm{' '}
                 <span className="bg-yellow-300 px-1.5 py-0.5">
-                  Parasitas e Vermes Intestinais
-                </span>{' '}
-                que Impedem o Emagrecimento
+                  Alto Potencial de Parasitas e Vermes Intestinais
+                </span>
+                , E Isso Está IMPEDINDO o Emagrecimento Delas.
               </h1>
             </section>
 
             {/* Subhead */}
-            <section className="pb-6 text-center">
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+            <section className="pb-4 text-center">
+              <p className="text-sm sm:text-lg text-gray-600 leading-relaxed">
                 Será que você é uma delas?{' '}
                 <em className="underline decoration-gray-400 underline-offset-2">
                   Faça o auto-teste e descubra agora
@@ -215,10 +215,10 @@ export default function QuizV2Page() {
             </section>
 
             {/* Imagem hero */}
-            <section className="pb-8">
-              <div className="relative w-full rounded-2xl overflow-hidden bg-gray-100 aspect-[4/3] max-w-md mx-auto">
+            <section className="pb-5">
+              <div className="relative w-full rounded-2xl overflow-hidden bg-gray-50 aspect-[16/10] max-w-sm sm:max-w-md mx-auto">
                 <Image
-                  src="/images/dr-renato.png"
+                  src="/images/quiz-v2-hero.png"
                   alt="Dr. Renato Silveira"
                   fill
                   className="object-contain"
@@ -228,13 +228,13 @@ export default function QuizV2Page() {
             </section>
 
             {/* Call pra responder */}
-            <p className="text-center text-xs sm:text-sm text-gray-500 font-medium tracking-wider uppercase pb-3">
+            <p className="text-center text-[0.7rem] sm:text-sm text-gray-500 font-medium tracking-wider uppercase pb-2">
               ↓ Responda o quiz e veja seu resultado ↓
             </p>
 
-            {/* Pergunta 1 título */}
-            <h2 className="text-center text-xl sm:text-2xl font-bold text-gray-900 pb-5">
-              {question.question}
+            {/* Pergunta 1 título (override do texto pra esta versão) */}
+            <h2 className="text-center text-lg sm:text-2xl font-bold text-gray-900 pb-4">
+              Escolha para começar, você é:
             </h2>
 
             {/* Opções da Q1 em estilo de cards grandes */}
@@ -271,7 +271,11 @@ export default function QuizV2Page() {
                       {isSel && <Check className="w-4 h-4 text-gray-900" strokeWidth={3} />}
                     </span>
                     <span className="font-bold text-base sm:text-lg uppercase tracking-wide">
-                      {opt.text}
+                      {opt.text.toLowerCase() === 'masculino'
+                        ? 'Homem'
+                        : opt.text.toLowerCase() === 'feminino'
+                          ? 'Mulher'
+                          : opt.text}
                     </span>
                   </button>
                 );
@@ -290,18 +294,14 @@ export default function QuizV2Page() {
               </li>
               <li className="flex items-center justify-center gap-2">
                 <span className="text-green-500">✅</span>
-                <strong>Sem precisar consultar médico antes</strong>
-              </li>
-              <li className="flex items-center justify-center gap-2">
-                <span className="text-green-500">✅</span>
                 <strong>Desenvolvido pelo Dr. Renato Silveira</strong>
               </li>
             </ul>
 
             {/* Social proof */}
             <p className="text-center text-sm text-gray-500">
-              ⚡ Mais de <strong className="text-gray-900">11 milhões</strong> de pessoas
-              confiam no Dr. Renato.
+              ⚡ Mais de <strong className="text-gray-900">51.827 pessoas</strong> fizeram
+              essa auto-análise.
             </p>
           </>
         ) : (
