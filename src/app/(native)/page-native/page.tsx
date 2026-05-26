@@ -111,6 +111,12 @@ export default function PageNative() {
             <p className="text-sm sm:text-base text-gray-400">
               © {new Date().getFullYear()} Dr. Renato Silveira Reis. Todos os direitos reservados.
             </p>
+            <div className="text-xs text-gray-500 leading-relaxed pt-2 border-t border-gray-800 max-w-2xl mx-auto">
+              <p className="font-medium text-gray-400">NEWHEALTH NEGOCIOS DIGITAIS LTDA</p>
+              <p>CNPJ - 53.495.893/0001-50</p>
+              <p className="mt-1">Av. Copacabana, 325, Sala 1315, Dezoito do Forte Empresarial, Alphaville.</p>
+              <p>Barueri - SP, 06.472-001</p>
+            </div>
           </div>
         </div>
       </footer>
