@@ -91,6 +91,7 @@ export async function GET(
       string,
       {
         page_views: Set<string>;
+        clicks: Set<string>;
         quiz_starts: Set<string>;
         completed: Set<string>;
         leads: Set<string>;
@@ -101,6 +102,7 @@ export async function GET(
     for (const v of variants) {
       stats[v.id] = {
         page_views: new Set(),
+        clicks: new Set(),
         quiz_starts: new Set(),
         completed: new Set(),
         leads: new Set(),
@@ -116,6 +118,9 @@ export async function GET(
       switch (ev.event_type) {
         case 'page_view':
           stats[vid].page_views.add(ev.session_id);
+          break;
+        case 'cta_click':
+          stats[vid].clicks.add(ev.session_id);
           break;
         case 'quiz_start':
           stats[vid].quiz_starts.add(ev.session_id);
@@ -138,6 +143,7 @@ export async function GET(
     const variantResults = variants.map((v) => {
       const s = stats[v.id]!;
       const pv = s.page_views.size;
+      const clicks = s.clicks.size;
       const starts = s.quiz_starts.size;
       const completed = s.completed.size;
       const leads = s.leads.size;
@@ -157,10 +163,12 @@ export async function GET(
         id: v.id,
         path: v.path,
         page_views: pv,
+        clicks,
         unique_visitors: s.visitors.size,
         quiz_starts: starts,
         completed,
         leads,
+        ctr: pv > 0 ? Math.round((clicks / pv) * 100) : 0,
         start_rate: pv > 0 ? Math.round((starts / pv) * 100) : 0,
         completion_rate: starts > 0 ? Math.round((completed / starts) * 100) : 0,
         lead_rate: starts > 0 ? Math.round((leads / starts) * 100) : 0,
@@ -183,6 +191,7 @@ export async function GET(
       variants: variantResults,
       totals: {
         page_views: variantResults.reduce((s, v) => s + v.page_views, 0),
+        clicks: variantResults.reduce((s, v) => s + v.clicks, 0),
         starts: variantResults.reduce((s, v) => s + v.quiz_starts, 0),
         completed: variantResults.reduce((s, v) => s + v.completed, 0),
         leads: variantResults.reduce((s, v) => s + v.leads, 0),

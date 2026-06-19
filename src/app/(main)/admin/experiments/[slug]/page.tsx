@@ -19,6 +19,7 @@ import {
   RefreshCw,
   Edit3,
   Eye,
+  MousePointerClick,
   PlayCircle,
   CheckCircle2,
   UserCheck,
@@ -48,10 +49,12 @@ interface VariantResult {
   id: string;
   path: string;
   page_views: number;
+  clicks: number;
   unique_visitors: number;
   quiz_starts: number;
   completed: number;
   leads: number;
+  ctr: number;
   start_rate: number;
   completion_rate: number;
   lead_rate: number;
@@ -73,6 +76,7 @@ interface ResultsResponse {
   variants: VariantResult[];
   totals: {
     page_views: number;
+    clicks: number;
     starts: number;
     completed: number;
     leads: number;
@@ -207,6 +211,8 @@ export default function ExperimentResultsPage() {
     if (!data) {
       return {
         page_views: null,
+        clicks: null,
+        ctr: null,
         unique_visitors: null,
         quiz_starts: null,
         start_rate: null,
@@ -227,6 +233,8 @@ export default function ExperimentResultsPage() {
     };
     return {
       page_views: pickMax('page_views'),
+      clicks: pickMax('clicks'),
+      ctr: pickMax('ctr'),
       unique_visitors: pickMax('unique_visitors'),
       quiz_starts: pickMax('quiz_starts'),
       start_rate: pickMax('start_rate'),
@@ -242,6 +250,7 @@ export default function ExperimentResultsPage() {
     if (!data) return [];
     const stages: Array<{ key: keyof VariantResult; label: string }> = [
       { key: 'page_views', label: 'Page views' },
+      { key: 'clicks', label: 'Cliques' },
       { key: 'quiz_starts', label: 'Iniciaram' },
       { key: 'completed', label: 'Completaram' },
       { key: 'leads', label: 'Leads' },
@@ -395,12 +404,18 @@ export default function ExperimentResultsPage() {
       </div>
 
       {/* Top stat cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         <StatCard
           label="Total page views"
           value={data.totals.page_views}
           Icon={Eye}
           accent="bg-purple-500"
+        />
+        <StatCard
+          label="Total cliques"
+          value={data.totals.clicks}
+          Icon={MousePointerClick}
+          accent="bg-blue-500"
         />
         <StatCard
           label="Total iniciaram"
@@ -456,6 +471,12 @@ export default function ExperimentResultsPage() {
                     </th>
                     <th className="text-right px-3 py-2 text-xs uppercase tracking-wider text-gray-500">
                       Page views
+                    </th>
+                    <th className="text-right px-3 py-2 text-xs uppercase tracking-wider text-gray-500">
+                      Cliques
+                    </th>
+                    <th className="text-right px-3 py-2 text-xs uppercase tracking-wider text-gray-500">
+                      CTR %
                     </th>
                     <th className="text-right px-3 py-2 text-xs uppercase tracking-wider text-gray-500">
                       Visitantes únicos
@@ -516,6 +537,20 @@ export default function ExperimentResultsPage() {
                           }`}
                         >
                           {v.page_views}
+                        </td>
+                        <td
+                          className={`px-3 py-2 text-right tabular-nums ${
+                            leaders.clicks === v.id ? leadCls : ''
+                          }`}
+                        >
+                          {v.clicks}
+                        </td>
+                        <td
+                          className={`px-3 py-2 text-right tabular-nums ${
+                            leaders.ctr === v.id ? leadCls : 'text-gray-600'
+                          }`}
+                        >
+                          {v.ctr}%
                         </td>
                         <td
                           className={`px-3 py-2 text-right tabular-nums ${
