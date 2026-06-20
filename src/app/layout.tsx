@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import CheckoutTracker from "@/components/CheckoutTracker";
 import PageViewTracker from "@/components/PageViewTracker";
+import ScreenParamTracker from "@/components/ScreenParamTracker";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -64,6 +65,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen bg-white text-gray-900 overflow-x-hidden">
         <CheckoutTracker />
         <PageViewTracker />
+        <ScreenParamTracker />
         {children}
       </body>
     </html>
