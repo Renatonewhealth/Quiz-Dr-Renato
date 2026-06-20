@@ -10,6 +10,18 @@ import { QuizAnswer } from '@/types/quiz';
 import { AnimatedBook } from '@/components/ui/animated-book';
 import { track } from '@/lib/tracker';
 
+/**
+ * Destino (VSL) após o quiz, conforme a origem (`quiz_source`).
+ * - quiz-fst-1..4: páginas do teste de 4 telas → VSL própria de cada uma.
+ * - google/native: VSLs dedicadas. Default: /resultado2.
+ */
+function destForSource(source: string | null): string {
+  if (source === 'google') return '/google-vsl';
+  if (source === 'native') return '/native-vsl';
+  if (source && /^quiz-fst-[1-4]$/.test(source)) return `/${source}-vsl`;
+  return '/resultado2';
+}
+
 export default function QuizPage() {
   const router = useRouter();
   const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
@@ -200,7 +212,7 @@ export default function QuizPage() {
             metadata: {
               total_score: totalScore,
               outcome: 'high_risk_vsl',
-              destination: source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2',
+              destination: destForSource(source),
             },
             immediate: true,
           });
@@ -221,7 +233,7 @@ export default function QuizPage() {
             clearInterval(interval);
             setTimeout(() => {
               const source = sessionStorage.getItem('quiz_source');
-              const dest = source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2';
+              const dest = destForSource(source);
               router.push(dest);
             }, 500);
           }
@@ -344,7 +356,7 @@ export default function QuizPage() {
       sessionStorage.setItem('userName', formData.nome);
 
       const source = sessionStorage.getItem('quiz_source');
-      const dest = source === 'google' ? '/google-vsl' : source === 'native' ? '/native-vsl' : '/resultado2';
+      const dest = destForSource(source);
 
       // Tracking novo: lead_captured + quiz_completed
       try {
