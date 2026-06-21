@@ -3,14 +3,15 @@
 import { useEffect } from 'react';
 
 /**
- * Propaga a tela do teste `/quiz-fst` até o checkout da Payt como `utm_screen`,
- * pra que a VENDA seja atribuída à variação de primeira página na Payt/UTMify.
+ * Propaga a tela do teste `/quiz-fst` até o checkout da Payt como `utm_screen`
+ * E `src`, pra que a VENDA seja atribuída à variação de primeira página na
+ * Payt/UTMify (qualquer uma das duas ferramentas lê pelo menos um dos params).
  *
  * Como funciona: a tela é decidida no `/quiz-fst` e gravada no cookie sticky
  * `tr_variant = quiz-fst:tN` (válido ~30 dias, path '/', então segue o
  * visitante pelo funil inteiro). Aqui lemos esse cookie e carimbamos
- * `utm_screen=tN` em todo link `checkout.payt.com.br` — no carregamento e no
- * clique (capture), cobrindo links que aparecem depois (ex.: botão da VSL).
+ * `utm_screen=tN` e `src=tN` em todo link `checkout.payt.com.br` — no
+ * carregamento e no clique (capture), cobrindo links que aparecem depois.
  *
  * Só carimba visitantes do experimento `quiz-fst` (prefixo do cookie). Quem
  * vem de outra origem não tem o cookie e não é afetado.
@@ -21,6 +22,8 @@ import { useEffect } from 'react';
  */
 
 const PARAM = 'utm_screen';
+// Carimba os dois nomes no checkout (Payt/UTMify leem qualquer um deles).
+const STAMP_PARAMS = ['utm_screen', 'src'];
 const EXPERIMENT_PREFIX = 'quiz-fst:';
 const CHECKOUT_RE = /checkout\.payt\.com\.br/i;
 
@@ -51,12 +54,12 @@ function resolveScreen(): string | null {
   return null;
 }
 
-/** Acrescenta utm_screen na URL do checkout, sem sobrescrever se já existir. */
+/** Acrescenta utm_screen e src na URL do checkout, sem sobrescrever se já existirem. */
 function stampUrl(rawHref: string, screen: string): string {
   try {
     const url = new URL(rawHref);
-    if (!url.searchParams.has(PARAM)) {
-      url.searchParams.set(PARAM, screen);
+    for (const param of STAMP_PARAMS) {
+      if (!url.searchParams.has(param)) url.searchParams.set(param, screen);
     }
     return url.toString();
   } catch {
