@@ -68,7 +68,8 @@ export default function QuizFstStandaloneLanding({
       immediate: true,
     });
     metaTrackCustom('LP_Click', { tela: source, experimento: 'quiz-fst' });
-    router.push(QUIZ_TARGET);
+    // Origem também na URL (?qs=) — robusto se a sessionStorage falhar.
+    router.push(`${QUIZ_TARGET}?qs=${encodeURIComponent(source)}`);
   };
 
   return (

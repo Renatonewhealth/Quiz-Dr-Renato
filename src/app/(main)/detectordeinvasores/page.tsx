@@ -42,6 +42,15 @@ export default function QuizPage() {
 
   // Criar sessão ao montar o componente (sistema antigo, mantido por compat)
   React.useEffect(() => {
+    // Origem do funil via URL (?qs=) → sessionStorage. Robustez: garante a
+    // origem (ex.: quiz-fst-1) mesmo se o set não rolou na landing.
+    try {
+      const urlSrc = new URLSearchParams(window.location.search).get('qs');
+      if (urlSrc) sessionStorage.setItem('quiz_source', urlSrc);
+    } catch {
+      /* ignore */
+    }
+
     const createSession = async () => {
       try {
         await fetch('/api/quiz-session', {
