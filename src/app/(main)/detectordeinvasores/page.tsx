@@ -18,7 +18,11 @@ import { track } from '@/lib/tracker';
 function destForSource(source: string | null): string {
   if (source === 'google') return '/google-vsl';
   if (source === 'native') return '/native-vsl';
+  // Páginas standalone (/quiz-fst-N) e split (variant quiz-fst:tN) usam as
+  // mesmas VSLs por número de tela.
   if (source && /^quiz-fst-[1-4]$/.test(source)) return `/${source}-vsl`;
+  const split = source && source.match(/^quiz-fst:t([1-4])$/);
+  if (split) return `/quiz-fst-${split[1]}-vsl`;
   return '/resultado2';
 }
 

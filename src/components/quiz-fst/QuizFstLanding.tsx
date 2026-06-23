@@ -50,12 +50,11 @@ export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
 
   const handleCta = () => {
     const variant = `${EXPERIMENTO}:${tela}`;
-    // Origem do funil = a VSL correspondente à tela (t1 -> quiz-fst-1), pra
-    // o quiz rotear pra VSL com o vídeo certo (/quiz-fst-N-vsl) em vez do
-    // /resultado2. Mesmas VSLs/vídeos das páginas standalone /quiz-fst-N.
-    const quizSource = `quiz-fst-${tela.slice(1)}`;
+    // Origem do funil = a própria tela do experimento (quiz-fst:tN), pra TODO
+    // o funil ficar no mesmo identificador no dashboard /admin/experiments.
+    // O quiz roteia esse formato pra /quiz-fst-N-vsl (mesmo vídeo das standalone).
     try {
-      sessionStorage.setItem('quiz_source', quizSource);
+      sessionStorage.setItem('quiz_source', variant);
     } catch {
       /* ignore */
     }
@@ -69,7 +68,7 @@ export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
     // Meta Ads.
     metaTrackCustom('LP_Click', { tela, experimento: EXPERIMENTO });
     // Origem também na URL (?qs=) — robusto se a sessionStorage falhar.
-    router.push(`${QUIZ_TARGET}?qs=${quizSource}`);
+    router.push(`${QUIZ_TARGET}?qs=${encodeURIComponent(variant)}`);
   };
 
   return (
