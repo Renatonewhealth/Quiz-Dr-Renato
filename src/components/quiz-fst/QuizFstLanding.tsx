@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,24 +28,6 @@ const QUIZ_TARGET = '/detectordeinvasores';
 export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
   const router = useRouter();
   const { ctaText, image, Hero } = TELAS[tela];
-
-  // LP_View pro Meta (uma vez por sessão por tela).
-  useEffect(() => {
-    const key = `lpview_${tela}`;
-    let already = false;
-    try {
-      already = sessionStorage.getItem(key) === '1';
-    } catch {
-      /* private mode: segue e dispara */
-    }
-    if (already) return;
-    try {
-      sessionStorage.setItem(key, '1');
-    } catch {
-      /* ignore */
-    }
-    metaTrackCustom('LP_View', { tela, experimento: EXPERIMENTO });
-  }, [tela]);
 
   const handleCta = () => {
     const variant = `${EXPERIMENTO}:${tela}`;
@@ -86,6 +67,7 @@ export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '779808241546807');
           fbq('track', 'PageView');
+          fbq('trackCustom', 'LP_View', {tela: '${tela}', experimento: '${EXPERIMENTO}'});
         `}
       </Script>
       <noscript>

@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -36,24 +35,6 @@ export default function QuizFstStandaloneLanding({
   const source = `quiz-fst-${page}`;
   const { ctaText, image, Hero } = TELAS[tela];
 
-  // LP_View pro Meta (uma vez por sessão por página).
-  useEffect(() => {
-    const key = `lpview_${source}`;
-    let already = false;
-    try {
-      already = sessionStorage.getItem(key) === '1';
-    } catch {
-      /* private mode: segue e dispara */
-    }
-    if (already) return;
-    try {
-      sessionStorage.setItem(key, '1');
-    } catch {
-      /* ignore */
-    }
-    metaTrackCustom('LP_View', { tela: source, experimento: 'quiz-fst' });
-  }, [source]);
-
   const handleCta = () => {
     // Carrega a origem pro funil (quiz lê isso pra taggear e rotear a VSL).
     try {
@@ -87,6 +68,7 @@ export default function QuizFstStandaloneLanding({
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '779808241546807');
           fbq('track', 'PageView');
+          fbq('trackCustom', 'LP_View', {tela: '${source}', experimento: 'quiz-fst'});
         `}
       </Script>
       <noscript>
