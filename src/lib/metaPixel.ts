@@ -37,7 +37,7 @@ export function metaTrackCustom(
     /* no-op: nunca quebrar a página por causa de tracking */
   }
   // fbq ainda não carregou (Script afterInteractive em carregamento). Sem
-  // isso, eventos disparados no mount (ex.: LP_View) se perdiam. Tenta de
+  // isso, eventos disparados no mount (ex.: LpView) se perdiam. Tenta de
   // novo por até ~5s.
   if (_attempt < 50) {
     setTimeout(() => metaTrackCustom(eventName, params, _attempt + 1), 100);
