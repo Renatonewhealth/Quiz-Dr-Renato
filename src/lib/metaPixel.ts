@@ -22,14 +22,24 @@ declare global {
 
 export function metaTrackCustom(
   eventName: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  _attempt = 0
 ): void {
   if (typeof window === 'undefined') return;
   try {
     if (typeof window.fbq === 'function') {
+      // Quando o fbq existe, o init já rodou (é síncrono no snippet), então
+      // o trackCustom fica corretamente associado ao pixel.
       window.fbq('trackCustom', eventName, params);
+      return;
     }
   } catch {
     /* no-op: nunca quebrar a página por causa de tracking */
+  }
+  // fbq ainda não carregou (Script afterInteractive em carregamento). Sem
+  // isso, eventos disparados no mount (ex.: LP_View) se perdiam. Tenta de
+  // novo por até ~5s.
+  if (_attempt < 50) {
+    setTimeout(() => metaTrackCustom(eventName, params, _attempt + 1), 100);
   }
 }
