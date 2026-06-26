@@ -22,6 +22,17 @@ export default function NativeLayout({
           'tb_tfa_script');
         `}
       </Script>
+      {/* Utmify Taboola Pixel */}
+      <Script id="utmify-taboola-pixel" strategy="afterInteractive">
+        {`
+          window.taboolaPixelId = "6a3d87128cb002620c4f1417";
+          var a = document.createElement("script");
+          a.setAttribute("async", "");
+          a.setAttribute("defer", "");
+          a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-taboola.js");
+          document.head.appendChild(a);
+        `}
+      </Script>
       {children}
     </>
   );
