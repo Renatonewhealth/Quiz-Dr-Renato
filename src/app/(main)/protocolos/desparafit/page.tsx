@@ -53,6 +53,65 @@ export default function ProtocolosDesparafitPage() {
             </a>
           ))}
         </div>
+
+        {/* Modo de Uso do Desparafit */}
+        <section className="mt-10">
+          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+            <header className="bg-gradient-to-r from-[#0ea5b7] to-[#0891a3] px-5 py-4">
+              <h2 className="text-base sm:text-lg font-black text-white uppercase tracking-wide">
+                Modo de Uso do Desparafit
+              </h2>
+            </header>
+
+            <div className="p-5 space-y-5">
+              <p className="text-sm font-bold text-white text-center">
+                Começar todos juntos:
+              </p>
+
+              {/* Sachê */}
+              <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                <p className="font-bold text-white flex items-center gap-2 mb-2 text-sm">
+                  <span className="text-lg">🟢</span>
+                  Desparafit sachê <span className="text-gray-400 font-normal">(3 unidades)</span>
+                </p>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Diluir, misturar e consumir <strong className="text-white">5g (1 sachê)</strong> em 100ml de água <strong className="text-white">1 vez ao dia por 3 dias</strong>.
+                </p>
+                <p className="text-xs text-gray-400 mt-1.5 italic">
+                  Consumir, preferencialmente, de manhã, em jejum.
+                </p>
+              </div>
+
+              {/* Gotas */}
+              <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                <p className="font-bold text-white flex items-center gap-2 mb-2 text-sm">
+                  <span className="text-lg">💧</span>
+                  Desparafit gotas <span className="text-gray-400 font-normal">(30ml)</span>
+                </p>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Ingerir <strong className="text-white">1ml (12 gotas)</strong> ao dia <strong className="text-white">por 30 dias</strong>.
+                </p>
+                <p className="text-xs text-gray-400 mt-1.5 italic">
+                  Consumir, preferencialmente, todas as manhãs.
+                </p>
+              </div>
+
+              {/* Blend de chás */}
+              <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                <p className="font-bold text-white flex items-center gap-2 mb-2 text-sm">
+                  <span className="text-lg">🍵</span>
+                  Desparafit blend de chás <span className="text-gray-400 font-normal">(180g)</span>
+                </p>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Diluir, misturar e consumir <strong className="text-white">3g (1 dosador)</strong> em 100ml de água <strong className="text-white">1 vez ao dia por 60 dias</strong>.
+                </p>
+                <p className="text-xs text-gray-400 mt-1.5 italic">
+                  Consumir a qualquer horário do dia.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
