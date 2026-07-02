@@ -22,8 +22,8 @@ const QUIZ_TARGET = '/detectordeinvasores';
  * Tracking:
  * - View: `page_view` é gravado automaticamente pelo PageViewTracker global
  *   (taggeado `quiz-fst:tN` via cookie `tr_variant`). Aqui só disparamos o
- *   evento custom `LpView` pro Meta (dedupe por sessão).
- * - Clique: `cta_click` no banco + `LpClick` no Meta, antes de navegar.
+ *   evento custom `TelaView` pro Meta (dedupe por sessão).
+ * - Clique: `cta_click` no banco + `TelaClick` no Meta, antes de navegar.
  */
 export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
       immediate: true,
     });
     // Meta Ads.
-    metaTrackCustom('LpClick', { tela, experimento: EXPERIMENTO });
+    metaTrackCustom('TelaClick', { tela, experimento: EXPERIMENTO });
     // Origem também na URL (?qs=) — robusto se a sessionStorage falhar.
     router.push(`${QUIZ_TARGET}?qs=${encodeURIComponent(variant)}`);
   };
@@ -67,7 +67,7 @@ export default function QuizFstLanding({ tela }: { tela: TelaKey }) {
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '779808241546807');
           fbq('track', 'PageView');
-          fbq('trackCustom', 'LpView', {tela: '${tela}', experimento: '${EXPERIMENTO}'});
+          fbq('trackCustom', 'TelaView', {tela: '${tela}', experimento: '${EXPERIMENTO}'});
         `}
       </Script>
       <noscript>

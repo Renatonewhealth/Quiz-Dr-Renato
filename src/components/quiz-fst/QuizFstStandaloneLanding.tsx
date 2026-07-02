@@ -22,8 +22,8 @@ const QUIZ_TARGET = '/detectordeinvasores';
  * funil com essa origem e (2) rotear pra VSL certa (/quiz-fst-N-vsl).
  *
  * - View: page_view automático (distinguido pelo page_slug /quiz-fst-N) +
- *   evento Meta LpView.
- * - Clique: cta_click no banco + LpClick no Meta, antes de ir pro quiz.
+ *   evento Meta TelaView.
+ * - Clique: cta_click no banco + TelaClick no Meta, antes de ir pro quiz.
  */
 export default function QuizFstStandaloneLanding({
   page,
@@ -48,7 +48,7 @@ export default function QuizFstStandaloneLanding({
       metadata: { tela: source, experimento: 'quiz-fst', cta: ctaText },
       immediate: true,
     });
-    metaTrackCustom('LpClick', { tela: source, experimento: 'quiz-fst' });
+    metaTrackCustom('TelaClick', { tela: source, experimento: 'quiz-fst' });
     // Origem também na URL (?qs=) — robusto se a sessionStorage falhar.
     router.push(`${QUIZ_TARGET}?qs=${encodeURIComponent(source)}`);
   };
@@ -68,7 +68,7 @@ export default function QuizFstStandaloneLanding({
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '779808241546807');
           fbq('track', 'PageView');
-          fbq('trackCustom', 'LpView', {tela: '${source}', experimento: 'quiz-fst'});
+          fbq('trackCustom', 'TelaView', {tela: '${source}', experimento: 'quiz-fst'});
         `}
       </Script>
       <noscript>
