@@ -108,7 +108,7 @@ export default function BioPage() {
               primary
               href="/desparafit"
               label="Quero Conhecer o Desparafit"
-              sublabel="Meu protocolo N° 1 para emagrecimento · +10.000 mulheres transformadas"
+              sublabel="Protocolo N° 1 da H9 Pharma · +10.000 mulheres transformadas"
             />
             <LinkButton
               href="/produtosh9"
@@ -122,18 +122,17 @@ export default function BioPage() {
       {/* Rodapé com suporte no WhatsApp */}
       <footer className="w-full px-5 sm:px-6 pb-10 sm:pb-12">
         <div className="max-w-md mx-auto">
-          <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 shadow-sm">
-            <p className="text-[14px] sm:text-[15px] text-gray-700 leading-relaxed text-center mb-4">
-              Comprou algum dos nossos produtos e precisa de ajuda? Nos chame no
-              WhatsApp, ficaremos felizes em ajudar!
+          <div className="text-center">
+            <p className="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed max-w-xs mx-auto mb-3">
+              Comprou algum dos nossos produtos e precisa de ajuda?
             </p>
             <a
               href="https://wa.me/553535311001"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-semibold text-sm sm:text-base py-3 px-5 rounded-xl transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-[13px] text-[#25D366] hover:text-[#1EBE5D] font-semibold underline underline-offset-4 decoration-1 transition-colors"
             >
-              <MessageCircle className="w-4 h-4" strokeWidth={2.5} />
+              <MessageCircle className="w-3.5 h-3.5" strokeWidth={2.5} />
               Falar no WhatsApp
             </a>
           </div>
