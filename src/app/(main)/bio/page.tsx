@@ -98,7 +98,7 @@ export default function BioPage() {
             </a>
 
             <p className="text-[15px] sm:text-base text-gray-700 leading-relaxed max-w-xs">
-              Farmacêutico e especialista em nutriendocrinologia e medicina natural.
+              Pesquisador, Palestrante, Mentor, Empresário e Farmacêutico.
             </p>
           </div>
 
@@ -107,13 +107,13 @@ export default function BioPage() {
             <LinkButton
               primary
               href="/desparafit"
-              label="Desparafit"
-              sublabel="Protocolo natural de 4 fases para emagrecimento"
+              label="Quero Conhecer o Desparafit"
+              sublabel="Meu protocolo N° 1 para emagrecimento · +10.000 mulheres transformadas"
             />
             <LinkButton
               href="/produtosh9"
-              label="Conheça Outros Produtos"
-              sublabel="Catálogo oficial H9 Pharma"
+              label="Todos os Protocolos H9 Pharma"
+              sublabel="Ozenkit · Libidumax · Hairvit Max"
             />
           </div>
         </div>
@@ -154,9 +154,6 @@ export default function BioPage() {
               Termos
             </Link>
           </div>
-          <p className="text-center text-[11px] text-gray-400 mt-3">
-            © {new Date().getFullYear()} H9 Pharma · CNPJ 53.495.893/0002-30
-          </p>
         </div>
       </footer>
     </main>
