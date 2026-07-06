@@ -23,6 +23,8 @@ function destForSource(source: string | null): string {
   if (source && /^quiz-fst-[1-4]$/.test(source)) return `/${source}-vsl`;
   const split = source && source.match(/^quiz-fst:t([1-4])$/);
   if (split) return `/quiz-fst-${split[1]}-vsl`;
+  // Variante "sem tela" (abre direto no quiz) → mesma VSL da tela 2.
+  if (source === 'quiz-fst:direct') return '/quiz-fst-2-vsl';
   return '/resultado2';
 }
 
