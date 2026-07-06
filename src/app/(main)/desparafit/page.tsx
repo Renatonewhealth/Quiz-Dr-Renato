@@ -12,7 +12,6 @@ import {
   Leaf,
   Flame,
   Award,
-  User,
   Smartphone,
 } from 'lucide-react';
 import StickyCTA from './StickyCTA';
@@ -410,9 +409,13 @@ export default function DesparafitPage() {
           <div className="grid md:grid-cols-[minmax(0,1fr)_1.4fr] gap-8 md:gap-12 items-center">
             <div className="flex justify-center">
               <div className="relative w-full max-w-xs aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm">
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-[#14532d]/10 to-[#14532d]/5">
-                  <User className="w-20 h-20 text-[#14532d]/40" strokeWidth={1.25} />
-                </div>
+                <Image
+                  src="/images/dr-renato-portrait.jpg"
+                  alt="Dr. Renato Silveira Reis"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 80vw, 320px"
+                />
               </div>
             </div>
             <div>
@@ -730,7 +733,7 @@ export default function DesparafitPage() {
                 H9 <span className="text-gray-900 font-normal">PHARMA</span>
               </p>
               <p className="text-sm text-gray-600 leading-relaxed">
-                CNPJ · 00.000.000/0000-00
+                CNPJ · 53.495.893/0002-30
                 <br />
                 Suporte:{' '}
                 <a href="mailto:suporte@desparafit.com.br" className="underline">

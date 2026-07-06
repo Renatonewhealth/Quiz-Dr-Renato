@@ -371,7 +371,7 @@ export default function ProdutosH9Page() {
                 H9 <span className="text-gray-900 font-normal">PHARMA</span>
               </p>
               <p className="text-sm text-gray-600 leading-relaxed">
-                CNPJ · 00.000.000/0000-00
+                CNPJ · 53.495.893/0002-30
                 <br />
                 Suporte:{' '}
                 <a href="mailto:suporte@h9pharma.com.br" className="underline">
