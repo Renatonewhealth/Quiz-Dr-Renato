@@ -103,7 +103,7 @@ export default function BioPage() {
           </div>
 
           {/* Botões */}
-          <div className="space-y-3 sm:space-y-3.5 mb-10">
+          <div className="space-y-3 sm:space-y-3.5 mb-5 sm:mb-6">
             <LinkButton
               primary
               href="/desparafit"
@@ -116,14 +116,10 @@ export default function BioPage() {
               sublabel="Ozenkit · Libidumax · Hairvit Max"
             />
           </div>
-        </div>
-      </div>
 
-      {/* Rodapé com suporte no WhatsApp */}
-      <footer className="w-full px-5 sm:px-6 pb-10 sm:pb-12">
-        <div className="max-w-md mx-auto">
+          {/* Suporte no WhatsApp (dentro da primeira dobra) */}
           <div className="text-center">
-            <p className="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed max-w-xs mx-auto mb-3">
+            <p className="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed max-w-xs mx-auto mb-2">
               Comprou algum dos nossos produtos e precisa de ajuda?
             </p>
             <a
@@ -136,9 +132,13 @@ export default function BioPage() {
               Falar no WhatsApp
             </a>
           </div>
+        </div>
+      </div>
 
-          {/* Links institucionais */}
-          <div className="flex items-center justify-center gap-4 mt-6 text-[12px] text-gray-400">
+      {/* Rodapé institucional */}
+      <footer className="w-full px-5 sm:px-6 pb-10 sm:pb-12">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center justify-center gap-4 text-[12px] text-gray-400">
             <Link
               href="/politica-de-privacidade"
               className="hover:text-gray-600 transition-colors underline"
