@@ -2,6 +2,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import {
+  Truck,
+  ShieldCheck,
+  BadgeCheck,
+  Lock,
+  Flower2,
+  Sprout,
+  Leaf,
+  Flame,
+  Award,
+  User,
+  Smartphone,
+} from 'lucide-react';
 import StickyCTA from './StickyCTA';
 import FaqItem from './FaqItem';
 
@@ -11,34 +24,12 @@ export const metadata: Metadata = {
     'Protocolo natural de 4 fases que ataca a causa oculta por trás do peso que não desce. Recomendado pelo Dr. Renato Silveira Reis.',
 };
 
-/* ---------- Placeholder helpers ---------- */
-function Placeholder({
-  label,
-  className = '',
-  aspect = 'aspect-square',
-}: {
-  label: string;
-  className?: string;
-  aspect?: string;
-}) {
+/* ---------- Small helpers ---------- */
+function Seal({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
-    <div
-      className={`bg-gray-100 border border-dashed border-gray-300 rounded-xl flex items-center justify-center text-center p-4 ${aspect} ${className}`}
-    >
-      <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function SelPlaceholder({ label }: { label: string }) {
-  return (
-    <div className="flex flex-col items-center text-center gap-2">
-      <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#14532d]/5 border border-[#14532d]/20 rounded-full flex items-center justify-center">
-        <span className="text-[9px] text-[#14532d]/60 font-semibold text-center leading-tight px-1">
-          SELO
-        </span>
+    <div className="flex flex-col items-center text-center gap-2.5">
+      <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#14532d]/8 border border-[#14532d]/20 rounded-full flex items-center justify-center">
+        <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#14532d]" strokeWidth={2} />
       </div>
       <p className="text-[13px] sm:text-sm text-gray-700 font-medium leading-tight max-w-[9rem]">
         {label}
@@ -47,12 +38,24 @@ function SelPlaceholder({ label }: { label: string }) {
   );
 }
 
-/* ---------- Ingredient card ---------- */
-function Ingredient({ name, text }: { name: string; text: string }) {
+function Ingredient({
+  icon: Icon,
+  color,
+  name,
+  text,
+}: {
+  icon: React.ElementType;
+  color: string;
+  name: string;
+  text: string;
+}) {
   return (
     <div className="flex gap-4 items-start">
-      <div className="w-14 h-14 flex-shrink-0 bg-[#14532d]/5 border border-[#14532d]/20 rounded-full flex items-center justify-center">
-        <span className="text-[9px] text-[#14532d]/60 font-semibold">ÍCONE</span>
+      <div
+        className="w-14 h-14 flex-shrink-0 rounded-full flex items-center justify-center"
+        style={{ background: `${color}15`, border: `1px solid ${color}30` }}
+      >
+        <Icon className="w-6 h-6" style={{ color }} strokeWidth={2} />
       </div>
       <p className="text-[17px] sm:text-base text-gray-700 leading-relaxed flex-1">
         <strong className="text-gray-900">{name}:</strong> {text}
@@ -61,45 +64,36 @@ function Ingredient({ name, text }: { name: string; text: string }) {
   );
 }
 
-/* ---------- Phase card ---------- */
-function PhaseCard({
-  n,
-  title,
-  period,
-  usage,
-  text,
-  imgLabel,
+/* ---------- Modo de uso card ---------- */
+function UsageCard({
+  emoji,
+  product,
+  size,
+  dosage,
+  timing,
 }: {
-  n: number;
-  title: string;
-  period: string;
-  usage: string;
-  text: string;
-  imgLabel: string;
+  emoji: string;
+  product: string;
+  size: string;
+  dosage: string;
+  timing: string;
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-      <div className="grid sm:grid-cols-[180px_1fr]">
-        <div className="bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-100 flex items-center justify-center p-4">
-          <Placeholder label={imgLabel} className="w-full max-w-[160px] aspect-square" />
-        </div>
-        <div className="p-5 sm:p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="w-8 h-8 rounded-full bg-[#14532d] text-white text-sm font-bold flex items-center justify-center">
-              {n}
-            </span>
-            <span className="text-xs sm:text-sm uppercase tracking-wider text-[#c9a961] font-semibold">
-              {period}
-            </span>
+    <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+      <div className="flex items-start gap-4">
+        <div className="text-3xl sm:text-4xl flex-shrink-0 leading-none">{emoji}</div>
+        <div className="flex-1">
+          <div className="mb-3">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-tight">
+              {product}
+            </h3>
+            <p className="text-sm text-gray-500 font-medium mt-0.5">{size}</p>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
-            {title}
-          </h3>
-          <p className="text-[15px] sm:text-base text-[#14532d] font-semibold mb-3">
-            {usage}
+          <p className="text-[16px] sm:text-base text-gray-800 leading-relaxed mb-2">
+            {dosage}
           </p>
-          <p className="text-[17px] sm:text-base text-gray-700 leading-relaxed">
-            {text}
+          <p className="text-[14px] sm:text-sm text-[#14532d] italic leading-relaxed">
+            {timing}
           </p>
         </div>
       </div>
@@ -108,17 +102,27 @@ function PhaseCard({
 }
 
 /* ---------- Bonus card ---------- */
-function BonusCard({ title, value, text }: { title: string; value: string; text: string }) {
+function BonusCard({
+  icon: Icon,
+  title,
+  value,
+  text,
+}: {
+  icon: React.ElementType;
+  title: string;
+  value: string;
+  text: string;
+}) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-      <Placeholder label="600 × 400" aspect="aspect-[3/2]" className="rounded-none rounded-t-2xl border-0 border-b border-gray-200" />
-      <div className="p-5">
-        <p className="text-xs sm:text-sm uppercase tracking-wider text-[#c9a961] font-semibold mb-1">
-          {value}
-        </p>
-        <h4 className="text-lg font-bold text-gray-900 mb-2 leading-snug">{title}</h4>
-        <p className="text-[15px] sm:text-base text-gray-700 leading-relaxed">{text}</p>
+    <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-7">
+      <div className="w-12 h-12 rounded-full bg-[#c9a961]/15 border border-[#c9a961]/30 flex items-center justify-center mb-4">
+        <Icon className="w-6 h-6 text-[#c9a961]" strokeWidth={2} />
       </div>
+      <p className="text-xs sm:text-sm uppercase tracking-wider text-[#c9a961] font-semibold mb-2">
+        {value}
+      </p>
+      <h4 className="text-lg font-bold text-gray-900 mb-2 leading-snug">{title}</h4>
+      <p className="text-[15px] sm:text-base text-gray-700 leading-relaxed">{text}</p>
     </div>
   );
 }
@@ -151,8 +155,8 @@ export default function DesparafitPage() {
             H9 PHARMA
           </p>
           <h1 className="text-[28px] sm:text-4xl md:text-5xl font-black text-gray-900 leading-[1.15] tracking-tight mb-6">
-            O protocolo natural de 4 fases que ataca a causa oculta por trás do{' '}
-            <span className="text-[#14532d]">peso que não desce</span>
+            <span className="text-[#14532d]">DESPARAFIT</span> — O protocolo natural de 4
+            fases que ataca a causa oculta por trás do peso que não desce
           </h1>
           <p className="text-[18px] sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
             Recomendado pelo Dr. Renato Silveira Reis, farmacêutico e especialista em
@@ -168,7 +172,6 @@ export default function DesparafitPage() {
         <div className="max-w-6xl mx-auto">
           <div className="bg-gradient-to-b from-gray-50 to-white rounded-3xl border border-gray-100 p-6 sm:p-10 md:p-12">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-              {/* Foto do kit */}
               <div className="order-1">
                 <div className="relative w-full max-w-md mx-auto aspect-square">
                   <Image
@@ -181,7 +184,6 @@ export default function DesparafitPage() {
                 </div>
               </div>
 
-              {/* Info */}
               <div className="order-2 text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
                   <span className="text-yellow-500 tracking-tight text-lg">★★★★★</span>
@@ -191,9 +193,7 @@ export default function DesparafitPage() {
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 leading-tight mb-4">
                   Desparafit. O primeiro protocolo completo de{' '}
-                  <span className="text-[#14532d]">
-                    desparasitação e emagrecimento
-                  </span>{' '}
+                  <span className="text-[#14532d]">desparasitação e emagrecimento</span>{' '}
                   do Brasil.
                 </h2>
                 <p className="text-[17px] sm:text-base text-gray-600 leading-relaxed mb-6">
@@ -211,10 +211,10 @@ export default function DesparafitPage() {
 
           {/* Faixa de selos */}
           <div className="mt-8 sm:mt-10 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            <SelPlaceholder label="Frete grátis para todo o Brasil" />
-            <SelPlaceholder label="Garantia de 60 dias" />
-            <SelPlaceholder label="Ingredientes aprovados pela ANVISA" />
-            <SelPlaceholder label="Pagamento 100% seguro" />
+            <Seal icon={Truck} label="Frete grátis para todo o Brasil" />
+            <Seal icon={ShieldCheck} label="Garantia de 60 dias" />
+            <Seal icon={BadgeCheck} label="Ingredientes aprovados pela ANVISA" />
+            <Seal icon={Lock} label="Pagamento 100% seguro" />
           </div>
         </div>
       </section>
@@ -276,10 +276,10 @@ export default function DesparafitPage() {
         </div>
       </section>
 
-      {/* ============ BLOCO 4: O PROTOCOLO ============ */}
+      {/* ============ BLOCO 4: MODO DE USO (era "protocolo") ============ */}
       <section id="protocolo" className="px-4 sm:px-6 py-14 sm:py-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10 sm:mb-14 max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10 sm:mb-14">
             <h2 className="text-[26px] sm:text-3xl md:text-4xl font-black text-gray-900 leading-tight mb-5 tracking-tight">
               Por que 4 fases, e não uma cápsula única
             </h2>
@@ -287,50 +287,50 @@ export default function DesparafitPage() {
               Os vermífugos comuns eliminam apenas os vermes adultos. Ovos e larvas
               sobrevivem, e o problema volta. O Desparafit trabalha com o eugenol do
               cravo-da-índia, o único ativo natural capaz de eliminar o parasita em todas
-              as fases do ciclo, dentro de um protocolo que{' '}
-              <strong className="text-[#14532d]">prepara, ataca, limpa e blinda</strong>.
+              as fases do ciclo.
             </p>
           </div>
 
-          <div className="space-y-5">
-            <PhaseCard
-              n={1}
-              period="Fase 1: Preparação · Dia 1"
-              title="Elixir Desparafit"
-              usage="30ml, uma única vez."
-              text="Prepara o fígado para o tratamento e garante conforto nas fases seguintes."
-              imgLabel="Elixir 400×400"
-            />
-            <PhaseCard
-              n={2}
-              period="Fase 2: Ataque · Dia 2 ao 12"
-              title="Tônico Desparafit"
-              usage="5ml após o almoço e após o jantar."
-              text="A maior concentração de eugenol do mercado elimina ovos, larvas e adultos de uma só vez. Na primeira semana, a maioria das clientes relata a barriga desinchando e a fome se acalmando."
-              imgLabel="Tônico 400×400"
-            />
-            <PhaseCard
-              n={3}
-              period="Fase 3: Limpeza · Dia 13 ao 30"
-              title="Drops Desparafit"
-              usage="20 gotas antes do jantar."
-              text="Neutraliza as toxinas dos parasitas eliminados e repara a parede intestinal. Muitas mulheres eliminam entre 5 e 10 quilos nessa fase."
-              imgLabel="Drops 400×400"
-            />
-            <PhaseCard
-              n={4}
-              period="Fase 4: Blindagem · Dia 31 ao 60"
-              title="Chá Desparafit"
-              usage="1 dosador em 100ml de água após o jantar."
-              text="Fortalece a microbiota e cria uma barreira contra novos parasitas. É onde o resultado se consolida, sem efeito sanfona."
-              imgLabel="Chá 400×400"
-            />
+          {/* Modo de Uso do Desparafit */}
+          <div className="bg-gray-50 border border-gray-200 rounded-3xl p-6 sm:p-8 md:p-10">
+            <div className="text-center mb-8">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-[#c9a961] font-semibold mb-2">
+                Modo de uso do Desparafit
+              </p>
+              <p className="text-[18px] sm:text-lg font-bold text-gray-900">
+                Começar todos juntos:
+              </p>
+            </div>
+
+            <div className="space-y-4 sm:space-y-5">
+              <UsageCard
+                emoji="🟢"
+                product="Desparafit sachê"
+                size="(3 unidades)"
+                dosage="Diluir, misturar e consumir 5g (1 sachê) em 100ml de água 1 vez ao dia por 3 dias."
+                timing="Consumir, preferencialmente, de manhã, em jejum."
+              />
+              <UsageCard
+                emoji="💧"
+                product="Desparafit gotas"
+                size="(30ml)"
+                dosage="Ingerir 1ml (12 gotas) ao dia por 30 dias."
+                timing="Consumir, preferencialmente, todas as manhãs."
+              />
+              <UsageCard
+                emoji="🍵"
+                product="Desparafit blend de chás"
+                size="(180g)"
+                dosage="Diluir, misturar e consumir 3g (1 dosador) em 100ml de água 1 vez ao dia por 60 dias."
+                timing="Consumir a qualquer horário do dia."
+              />
+            </div>
           </div>
 
-          <p className="mt-10 text-center text-[18px] sm:text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
-            Ao final dos 60 dias, a maioria das mulheres elimina{' '}
-            <strong className="text-[#14532d]">entre 10 e 15 quilos</strong>, sem dieta
-            restritiva e sem medicamento pesado.
+          <p className="mt-10 text-center text-[18px] sm:text-lg text-gray-700 leading-relaxed">
+            Ao final dos 60 dias, várias mulheres eliminaram{' '}
+            <strong className="text-[#14532d]">entre 10 e 15 quilos</strong>, seguindo o
+            protocolo físico mais as nossas recomendações.
           </p>
         </div>
       </section>
@@ -348,40 +348,57 @@ export default function DesparafitPage() {
 
           <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 mb-14 sm:mb-16">
             <Ingredient
+              icon={Flower2}
+              color="#8b6b3d"
               name="Cravo-da-índia"
               text="fonte de eugenol em alta concentração, importado e testado duas vezes por lote."
             />
             <Ingredient
+              icon={Sprout}
+              color="#4a7c2e"
               name="Semente de abóbora"
               text="auxilia na eliminação dos parasitas adultos."
             />
-            <Ingredient name="Orégano" text="ação antimicrobiana na fase de ataque." />
-            <Ingredient name="Cúrcuma" text="suporte ao fígado durante a limpeza." />
-            <Ingredient name="Hortelã" text="acalma o intestino e suaviza o processo." />
+            <Ingredient
+              icon={Leaf}
+              color="#3f6e4c"
+              name="Orégano"
+              text="ação antimicrobiana na fase de ataque."
+            />
+            <Ingredient
+              icon={Flame}
+              color="#c9722d"
+              name="Cúrcuma"
+              text="suporte ao fígado durante a limpeza."
+            />
+            <Ingredient
+              icon={Leaf}
+              color="#3a9b60"
+              name="Hortelã"
+              text="acalma o intestino e suaviza o processo."
+            />
           </div>
 
           {/* Aplicativo */}
           <div className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm">
-            <div className="grid md:grid-cols-[300px_1fr] gap-0">
-              <div className="bg-gradient-to-b from-[#14532d]/5 to-white flex items-center justify-center p-6">
-                <Placeholder label="Mockup 400 × 800" aspect="aspect-[1/2]" className="max-w-[220px]" />
+            <div className="p-6 sm:p-10">
+              <div className="w-16 h-16 rounded-2xl bg-[#14532d]/8 border border-[#14532d]/20 flex items-center justify-center mb-5">
+                <Smartphone className="w-8 h-8 text-[#14532d]" strokeWidth={1.75} />
               </div>
-              <div className="p-6 sm:p-10 flex flex-col justify-center">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#c9a961] font-semibold mb-3">
-                  Bônus incluso
-                </p>
-                <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 leading-tight">
-                  Todo kit acompanha o Aplicativo Desparafit
-                </h3>
-                <p className="text-[17px] sm:text-base text-gray-700 leading-relaxed mb-4">
-                  Protocolo guiado dia a dia, assistente Dr. Renato IA disponível 24
-                  horas, receitas e cardápios prontos, Scanner de Calorias e a
-                  Universidade do Bem-Estar com aulas em vídeo.
-                </p>
-                <p className="text-[16px] sm:text-base text-[#14532d] font-semibold">
-                  Recursos que custariam mais de R$500 por mês, inclusos em qualquer kit.
-                </p>
-              </div>
+              <p className="text-xs uppercase tracking-[0.2em] text-[#c9a961] font-semibold mb-3">
+                Bônus incluso
+              </p>
+              <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 leading-tight">
+                Todo kit acompanha o Aplicativo Desparafit
+              </h3>
+              <p className="text-[17px] sm:text-base text-gray-700 leading-relaxed mb-4">
+                Protocolo guiado dia a dia, assistente Dr. Renato IA disponível 24 horas,
+                receitas e cardápios prontos, Scanner de Calorias e a Universidade do
+                Bem-Estar com aulas em vídeo.
+              </p>
+              <p className="text-[16px] sm:text-base text-[#14532d] font-semibold">
+                Recursos que custariam mais de R$500 por mês, inclusos em qualquer kit.
+              </p>
             </div>
           </div>
         </div>
@@ -391,8 +408,12 @@ export default function DesparafitPage() {
       <section id="dr-renato" className="px-4 sm:px-6 py-14 sm:py-20 bg-[#14532d]/5">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-[minmax(0,1fr)_1.4fr] gap-8 md:gap-12 items-center">
-            <div>
-              <Placeholder label="Foto Dr. Renato 600×800" aspect="aspect-[3/4]" className="max-w-sm mx-auto" />
+            <div className="flex justify-center">
+              <div className="relative w-full max-w-xs aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm">
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-[#14532d]/10 to-[#14532d]/5">
+                  <User className="w-20 h-20 text-[#14532d]/40" strokeWidth={1.25} />
+                </div>
+              </div>
             </div>
             <div>
               <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-[#c9a961] font-semibold mb-3">
@@ -423,10 +444,10 @@ export default function DesparafitPage() {
         </div>
       </section>
 
-      {/* ============ BLOCO 7: OFERTA ============ */}
+      {/* ============ BLOCO 7: OFERTA — 3 IMAGENS EMPILHADAS ============ */}
       <section id="kits" className="px-4 sm:px-6 py-14 sm:py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
             <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-[#c9a961] font-semibold mb-3">
               Campanha Expulsando Parasitas
             </p>
@@ -439,157 +460,53 @@ export default function DesparafitPage() {
             </p>
           </div>
 
-          {/* Cards */}
-          <div className="grid md:grid-cols-3 gap-5 sm:gap-6 mb-12 sm:mb-16">
-            {/* CARD 1 — 3 KITS (recomendado) */}
-            <div className="md:col-span-3 lg:col-span-1 lg:order-1 order-1">
-              <div className="relative bg-white border-2 border-[#14532d] rounded-2xl overflow-hidden shadow-lg">
-                <div className="bg-[#14532d] text-white text-center text-xs sm:text-sm font-bold py-2.5 tracking-wider uppercase">
-                  Recomendado
-                </div>
-                <div className="p-6 sm:p-7">
-                  <div className="text-center mb-5">
-                    <h3 className="text-xl sm:text-2xl font-black text-gray-900 mb-1">
-                      Protocolo 3 Kits
-                    </h3>
-                    <p className="text-sm text-gray-500 font-medium">
-                      6 meses de tratamento
-                    </p>
-                  </div>
+          <div className="space-y-5 sm:space-y-6">
+            {/* 3 KITS (primeiro) */}
+            <a
+              href="https://checkout.payt.com.br/838cd666164b001315f48795964cb7fe?split=12"
+              className="block relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow active:scale-[0.99]"
+            >
+              <Image
+                src="/images/desparafit-3-kits.png"
+                alt="3 Kits Desparafit — 180 dias"
+                width={1500}
+                height={2000}
+                className="w-full h-auto"
+                priority
+              />
+            </a>
 
-                  <Placeholder label="Imagem 3 Kits" className="mb-5 max-w-[240px] mx-auto" />
+            {/* 2 KITS */}
+            <a
+              href="https://checkout.payt.com.br/f4a58c21d66c3ab9a542ad7d7e686bb8?split=12"
+              className="block relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow active:scale-[0.99]"
+            >
+              <Image
+                src="/images/desparafit-2-kits.png"
+                alt="2 Kits Desparafit — 120 dias"
+                width={1500}
+                height={2000}
+                className="w-full h-auto"
+              />
+            </a>
 
-                  <div className="text-center mb-5">
-                    <p className="text-sm text-gray-400 line-through mb-1">
-                      De R$ 1.491
-                    </p>
-                    <p className="text-4xl sm:text-5xl font-black text-[#14532d] leading-none mb-2">
-                      R$ 797
-                    </p>
-                    <p className="text-base text-gray-700 font-semibold">
-                      ou 12x de R$ 79,34
-                    </p>
-                  </div>
-
-                  <ul className="space-y-2.5 mb-6 text-[15px] sm:text-base text-gray-700">
-                    {[
-                      'Transformação completa e permanente',
-                      'Aplicativo Desparafit incluso',
-                      'Frete grátis',
-                      'Bônus 1 e Bônus 2 inclusos',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2.5 items-start">
-                        <span className="text-[#14532d] font-bold mt-0.5">✓</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#checkout-kit-3"
-                    className="block w-full text-center bg-[#14532d] hover:bg-[#0f3d21] text-white font-bold text-[15px] sm:text-base py-4 px-4 rounded-xl transition-colors"
-                  >
-                    GARANTIR PROTOCOLO DE 6 MESES
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 2 — 2 KITS */}
-            <div className="lg:order-2 order-2">
-              <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden h-full flex flex-col">
-                <div className="p-6 sm:p-7 flex flex-col h-full">
-                  <div className="text-center mb-5">
-                    <h3 className="text-xl sm:text-2xl font-black text-gray-900 mb-1">
-                      Protocolo 2 Kits
-                    </h3>
-                    <p className="text-sm text-gray-500 font-medium">
-                      4 meses de tratamento
-                    </p>
-                  </div>
-
-                  <Placeholder label="Imagem 2 Kits" className="mb-5 max-w-[220px] mx-auto" />
-
-                  <div className="text-center mb-5">
-                    <p className="text-sm text-gray-400 line-through mb-1">De R$ 994</p>
-                    <p className="text-4xl font-black text-gray-900 leading-none mb-2">
-                      R$ 597
-                    </p>
-                    <p className="text-base text-gray-700 font-semibold">
-                      ou 12x de R$ 59,43
-                    </p>
-                  </div>
-
-                  <ul className="space-y-2.5 mb-6 text-[15px] sm:text-base text-gray-700 flex-1">
-                    {[
-                      'Aplicativo Desparafit incluso',
-                      'Frete grátis',
-                      'Bônus 1 e Bônus 2 inclusos',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2.5 items-start">
-                        <span className="text-[#14532d] font-bold mt-0.5">✓</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#checkout-kit-2"
-                    className="block w-full text-center bg-gray-900 hover:bg-black text-white font-bold text-[15px] sm:text-base py-4 px-4 rounded-xl transition-colors mt-auto"
-                  >
-                    GARANTIR PROTOCOLO DE 4 MESES
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 3 — 1 KIT */}
-            <div className="lg:order-3 order-3">
-              <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden h-full flex flex-col">
-                <div className="p-6 sm:p-7 flex flex-col h-full">
-                  <div className="text-center mb-5">
-                    <h3 className="text-xl sm:text-2xl font-black text-gray-900 mb-1">
-                      Protocolo 1 Kit
-                    </h3>
-                    <p className="text-sm text-gray-500 font-medium">
-                      60 dias de tratamento
-                    </p>
-                  </div>
-
-                  <Placeholder label="Imagem 1 Kit" className="mb-5 max-w-[220px] mx-auto" />
-
-                  <div className="text-center mb-5">
-                    <p className="text-sm text-gray-400 line-through mb-1">De R$ 497</p>
-                    <p className="text-4xl font-black text-gray-900 leading-none mb-2">
-                      R$ 347
-                    </p>
-                    <p className="text-base text-gray-700 font-semibold">
-                      ou 12x de R$ 34,55
-                    </p>
-                  </div>
-
-                  <ul className="space-y-2.5 mb-6 text-[15px] sm:text-base text-gray-700 flex-1">
-                    {['Aplicativo Desparafit incluso', 'Frete grátis'].map((f) => (
-                      <li key={f} className="flex gap-2.5 items-start">
-                        <span className="text-[#14532d] font-bold mt-0.5">✓</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#checkout-kit-1"
-                    className="block w-full text-center bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white font-bold text-[15px] sm:text-base py-4 px-4 rounded-xl transition-colors mt-auto"
-                  >
-                    GARANTIR PROTOCOLO DE 60 DIAS
-                  </a>
-                </div>
-              </div>
-            </div>
+            {/* 1 KIT */}
+            <a
+              href="https://checkout.payt.com.br/691492f0b5365a80de601b8243ca5ebb?split=12"
+              className="block relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow active:scale-[0.99]"
+            >
+              <Image
+                src="/images/desparafit-1-kit.png"
+                alt="1 Kit Desparafit — 60 dias"
+                width={1500}
+                height={2000}
+                className="w-full h-auto"
+              />
+            </a>
           </div>
 
           {/* Por que 6 meses */}
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto mb-12 sm:mb-16">
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-8 mt-12 sm:mt-14 mb-12 sm:mb-16">
             <h3 className="text-xl sm:text-2xl font-black text-gray-900 mb-3 leading-tight">
               Por que a maioria escolhe o protocolo de 6 meses
             </h3>
@@ -612,13 +529,15 @@ export default function DesparafitPage() {
                 Bônus para quem garante 2 kits ou mais
               </h3>
             </div>
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-5 sm:gap-6">
               <BonusCard
+                icon={Flame}
                 title="Treinamento Jejum Termogênico"
                 value="Bônus 1 · valor de R$ 297"
                 text="Treinamento em vídeo com o Dr. Renato sobre como usar o jejum de forma segura para acelerar a queima de gordura após a desparasitação."
               />
               <BonusCard
+                icon={Award}
                 title="Clube das Receitas + Comunidade VIP"
                 value="Bônus 2 · valor de R$ 497"
                 text="Acesso vitalício ao acervo do Dr. Renato com centenas de receitas e protocolos naturais, mais a comunidade privada no WhatsApp com cupons e sorteios exclusivos."
@@ -633,8 +552,18 @@ export default function DesparafitPage() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white border-2 border-[#c9a961]/40 rounded-3xl p-6 sm:p-10 shadow-sm">
             <div className="grid sm:grid-cols-[220px_1fr] gap-6 sm:gap-10 items-center">
-              <div className="mx-auto">
-                <Placeholder label="Selo Garantia 300×300" aspect="aspect-square" className="max-w-[200px]" />
+              <div className="flex justify-center">
+                <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-[#c9a961]/10 border-2 border-[#c9a961]/40 flex flex-col items-center justify-center text-center p-4">
+                  <ShieldCheck
+                    className="w-14 h-14 sm:w-16 sm:h-16 text-[#c9a961] mb-2"
+                    strokeWidth={1.5}
+                  />
+                  <p className="text-xs uppercase tracking-wider text-[#c9a961] font-bold leading-tight">
+                    Garantia
+                    <br />
+                    60 dias
+                  </p>
+                </div>
               </div>
               <div>
                 <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-[#c9a961] font-semibold mb-3">
@@ -645,12 +574,14 @@ export default function DesparafitPage() {
                 </h2>
                 <p className="text-[17px] sm:text-base text-gray-700 leading-relaxed">
                   Você tem 60 dias completos, o ciclo inteiro do protocolo, para
-                  experimentar por nossa conta e risco. Se seguir o protocolo como indicado
-                  no aplicativo e não sentir a barriga desinchando, a fome controlada e a
-                  balança descendo, basta enviar um e-mail para{' '}
-                  <strong className="text-[#14532d]">suporte@desparafit.com.br</strong> e
-                  devolvemos 100% do valor. Sem perguntas e sem burocracia, para qualquer
-                  quantidade de kits.
+                  experimentar por nossa conta e risco. Se seguir o protocolo como
+                  indicado no aplicativo e não sentir a barriga desinchando, a fome
+                  controlada e a balança descendo, basta enviar um e-mail para{' '}
+                  <strong className="text-[#14532d]">
+                    suporte@desparafit.com.br
+                  </strong>{' '}
+                  e devolvemos 100% do valor. Sem perguntas e sem burocracia, para
+                  qualquer quantidade de kits.
                 </p>
               </div>
             </div>
@@ -681,9 +612,9 @@ export default function DesparafitPage() {
               question="Posso tomar junto com meus remédios?"
               answer={
                 <p>
-                  Sim. A fórmula é 100% natural e compatível com medicações convencionais.
-                  Se você toma medicação controlada, recomendamos avisar seu médico, como
-                  em qualquer protocolo.
+                  Sim. A fórmula é 100% natural e compatível com medicações
+                  convencionais. Se você toma medicação controlada, recomendamos avisar
+                  seu médico, como em qualquer protocolo.
                 </p>
               }
             />
@@ -703,9 +634,9 @@ export default function DesparafitPage() {
               answer={
                 <p>
                   Os ingredientes são naturais, testados em laboratório independente e
-                  aprovados pela ANVISA. Nos primeiros dias pode haver um leve desconforto
-                  intestinal, sinal de que a eliminação está acontecendo. A hortelã da
-                  fase de Limpeza suaviza o processo.
+                  aprovados pela ANVISA. Nos primeiros dias pode haver um leve
+                  desconforto intestinal, sinal de que a eliminação está acontecendo. A
+                  hortelã da fase de Limpeza suaviza o processo.
                 </p>
               }
             />
@@ -808,7 +739,10 @@ export default function DesparafitPage() {
               </p>
             </div>
             <div className="flex flex-col sm:items-end gap-2 text-sm">
-              <Link href="/politica-de-privacidade" className="text-gray-600 hover:text-gray-900 underline">
+              <Link
+                href="/politica-de-privacidade"
+                className="text-gray-600 hover:text-gray-900 underline"
+              >
                 Política de Privacidade
               </Link>
               <Link href="/termos-de-uso" className="text-gray-600 hover:text-gray-900 underline">
