@@ -49,9 +49,17 @@ function withSrc(rawHref: string, src: string): string {
   }
 }
 
-export default function QuizFstVsl({ page }: { page: 1 | 2 | 3 | 4 }) {
+export default function QuizFstVsl({
+  page,
+  srcOverride,
+}: {
+  page: 1 | 2 | 3 | 4;
+  /** Sobrescreve o `src` do checkout (ex.: variante sem-tela usa o vídeo 2
+   *  mas precisa de src próprio pra atribuir a venda à variante certa). */
+  srcOverride?: string;
+}) {
   const videoId = VIDEO_BY_PAGE[page];
-  const src = `quiz-fst-${page}`;
+  const src = srcOverride ?? `quiz-fst-${page}`;
   const playerJs = `https://scripts.converteai.net/${ACCOUNT}/players/${videoId}/v4/player.js`;
 
   return (
