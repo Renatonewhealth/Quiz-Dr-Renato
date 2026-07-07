@@ -581,7 +581,7 @@ export default function DesparafitPage() {
                   indicado no aplicativo e não sentir a barriga desinchando, a fome
                   controlada e a balança descendo, basta enviar um e-mail para{' '}
                   <strong className="text-[#14532d]">
-                    suporte@desparafit.com.br
+                    suporteh9pharma@gmail.com
                   </strong>{' '}
                   e devolvemos 100% do valor. Sem perguntas e sem burocracia, para
                   qualquer quantidade de kits.
@@ -736,8 +736,8 @@ export default function DesparafitPage() {
                 CNPJ · 53.495.893/0002-30
                 <br />
                 Suporte:{' '}
-                <a href="mailto:suporte@desparafit.com.br" className="underline">
-                  suporte@desparafit.com.br
+                <a href="mailto:suporteh9pharma@gmail.com" className="underline">
+                  suporteh9pharma@gmail.com
                 </a>
               </p>
             </div>

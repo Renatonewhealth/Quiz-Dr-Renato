@@ -82,7 +82,7 @@ export default function PoliticaDePrivacidade() {
 
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">7. Contato</h2>
           <p>
-            Para exercer seus direitos ou esclarecer dúvidas sobre esta política, entre em contato pelo e-mail: <strong>contato@drrenatosilveira.com.br</strong>
+            Para exercer seus direitos ou esclarecer dúvidas sobre esta política, entre em contato pelo e-mail: <strong>suporteh9pharma@gmail.com</strong>
           </p>
         </div>
       </div>

@@ -374,8 +374,8 @@ export default function ProdutosH9Page() {
                 CNPJ · 53.495.893/0002-30
                 <br />
                 Suporte:{' '}
-                <a href="mailto:suporte@h9pharma.com.br" className="underline">
-                  suporte@h9pharma.com.br
+                <a href="mailto:suporteh9pharma@gmail.com" className="underline">
+                  suporteh9pharma@gmail.com
                 </a>
               </p>
             </div>

@@ -65,7 +65,7 @@ export default function TermosDeUso() {
 
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mt-8">7. Contato</h2>
           <p>
-            Para dúvidas sobre estes termos, entre em contato pelo e-mail: <strong>contato@drrenatosilveira.com.br</strong>
+            Para dúvidas sobre estes termos, entre em contato pelo e-mail: <strong>suporteh9pharma@gmail.com</strong>
           </p>
 
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mt-12 mb-2">POLÍTICA DE GARANTIA E REEMBOLSO</h2>
