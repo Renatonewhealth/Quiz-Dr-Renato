@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Script from 'next/script';
-import OneKitUpsellLink from '@/components/OneKitUpsellLink';
 
 export default function Resultado4Page() {
   return (
@@ -75,12 +74,12 @@ export default function Resultado4Page() {
 
         {/* 5. Provas Sociais - 3 Imagens (sem delay - visíveis desde o carregamento) */}
         <section className="px-4 py-8 space-y-4">
-          {/* Imagem 1 - 3 Kits */}
-          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de?split=12" className="block w-[78%] mx-auto relative">
+          {/* Imagem 1 - 6 Kits (TODO: link de checkout de 6 kits pendente) */}
+          <a href="#link-checkout-6-kits-pendente" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/3-kits.png"
-                alt="Kit com 3 unidades"
+                src="/images/6-kits-v2.png"
+                alt="Kit com 6 unidades"
                 fill
                 className="object-cover"
               />
@@ -91,33 +90,29 @@ export default function Resultado4Page() {
             </div>
           </a>
 
-          {/* Imagem 2 - 2 Kits */}
-          <a href="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12#" className="block w-[78%] mx-auto">
+          {/* Imagem 2 - 3 Kits */}
+          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de?split=12" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/2-kits.png"
-                alt="Kit com 2 unidades"
+                src="/images/3-kits-v2.png"
+                alt="Kit com 3 unidades"
                 fill
                 className="object-cover"
               />
             </div>
           </a>
 
-          {/* Imagem 3 - 1 Kit (com upsell modal) */}
-          <OneKitUpsellLink
-            href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839?split=12"
-            promoHref="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12&coupon=PRESENTE#"
-            className="block w-[78%] mx-auto"
-          >
+          {/* Imagem 3 - 2 Kits */}
+          <a href="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12#" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/1-kit.png"
-                alt="Kit com 1 unidade"
+                src="/images/2-kits-v2.png"
+                alt="Kit com 2 unidades"
                 fill
                 className="object-cover"
               />
             </div>
-          </OneKitUpsellLink>
+          </a>
           {/* Disclaimer termos */}
           <p className="text-xs text-gray-400 text-center pt-2 pb-4">
             Ao comprar qualquer um dos kits Desparafit você concorda com os{' '}
