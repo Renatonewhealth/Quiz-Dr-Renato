@@ -11,12 +11,12 @@ export default function Resultado3Page() {
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
       </Script>
-      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/ab-test/6a0a7ca088fa039cb5e99599/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a4fdb24d5780d51c30f38d7/v4/player.js" as="script" />
       <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/6a4fda4c289aaa04eaae08ff/main.m3u8" as="fetch" />
       <link rel="dns-prefetch" href="https://cdn.converteai.net" />
       <link rel="dns-prefetch" href="https://scripts.converteai.net" />
       <link rel="dns-prefetch" href="https://images.converteai.net" />
-      <link rel="dns-prefetch" href="https://m3u8.vturb.net" />
       <link rel="dns-prefetch" href="https://license.vturb.com" />
 
       <style jsx global>{`
@@ -60,15 +60,15 @@ export default function Resultado3Page() {
           </p>
         </section>
 
-        {/* 4. VSL Player - Vturb (AB Test) */}
+        {/* 4. VSL Player - Vturb */}
         <section className="w-full">
           <div
             dangerouslySetInnerHTML={{
-              __html: '<vturb-smartplayer id="ab-6a0a7ca088fa039cb5e99599" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>'
+              __html: '<vturb-smartplayer id="vid-6a4fdb24d5780d51c30f38d7" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>'
             }}
           />
           <Script
-            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/ab-test/6a0a7ca088fa039cb5e99599/player.js"
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a4fdb24d5780d51c30f38d7/v4/player.js"
             strategy="afterInteractive"
           />
         </section>
