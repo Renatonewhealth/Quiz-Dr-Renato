@@ -105,7 +105,7 @@ export default function Resultado3Page() {
 
           {/* Imagem 3 - 1 Kit (com upsell modal) */}
           <OneKitUpsellLink
-            href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839?split=12"
+            href="https://checkout.payt.com.br/e63e4f9b8147b71d6fd0567e525cc690?split=12"
             promoHref="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12&coupon=PRESENTE#"
             className="block w-[78%] mx-auto"
           >

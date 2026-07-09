@@ -74,8 +74,8 @@ export default function Resultado4Page() {
 
         {/* 5. Provas Sociais - 3 Imagens (sem delay - visíveis desde o carregamento) */}
         <section className="px-4 py-8 space-y-4">
-          {/* Imagem 1 - 6 Kits (TODO: link de checkout de 6 kits pendente) */}
-          <a href="#link-checkout-6-kits-pendente" className="block w-[78%] mx-auto relative">
+          {/* Imagem 1 - 6 Kits */}
+          <a href="https://checkout.payt.com.br/ac08e08784826ab14a9615a73789c357?split=12" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
                 src="/images/6-kits-v2.png"
