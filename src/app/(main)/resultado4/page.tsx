@@ -26,6 +26,9 @@ export default function Resultado4Page() {
         .tarja-pulse {
           animation: pulse-scale 1.5s ease-in-out infinite;
         }
+        .esconder {
+          display: none;
+        }
       `}</style>
       {/* Container responsivo para desktop */}
       <div className="max-w-2xl mx-auto">
@@ -70,10 +73,24 @@ export default function Resultado4Page() {
             src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a4fdbf82044ab79d48fb01a/v4/player.js"
             strategy="afterInteractive"
           />
+          {/* Script de delay - revela os kits aos 2314s do vídeo */}
+          <Script id="vturb-delay" strategy="afterInteractive">
+            {`
+              var alreadyInitialized = false;
+              document.addEventListener('player:ready', function(event) {
+                if (alreadyInitialized) return;
+                var detail = event.detail || {};
+                var player = detail.player || document.querySelector('vturb-smartplayer');
+                if (!player || typeof player.displayHiddenElements !== 'function') return;
+                alreadyInitialized = true;
+                player.displayHiddenElements(2314, ['.esconder'], { persist: true });
+              });
+            `}
+          </Script>
         </section>
 
-        {/* 5. Provas Sociais - 3 Imagens (sem delay - visíveis desde o carregamento) */}
-        <section className="px-4 py-8 space-y-4">
+        {/* 5. Provas Sociais - 3 Imagens (escondidas até o delay do vídeo) */}
+        <section className="esconder px-4 py-8 space-y-4">
           {/* Imagem 1 - 6 Kits */}
           <a href="https://checkout.payt.com.br/ac08e08784826ab14a9615a73789c357?split=12" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
