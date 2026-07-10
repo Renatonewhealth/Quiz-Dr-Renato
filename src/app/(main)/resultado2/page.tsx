@@ -3,10 +3,12 @@
 import Image from 'next/image';
 import Script from 'next/script';
 import OneKitUpsellLink from '@/components/OneKitUpsellLink';
+import ResultadoMetaPixel from '@/components/ResultadoMetaPixel';
 
 export default function Resultado2Page() {
   return (
     <main className="min-h-screen bg-white">
+      <ResultadoMetaPixel id="resultado2" />
       {/* Vturb Preloads */}
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
