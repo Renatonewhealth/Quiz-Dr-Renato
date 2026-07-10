@@ -24,7 +24,8 @@ import { useEffect } from 'react';
 const PARAM = 'utm_screen';
 // Carimba os dois nomes no checkout (Payt/UTMify leem qualquer um deles).
 const STAMP_PARAMS = ['utm_screen', 'src'];
-const EXPERIMENT_PREFIX = 'quiz-fst:';
+// Prefixos de experimento cujo id vira o valor de src/utm_screen no checkout.
+const EXPERIMENT_PREFIXES = ['quiz-fst:', 'preco:'];
 const CHECKOUT_RE = /checkout\.payt\.com\.br/i;
 
 function readCookie(name: string): string | null {
@@ -45,11 +46,15 @@ function resolveScreen(): string | null {
   } catch {
     /* ignore */
   }
-  // 2) Cookie sticky do experimento quiz-fst (`quiz-fst:tN`).
+  // 2) Cookie sticky do experimento (`quiz-fst:tN` ou `preco:resultadoN`).
   const variant = readCookie('tr_variant');
-  if (variant && variant.startsWith(EXPERIMENT_PREFIX)) {
-    const screen = variant.slice(EXPERIMENT_PREFIX.length);
-    if (screen) return screen;
+  if (variant) {
+    for (const prefix of EXPERIMENT_PREFIXES) {
+      if (variant.startsWith(prefix)) {
+        const screen = variant.slice(prefix.length);
+        if (screen) return screen;
+      }
+    }
   }
   return null;
 }

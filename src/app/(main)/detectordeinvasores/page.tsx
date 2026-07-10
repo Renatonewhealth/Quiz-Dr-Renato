@@ -11,13 +11,39 @@ import { AnimatedBook } from '@/components/ui/animated-book';
 import { track } from '@/lib/tracker';
 
 /**
+ * Teste de kit/preço: a tela 2 (vencedora) sorteia 1 das 3 páginas de
+ * resultado (sticky por visitante, 33/33/33). Seta o cookie `tr_variant`
+ * = `preco:resultadoN` pra taggear o page_view (dashboard) e o
+ * ScreenParamTracker carimbar o src no checkout.
+ */
+function pickPrecoDestination(): string {
+  const IDS = ['resultado2', 'resultado3', 'resultado4'];
+  if (typeof document === 'undefined') return '/resultado2';
+  const read = (n: string): string | undefined =>
+    document.cookie
+      .split('; ')
+      .find((c) => c.startsWith(n + '='))
+      ?.slice(n.length + 1);
+  const maxAge = 30 * 24 * 60 * 60;
+  let id = read('preco_page');
+  if (!id || !IDS.includes(id)) {
+    id = IDS[Math.floor(Math.random() * IDS.length)];
+    document.cookie = `preco_page=${id}; max-age=${maxAge}; path=/; samesite=lax`;
+  }
+  document.cookie = `tr_variant=preco:${id}; max-age=${maxAge}; path=/; samesite=lax`;
+  return `/${id}`;
+}
+
+/**
  * Destino (VSL) após o quiz, conforme a origem (`quiz_source`).
- * - quiz-fst-1..4: páginas do teste de 4 telas → VSL própria de cada uma.
- * - google/native: VSLs dedicadas. Default: /resultado2.
+ * - quiz-fst:t2 (tela 2 vencedora): split do teste de kit/preço (resultado2/3/4).
+ * - quiz-fst-1..4 / quiz-fst:tN: VSL própria (legado). google/native: dedicadas.
  */
 function destForSource(source: string | null): string {
   if (source === 'google') return '/google-vsl';
   if (source === 'native') return '/native-vsl';
+  // Tela 2 (vencedora) → teste de kit/preço nas 3 páginas de resultado.
+  if (source === 'quiz-fst:t2') return pickPrecoDestination();
   // Páginas standalone (/quiz-fst-N) e split (variant quiz-fst:tN) usam as
   // mesmas VSLs por número de tela.
   if (source && /^quiz-fst-[1-4]$/.test(source)) return `/${source}-vsl`;
