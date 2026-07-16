@@ -114,8 +114,10 @@ export default function VslLeadTestPage() {
           display: none;
         }
       `}</style>
-      {/* Tarja de saúde — header editorial estilo G1 (réplica da Tela 2) */}
-      <header className="w-full bg-[#dc2626] h-[56px] sm:h-[64px] flex items-center justify-between px-4 sm:px-6 sticky top-0 z-50 shadow-md">
+      {/* Tarja de saúde — header editorial estilo G1 (réplica da Tela 2).
+          Estática de propósito: na Tela 2 ela é sticky, mas aqui o vídeo é a
+          página inteira e uma tarja fixa comeria altura durante a VSL. */}
+      <header className="w-full bg-[#dc2626] h-[56px] sm:h-[64px] flex items-center justify-between px-4 sm:px-6 shadow-md">
         <button
           className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
           aria-label="Menu"
