@@ -4,19 +4,21 @@ import Image from 'next/image';
 import Script from 'next/script';
 
 /**
- * Teste de VSL de lead — página de RESULTADO + A/B dos 4 vídeos:
+ * Teste de VSL de lead — headline + A/B dos 4 vídeos:
  *
  *   form-quiz (externo, do cliente) → /vsl-lead-test → checkout
  *
  * O quiz não vive mais neste repo: o cliente está subindo um form-quiz que
- * integra com esta página. Por isso a rota abre direto na tela de resultado
- * (não passa mais pelo /detectordeinvasores) e é a mesma da /resultado4:
- * card da auto-análise, headline de resultado e oferta de kits 6/3/2, com os
- * mesmos checkouts da Payt.
+ * integra com esta página. Por isso a rota abre direto (não passa mais pelo
+ * /detectordeinvasores).
  *
- * O que muda é só o player: no lugar do vídeo fixo entra o A/B test do vturb,
- * que sorteia 1 dos 4 vídeos (LEAD 02..05, 25% cada) e mantém a escolha
- * sticky no localStorage.
+ * ABERTURA: tarja de saúde + alerta + headline principal — réplica da Tela 2,
+ * vencedora do teste `/quiz-fst`. Substituiu o card de auto-análise e a
+ * headline "RESULTADO:" a pedido do cliente. A oferta (kits 6/3/2) e os
+ * checkouts da Payt continuam os mesmos da /resultado4.
+ *
+ * O player é o A/B test do vturb: sorteia 1 dos 4 vídeos (LEAD 02..05, 25%
+ * cada) e mantém a escolha sticky no localStorage.
  *
  * O vídeo sorteado é carimbado como `utm_vsl_lead=lead2..lead5` na URL da
  * página e nos links de checkout, pra a venda ser atribuída ao vídeo que a
@@ -112,35 +114,79 @@ export default function VslLeadTestPage() {
           display: none;
         }
       `}</style>
+      {/* Tarja de saúde — header editorial estilo G1 (réplica da Tela 2) */}
+      <header className="w-full bg-[#dc2626] h-[56px] sm:h-[64px] flex items-center justify-between px-4 sm:px-6 sticky top-0 z-50 shadow-md">
+        <button
+          className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+          aria-label="Menu"
+        >
+          <svg
+            className="w-6 h-6 sm:w-7 sm:h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          <span className="hidden sm:inline text-sm font-medium uppercase tracking-wide">
+            Menu
+          </span>
+        </button>
+
+        <span className="text-white text-xl sm:text-2xl md:text-3xl font-black tracking-wide uppercase">
+          SAÚDE
+        </span>
+
+        <button
+          className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+          aria-label="Buscar"
+        >
+          <svg
+            className="w-5 h-5 sm:w-6 sm:h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <span className="hidden sm:inline text-sm font-medium uppercase tracking-wide">
+            Buscar
+          </span>
+        </button>
+      </header>
+
       {/* Container responsivo para desktop */}
       <div className="max-w-2xl mx-auto">
-        {/* 1. Hero Image */}
-        <section className="w-full pt-4 px-4 pb-1">
-          <div className="relative w-full aspect-video">
-            <Image
-              src="/images/hero-resultado-julho2026.png"
-              alt="Resultado do Quiz"
-              fill
-              className="object-cover"
-              priority
-            />
+        {/* 1-2. Alerta + headline principal (Tela 2 — vencedora do /quiz-fst) */}
+        <section className="px-4 pt-8 sm:pt-10 pb-2">
+          <p className="text-xs sm:text-sm text-[#dc2626] font-bold mb-4 sm:mb-5 uppercase tracking-[0.1em] animate-fadeInUp text-center">
+            ALERTA DE PARASITAS INTESTINAIS NO BRASIL
+          </p>
+          <div className="text-left">
+            <h1 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-bold text-gray-900 mb-4 sm:mb-5 leading-[1.2] sm:leading-[1.25] tracking-[-0.01em] animate-fadeInUp">
+              Tem Mais de 35 Anos e Está Com Dificuldades Pra Perder Peso?
+              Existem Grandes Chances de Estar Com{' '}
+              <span className="text-[#dc2626]">Vermes Intestinais</span>, Aponta
+              Estudo
+            </h1>
           </div>
-        </section>
-
-        {/* 2. Headline Principal */}
-        <section className="px-4 pt-6 pb-4">
-          <h1 className="text-2xl sm:text-3xl font-black text-center text-[#b91c1c] leading-tight">
-            RESULTADO: ALTAS CHANCES DE SÍNDROME PARASITÁRIA
-          </h1>
         </section>
 
         {/* 3. Sub-headline */}
         <section className="px-4 pb-6">
           <p className="text-base sm:text-lg text-gray-700 text-center leading-relaxed">
-            Assista o vídeo abaixo para descobrir como eliminar esses invasores do seu corpo de forma{' '}
-            <strong className="text-gray-900">100% natural</strong> nos próximos{' '}
-            <strong className="text-gray-900">60 dias</strong> e emagrecer até{' '}
-            <strong className="text-gray-900">3kg por semana</strong>, antes que esse vídeo saia do ar.
+            Assista o vídeo abaixo para entender como funciona o truque do cravo
+            e eliminar esses parasitas
           </p>
         </section>
 
