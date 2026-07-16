@@ -17,13 +17,10 @@ import { track } from '@/lib/tracker';
  *   = `quiz-fst:t2` é preservado (não é sobrescrito), então o
  *   ScreenParamTracker carimba `src=t2` no checkout.
  * - quiz-fst-1..4 / quiz-fst:tN: VSL própria (legado). google/native: dedicadas.
- * - vsl-lead-test: teste de VSL (4 vídeos de lead, split pelo vturb).
  */
 function destForSource(source: string | null): string {
   if (source === 'google') return '/google-vsl';
   if (source === 'native') return '/native-vsl';
-  // Teste de VSL: mesma Tela 2, VSL com o A/B dos 4 vídeos de lead.
-  if (source === 'vsl-lead-test') return '/vsl-lead-test-vsl';
   // Tela 2 (vencedora) → página vencedora do teste de kit/preço.
   if (source === 'quiz-fst:t2') return '/resultado4';
   // Páginas standalone (/quiz-fst-N) e split (variant quiz-fst:tN) usam as
