@@ -12,17 +12,17 @@ import { track } from '@/lib/tracker';
 
 /**
  * Destino (VSL) após o quiz, conforme a origem (`quiz_source`).
- * - quiz-fst:t2 (tela 2 vencedora): vai direto pra /resultado4 (vencedora do
- *   teste de kit/preço, encerrado em 2026-07-12). O cookie `tr_variant`
- *   = `quiz-fst:t2` é preservado (não é sobrescrito), então o
- *   ScreenParamTracker carimba `src=t2` no checkout.
+ * - quiz-fst:t2 (tela 2 vencedora): vai pra /resultado2 (troca de 2026-07-17;
+ *   antes ia pra /resultado4, vencedora do teste de kit/preço encerrado em
+ *   2026-07-12). O cookie `tr_variant` = `quiz-fst:t2` é preservado (não é
+ *   sobrescrito), então o ScreenParamTracker carimba `src=t2` no checkout.
  * - quiz-fst-1..4 / quiz-fst:tN: VSL própria (legado). google/native: dedicadas.
  */
 function destForSource(source: string | null): string {
   if (source === 'google') return '/google-vsl';
   if (source === 'native') return '/native-vsl';
-  // Tela 2 (vencedora) → página vencedora do teste de kit/preço.
-  if (source === 'quiz-fst:t2') return '/resultado4';
+  // Tela 2 (vencedora) → /resultado2 (todo o tráfego do funil com quiz).
+  if (source === 'quiz-fst:t2') return '/resultado2';
   // Páginas standalone (/quiz-fst-N) e split (variant quiz-fst:tN) usam as
   // mesmas VSLs por número de tela.
   if (source && /^quiz-fst-[1-4]$/.test(source)) return `/${source}-vsl`;
