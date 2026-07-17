@@ -34,7 +34,7 @@ import Script from 'next/script';
  */
 
 const ACCOUNT = '637f9657-7454-4e03-ad13-ab875efdb78d';
-const AB_TEST_ID = '6a58418af83b4a085f48e886';
+const AB_TEST_ID = '6a5a1748886c8803b3ada853';
 const AB_PLAYER_JS = `https://scripts.converteai.net/${ACCOUNT}/ab-test/${AB_TEST_ID}/player.js`;
 
 /**
@@ -44,10 +44,10 @@ const AB_PLAYER_JS = `https://scripts.converteai.net/${ACCOUNT}/ab-test/${AB_TES
  * - `delay`: segundo do vídeo em que a oferta é revelada.
  */
 const VIDEOS: Record<string, { lead: string; delay: number }> = {
-  '6a58036ac3616d0e16235cd5': { lead: 'lead2', delay: 2480 }, // LEAD 02 — 41:20
-  '6a57ffdb17bed20d33140eb0': { lead: 'lead3', delay: 2380 }, // LEAD 03 — 39:40
-  '6a57fe88b226c5769c89c9f6': { lead: 'lead4', delay: 2313 }, // LEAD 04 — 38:33
-  '6a58054c1e088827f6082637': { lead: 'lead5', delay: 2317 }, // LEAD 05 — 38:37
+  '6a5996929193b49f762d9d93': { lead: 'lead2', delay: 2480 }, // LEAD 02 — 41:20
+  '6a5994a6822afd5dc0f4b534': { lead: 'lead3', delay: 2380 }, // LEAD 03 — 39:40
+  '6a5991c14dbb0b8a2b985462': { lead: 'lead4', delay: 2313 }, // LEAD 04 — 38:33
+  '6a599841f2a92ace1e8bdbfe': { lead: 'lead5', delay: 2317 }, // LEAD 05 — 38:37
 };
 
 /** Param que carrega o vídeo sorteado até o checkout. */
