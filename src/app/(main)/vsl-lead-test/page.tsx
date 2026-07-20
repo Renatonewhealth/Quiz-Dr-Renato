@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Script from 'next/script';
+import OneKitUpsellLink from '@/components/OneKitUpsellLink';
 
 /**
  * Teste de VSL de lead — headline + A/B dos 4 vídeos:
@@ -14,8 +15,8 @@ import Script from 'next/script';
  *
  * ABERTURA: tarja de saúde + alerta + headline principal — réplica da Tela 2,
  * vencedora do teste `/quiz-fst`. Substituiu o card de auto-análise e a
- * headline "RESULTADO:" a pedido do cliente. A oferta (kits 6/3/2) e os
- * checkouts da Payt continuam os mesmos da /resultado4.
+ * headline "RESULTADO:" a pedido do cliente. A oferta (kits 3/2/1, com modal
+ * de upsell no 1 kit) e os checkouts da Payt são os mesmos da /resultado2.
  *
  * O player é o A/B test do vturb: sorteia 1 dos 4 vídeos (LEAD 02..05, 25%
  * cada) e mantém a escolha sticky no localStorage.
@@ -262,14 +263,14 @@ export default function VslLeadTestPage() {
           </Script>
         </section>
 
-        {/* 5. Oferta - 3 Kits (escondida até o delay do vídeo) */}
+        {/* 5. Oferta - kits 3/2/1, igual /resultado2 (escondida até o delay do vídeo) */}
         <section className="esconder px-4 py-8 space-y-4">
-          {/* Imagem 1 - 6 Kits */}
-          <a href="https://checkout.payt.com.br/ac08e08784826ab14a9615a73789c357?split=12" className="block w-[78%] mx-auto relative">
+          {/* Imagem 1 - 3 Kits */}
+          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de?split=12" className="block w-[78%] mx-auto relative">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/6-kits-v2.png"
-                alt="Kit com 6 unidades"
+                src="/images/3-kits.png"
+                alt="Kit com 3 unidades"
                 fill
                 className="object-cover"
               />
@@ -280,29 +281,33 @@ export default function VslLeadTestPage() {
             </div>
           </a>
 
-          {/* Imagem 2 - 3 Kits */}
-          <a href="https://checkout.payt.com.br/7c9c47db388f0f6780f93d7d02a9f9de?split=12" className="block w-[78%] mx-auto">
-            <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
-              <Image
-                src="/images/3-kits-v2.png"
-                alt="Kit com 3 unidades"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </a>
-
-          {/* Imagem 3 - 2 Kits */}
+          {/* Imagem 2 - 2 Kits */}
           <a href="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12#" className="block w-[78%] mx-auto">
             <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <Image
-                src="/images/2-kits-v2.png"
+                src="/images/2-kits.png"
                 alt="Kit com 2 unidades"
                 fill
                 className="object-cover"
               />
             </div>
           </a>
+
+          {/* Imagem 3 - 1 Kit (com upsell modal) */}
+          <OneKitUpsellLink
+            href="https://checkout.payt.com.br/c11d395593428f094fcb4b279f1ef839?split=12"
+            promoHref="https://checkout.payt.com.br/802bd7e3c1214a0954e030130f636355?split=12&coupon=PRESENTE#"
+            className="block w-[78%] mx-auto"
+          >
+            <div className="relative w-full rounded-lg overflow-hidden" style={{ aspectRatio: '3/4' }}>
+              <Image
+                src="/images/1-kit.png"
+                alt="Kit com 1 unidade"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </OneKitUpsellLink>
           {/* Disclaimer termos */}
           <p className="text-xs text-gray-400 text-center pt-2 pb-4">
             Ao comprar qualquer um dos kits Desparafit você concorda com os{' '}
