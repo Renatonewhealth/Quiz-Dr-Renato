@@ -5,7 +5,7 @@ import Script from 'next/script';
 import OneKitUpsellLink from '@/components/OneKitUpsellLink';
 
 /**
- * Teste de VSL de lead — headline + A/B dos 4 vídeos:
+ * VSL de lead (vídeo único — LEAD 03, vencedor do A/B):
  *
  *   form-quiz (externo, do cliente) → /vsl-lead-test → checkout
  *
@@ -14,52 +14,18 @@ import OneKitUpsellLink from '@/components/OneKitUpsellLink';
  * /detectordeinvasores).
  *
  * ABERTURA: tarja de saúde + alerta + headline principal — réplica da Tela 2,
- * vencedora do teste `/quiz-fst`. Substituiu o card de auto-análise e a
- * headline "RESULTADO:" a pedido do cliente. A oferta (kits 3/2/1, com modal
- * de upsell no 1 kit) e os checkouts da Payt são os mesmos da /resultado2.
+ * vencedora do teste `/quiz-fst`. A oferta (kits 3/2/1, com modal de upsell
+ * no 1 kit) e os checkouts da Payt são os mesmos da /resultado2.
  *
- * O player é o A/B test do vturb: sorteia 1 dos 4 vídeos (LEAD 02..05, 25%
- * cada) e mantém a escolha sticky no localStorage.
- *
- * O vídeo sorteado é carimbado como `utm_vsl_lead=lead2..lead5` na URL da
- * página e nos links de checkout, pra a venda ser atribuída ao vídeo que a
- * gerou. Convive com o ScreenParamTracker global (que carimba src/utm_screen):
- * os dois reconstroem o href a partir do atual, então um preserva o param do
- * outro, em qualquer ordem.
- *
- * DELAY (o pulo do gato): cada vídeo revela a oferta num tempo diferente, e o
- * A/B só resolve qual vídeo tocar no cliente — ou seja, não dá pra fixar o
- * tempo no HTML. O script do vturb, ao montar o player sorteado, reescreve o
- * id do elemento (`ab-<testId>` → `vid-<videoId>`); é daí que descobrimos, no
- * `player:ready`, qual vídeo caiu, pra aplicar o delay correspondente.
+ * O A/B dos 4 vídeos (LEAD 02..05) e o carimbo de `utm_vsl_lead=leadN`
+ * foram removidos: 100% do tráfego vê o LEAD 03 e a oferta é revelada
+ * sempre aos 2380s (39:40).
  */
 
-const ACCOUNT = '637f9657-7454-4e03-ad13-ab875efdb78d';
-const AB_TEST_ID = '6a5a1748886c8803b3ada853';
-const AB_PLAYER_JS = `https://scripts.converteai.net/${ACCOUNT}/ab-test/${AB_TEST_ID}/player.js`;
-
-/**
- * Os 4 vídeos do A/B, por id do vturb. Os ids batem com os `children` do teste.
- * - `lead`: identifica o vídeo — vira o `utm_vsl_lead` (URL + checkout) e o
- *   parâmetro do evento do Meta.
- * - `delay`: segundo do vídeo em que a oferta é revelada.
- */
-const VIDEOS: Record<string, { lead: string; delay: number }> = {
-  '6a5996929193b49f762d9d93': { lead: 'lead2', delay: 2480 }, // LEAD 02 — 41:20
-  '6a5994a6822afd5dc0f4b534': { lead: 'lead3', delay: 2380 }, // LEAD 03 — 39:40
-  '6a5991c14dbb0b8a2b985462': { lead: 'lead4', delay: 2313 }, // LEAD 04 — 38:33
-  '6a599841f2a92ace1e8bdbfe': { lead: 'lead5', delay: 2317 }, // LEAD 05 — 38:37
-};
-
-/** Param que carrega o vídeo sorteado até o checkout. */
-const UTM_PARAM = 'utm_vsl_lead';
-
-/**
- * Se o vídeo sorteado não for reconhecido, usa o MAIOR delay: revelar tarde
- * demais custa alguns minutos de espera; revelar cedo demais entrega a oferta
- * antes da virada de chave do vídeo.
- */
-const FALLBACK_DELAY = Math.max(...Object.values(VIDEOS).map((v) => v.delay));
+const VIDEO_ID = '6a5994a6822afd5dc0f4b534'; // LEAD 03
+const PLAYER_JS = `https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/${VIDEO_ID}/v4/player.js`;
+const M3U8 = 'https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/6a5991c4540ac3c658934862/main.m3u8';
+const DELAY_SECONDS = 2380;
 
 export default function VslLeadTestPage() {
   return (
@@ -91,16 +57,16 @@ export default function VslLeadTestPage() {
         />
       </noscript>
 
-      {/* Vturb Preloads — sem preload do m3u8: o vídeo só é sorteado no cliente. */}
+      {/* Vturb Preloads */}
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
       </Script>
-      <link rel="preload" href={AB_PLAYER_JS} as="script" />
+      <link rel="preload" href={PLAYER_JS} as="script" />
       <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="preload" href={M3U8} as="fetch" />
       <link rel="dns-prefetch" href="https://cdn.converteai.net" />
       <link rel="dns-prefetch" href="https://scripts.converteai.net" />
       <link rel="dns-prefetch" href="https://images.converteai.net" />
-      <link rel="dns-prefetch" href="https://m3u8.vturb.net" />
       <link rel="dns-prefetch" href="https://license.vturb.com" />
 
       <style jsx global>{`
@@ -193,72 +159,24 @@ export default function VslLeadTestPage() {
           </p>
         </section>
 
-        {/* 4. VSL Player - Vturb A/B test (sorteia LEAD 02..05) */}
+        {/* 4. VSL Player - Vturb (LEAD 03) */}
         <section className="w-full">
           <div
             dangerouslySetInnerHTML={{
-              __html: `<vturb-smartplayer id="ab-${AB_TEST_ID}" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>`
+              __html: `<vturb-smartplayer id="vid-${VIDEO_ID}" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>`
             }}
           />
-          <Script src={AB_PLAYER_JS} strategy="afterInteractive" />
-          {/* Resolve o vídeo sorteado → delay da oferta + utm_vsl_lead (URL e checkout) */}
-          <Script id="vturb-video" strategy="afterInteractive">
+          <Script src={PLAYER_JS} strategy="afterInteractive" />
+          {/* Delay: revela a oferta aos 2380s (39:40) do vídeo */}
+          <Script id="vturb-delay" strategy="afterInteractive">
             {`
-              (function(){
-                var VIDEOS = ${JSON.stringify(VIDEOS)};
-                var CHECKOUT_SELECTOR = 'a[href*="checkout.payt.com.br"]';
-                var lead = null;
-                var alreadyInitialized = false;
-
-                function stampLink(a) {
-                  if (!lead || !a || !a.href) return;
-                  try {
-                    var url = new URL(a.href);
-                    url.searchParams.set('${UTM_PARAM}', lead);
-                    a.href = url.toString();
-                  } catch (e) { /* ignore */ }
-                }
-
-                // Re-carimba no clique (capture, antes da navegação) — cobre link
-                // re-renderizado ou inserido depois do carimbo inicial.
-                document.addEventListener('click', function(event) {
-                  var target = event.target;
-                  var link = target && target.closest ? target.closest(CHECKOUT_SELECTOR) : null;
-                  if (link) stampLink(link);
-                }, true);
-
-                document.addEventListener('player:ready', function(event) {
-                  if (alreadyInitialized) return;
-                  var detail = event.detail || {};
-                  var player = detail.player
-                    || document.querySelector('vturb-smartplayer[id^="vid-"]')
-                    || document.querySelector('vturb-smartplayer');
-                  if (!player || typeof player.displayHiddenElements !== 'function') return;
-                  alreadyInitialized = true;
-                  // O A/B renomeia o elemento pra vid-<videoId> ao montar o sorteado.
-                  var videoId = String(player.id || '').replace(/^vid-/, '');
-                  var video = VIDEOS[videoId];
-                  if (!video) {
-                    console.warn('[vsl-lead-test] video fora do mapa:', videoId, '- delay de seguranca', ${FALLBACK_DELAY});
-                  }
-                  player.displayHiddenElements(video ? video.delay : ${FALLBACK_DELAY}, ['.esconder'], { persist: true });
-                  // Vídeo desconhecido: sem carimbo, pra não atribuir a venda ao lead errado.
-                  if (!video) return;
-                  lead = video.lead;
-                  // URL da própria página (validação a olho na barra de endereço).
-                  try {
-                    var pageUrl = new URL(window.location.href);
-                    pageUrl.searchParams.set('${UTM_PARAM}', lead);
-                    window.history.replaceState(null, '', pageUrl.toString());
-                  } catch (e) { /* ignore */ }
-                  // Checkouts já na página (ficam no DOM desde o load, mesmo escondidos).
-                  var links = document.querySelectorAll(CHECKOUT_SELECTOR);
-                  for (var i = 0; i < links.length; i++) stampLink(links[i]);
-                  if (typeof window.fbq === 'function') {
-                    window.fbq('trackCustom', 'VslLeadTestVideo', { video: lead, experimento: 'vsl-lead-test' });
-                  }
+              var delaySeconds = ${DELAY_SECONDS};
+              var player = document.querySelector("vturb-smartplayer");
+              if (player) {
+                player.addEventListener("player:ready", function() {
+                  player.displayHiddenElements(delaySeconds, [".esconder"], { persist: true });
                 });
-              })();
+              }
             `}
           </Script>
         </section>
