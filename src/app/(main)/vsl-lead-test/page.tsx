@@ -136,31 +136,9 @@ export default function VslLeadTestPage() {
 
       {/* Container responsivo para desktop */}
       <div className="max-w-2xl mx-auto">
-        {/* 1-2. Alerta + headline principal (Tela 2 — vencedora do /quiz-fst) */}
-        <section className="px-4 pt-8 sm:pt-10 pb-2">
-          <p className="text-xs sm:text-sm text-[#dc2626] font-bold mb-4 sm:mb-5 uppercase tracking-[0.1em] animate-fadeInUp text-center">
-            ALERTA DE PARASITAS INTESTINAIS NO BRASIL
-          </p>
-          <div className="text-left">
-            <h1 className="text-[1.5rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-bold text-gray-900 mb-4 sm:mb-5 leading-[1.2] sm:leading-[1.25] tracking-[-0.01em] animate-fadeInUp">
-              Tem Mais de 35 Anos e Está Com Dificuldades Pra Perder Peso?
-              Existem Grandes Chances de Estar Com{' '}
-              <span className="text-[#dc2626]">Vermes Intestinais</span>, Aponta
-              Estudo
-            </h1>
-          </div>
-        </section>
-
-        {/* 3. Sub-headline */}
-        <section className="px-4 pb-6">
-          <p className="text-base sm:text-lg text-gray-700 text-center leading-relaxed">
-            Assista o vídeo abaixo para entender como funciona o truque do cravo
-            e eliminar esses parasitas
-          </p>
-        </section>
-
-        {/* 4. VSL Player - Vturb (LEAD 03) */}
-        <section className="w-full">
+        {/* VSL Player - Vturb (LEAD 03). Sem headline/subheadline — a página
+            abre direto no vídeo, logo abaixo da tarja SAÚDE. */}
+        <section className="w-full pt-6 sm:pt-8">
           <div
             dangerouslySetInnerHTML={{
               __html: `<vturb-smartplayer id="vid-${VIDEO_ID}" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>`
