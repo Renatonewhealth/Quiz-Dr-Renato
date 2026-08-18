@@ -25,7 +25,7 @@ const PARAM = 'utm_screen';
 // Carimba os dois nomes no checkout (Payt/UTMify leem qualquer um deles).
 const STAMP_PARAMS = ['utm_screen', 'src'];
 // Prefixos de experimento cujo id vira o valor de src/utm_screen no checkout.
-const EXPERIMENT_PREFIXES = ['quiz-fst:', 'preco:'];
+const EXPERIMENT_PREFIXES = ['quiz-fst:', 'preco:', 'df:'];
 const CHECKOUT_RE = /checkout\.payt\.com\.br/i;
 
 function readCookie(name: string): string | null {
