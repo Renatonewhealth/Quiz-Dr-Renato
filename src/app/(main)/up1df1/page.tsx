@@ -8,12 +8,13 @@ export default function Up1df1Page() {
       <Script id="vturb-plt" strategy="beforeInteractive">
         {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
       </Script>
-      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69d9a54d613eeca7e2ddedf6/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a831d133d35c6f447f76ce5/v4/player.js" as="script" />
       <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/6a831d0ae207630621c71d6d/main.m3u8" as="fetch" />
       <link rel="dns-prefetch" href="https://cdn.converteai.net" />
       <link rel="dns-prefetch" href="https://scripts.converteai.net" />
       <link rel="dns-prefetch" href="https://images.converteai.net" />
-      <link rel="dns-prefetch" href="https://api.vturb.com.br" />
+      <link rel="dns-prefetch" href="https://license.vturb.com" />
 
       <style jsx>{`
         @keyframes loading {
@@ -58,11 +59,11 @@ export default function Up1df1Page() {
         <section className="w-full">
           <div
             dangerouslySetInnerHTML={{
-              __html: '<vturb-smartplayer id="vid-69d9a54d613eeca7e2ddedf6" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>'
+              __html: '<vturb-smartplayer id="vid-6a831d133d35c6f447f76ce5" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>'
             }}
           />
           <Script
-            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/69d9a54d613eeca7e2ddedf6/v4/player.js"
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a831d133d35c6f447f76ce5/v4/player.js"
             strategy="afterInteractive"
           />
         </section>
@@ -73,10 +74,10 @@ export default function Up1df1Page() {
             dangerouslySetInnerHTML={{
               __html: `
                 <div style="text-align: center">
-                  <a href="#" payt_action="oneclick_buy" data-object="L88OKL-4ZJ2MP" style="display: block; margin: 0 auto; width: 78%; max-width: 340px; padding: 20px 24px; background: #16a34a; color: #ffffff; text-align: center; font-size: 22px; font-weight: 800; letter-spacing: 0.02em; border-radius: 12px; box-shadow: 0 6px 20px rgba(22,163,74,0.35); text-decoration: none; text-transform: uppercase;">
-                    QUERO APROVEITAR!
+                  <a href="#" payt_action="oneclick_buy" data-object="RVDMPJ-RAKA8Y" style="display: block; margin: 0 auto; width: 78%; max-width: 340px; padding: 20px 24px; background: #16a34a; color: #ffffff; text-align: center; font-size: 22px; font-weight: 800; letter-spacing: 0.02em; border-radius: 12px; box-shadow: 0 6px 20px rgba(22,163,74,0.35); text-decoration: none; text-transform: uppercase;">
+                    EU QUERO APROVEITAR!
                   </a>
-                  <select payt_element='installment' style='display: none' data-object='L88OKL-4ZJ2MP'></select>
+                  <select payt_element='installment' style='display: none' data-object='RVDMPJ-RAKA8Y'></select>
                 </div>
               `
             }}
@@ -90,10 +91,10 @@ export default function Up1df1Page() {
           </a>
         </section>
 
-        {/* Script de delay - libera elementos após 251s */}
+        {/* Script de delay - libera elementos após 250s */}
         <Script id="vturb-delay" strategy="afterInteractive">
           {`
-            var delaySeconds = 251;
+            var delaySeconds = 250;
             var player = document.querySelector("vturb-smartplayer");
             player.addEventListener("player:ready", function() {
               player.displayHiddenElements(delaySeconds, [".esconder"], {
