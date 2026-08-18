@@ -52,22 +52,22 @@ export default function Dws1df1Page() {
       {/* Copy principal - Dr. Renato */}
       <article className="max-w-2xl mx-auto px-5 sm:px-6 py-8 sm:py-10 text-[17px] sm:text-lg leading-relaxed text-gray-800">
         {/* Foto do Dr. Renato + headline ESPERA */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 mb-6">
-          <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-lg flex-shrink-0 mx-auto sm:mx-0">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6 mb-6">
+          <div className="relative w-full max-w-[280px] sm:max-w-[240px] sm:w-60 aspect-[4/5] rounded-2xl overflow-hidden shadow-xl flex-shrink-0 mx-auto sm:mx-0">
             <Image
               src="/images/dr-renato-portrait.jpg"
               alt="Dr. Renato Silveira"
               fill
               className="object-cover"
-              sizes="128px"
+              sizes="(max-width: 640px) 280px, 240px"
               priority
             />
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-xl sm:text-2xl font-black text-[#b91c1c] uppercase leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-[#b91c1c] uppercase leading-tight">
               ESPERA! Antes de você ir…
             </h2>
-            <p className="text-sm sm:text-base text-gray-500 mt-1">
+            <p className="text-sm sm:text-base text-gray-500 mt-2">
               Uma última mensagem do <strong className="text-gray-700">Dr. Renato Silveira</strong>
             </p>
           </div>
