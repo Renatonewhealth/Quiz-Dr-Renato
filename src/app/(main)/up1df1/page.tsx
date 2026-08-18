@@ -73,8 +73,8 @@ export default function Up1df1Page() {
             dangerouslySetInnerHTML={{
               __html: `
                 <div style="text-align: center">
-                  <a href="#" payt_action="oneclick_buy" data-object="L88OKL-4ZJ2MP" style="display: block; margin: 0 auto; width: 78%; max-width: 340px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
-                    <img src="/images/ozenkit-confirmar.png" alt="2 Kits OzenKit (120 dias) - 12x R$49,80" style="width: 100%; display: block;" />
+                  <a href="#" payt_action="oneclick_buy" data-object="L88OKL-4ZJ2MP" style="display: block; margin: 0 auto; width: 78%; max-width: 340px; padding: 20px 24px; background: #16a34a; color: #ffffff; text-align: center; font-size: 22px; font-weight: 800; letter-spacing: 0.02em; border-radius: 12px; box-shadow: 0 6px 20px rgba(22,163,74,0.35); text-decoration: none; text-transform: uppercase;">
+                    QUERO APROVEITAR!
                   </a>
                   <select payt_element='installment' style='display: none' data-object='L88OKL-4ZJ2MP'></select>
                 </div>
