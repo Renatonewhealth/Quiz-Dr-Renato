@@ -49,7 +49,7 @@ export default function KoreanPage() {
         ==================================================================== */}
         <section className="px-4 py-8 space-y-4">
           {/* Kit 1 - 6 Kits (mais escolhido) */}
-          <a href="#" className="block w-[78%] mx-auto">
+          <a href="#" className="block w-[70%] max-w-[340px] mx-auto">
             <div
               className="relative w-full rounded-lg overflow-hidden"
               style={{ aspectRatio: '3/4' }}
@@ -65,7 +65,7 @@ export default function KoreanPage() {
           </a>
 
           {/* Kit 2 - 3 Kits */}
-          <a href="#" className="block w-[78%] mx-auto">
+          <a href="#" className="block w-[70%] max-w-[340px] mx-auto">
             <div
               className="relative w-full rounded-lg overflow-hidden"
               style={{ aspectRatio: '3/4' }}
@@ -81,7 +81,7 @@ export default function KoreanPage() {
           </a>
 
           {/* Kit 3 - 2 Kits */}
-          <a href="#" className="block w-[78%] mx-auto">
+          <a href="#" className="block w-[70%] max-w-[340px] mx-auto">
             <div
               className="relative w-full rounded-lg overflow-hidden"
               style={{ aspectRatio: '3/4' }}
@@ -109,14 +109,9 @@ export default function KoreanPage() {
             3. FAQ
         ==================================================================== */}
         <section className="px-4 pt-6 pb-10">
-          <h2 className="text-2xl sm:text-3xl font-black text-center text-gray-900 mb-3">
-            Antes de encerrarmos…
+          <h2 className="text-4xl sm:text-5xl font-black text-center text-gray-900 mb-8 tracking-tight">
+            FAQ
           </h2>
-          <p className="text-[15px] sm:text-base text-gray-700 leading-relaxed text-center max-w-lg mx-auto mb-8">
-            Eu sei que ainda pode ter ficado alguma dúvida na sua cabeça, e é
-            completamente normal. Deixa eu responder as principais agora,
-            rapidinho, pra você ter certeza antes de decidir.
-          </p>
 
           <div className="space-y-3">
             <details className="group border border-gray-200 rounded-xl bg-white overflow-hidden">
@@ -358,27 +353,6 @@ export default function KoreanPage() {
             </details>
           </div>
 
-          {/* Fechamento pós-FAQ */}
-          <div className="mt-10 text-[15px] sm:text-base text-gray-700 leading-relaxed space-y-3 max-w-lg mx-auto">
-            <p>
-              Se ficou qualquer outra dúvida, é só mandar pro nosso suporte
-              depois de garantir o seu kit que a gente responde rápido.
-            </p>
-            <p>
-              Agora você já sabe tudo: como funciona, por que funciona, e que
-              você não corre risco nenhum. Escolha o seu kit lá em cima e
-              garanta antes que o estoque acabe.
-            </p>
-            <p>
-              Muito obrigado por ter assistido até aqui. Depois que você ver
-              sua pele mais firme e brilhante, não esqueça de me marcar no
-              Instagram com o seu resultado. Não tem nada que me dê mais
-              alegria do que ver a transformação de vocês.
-            </p>
-            <p className="font-semibold text-gray-900">
-              Um grande abraço, e até a próxima!
-            </p>
-          </div>
         </section>
       </div>
 
