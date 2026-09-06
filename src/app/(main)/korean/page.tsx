@@ -1,23 +1,31 @@
 'use client';
 
 import Image from 'next/image';
+import Script from 'next/script';
 
 /**
- * VSL do Korean — VSL placeholder + kits reais (6/3/2) + FAQ.
+ * VSL do Korean — vturb (LEAD 6a9c1f3a…) + kits 6/3/2 com checkout Payt + FAQ.
  *
- * A fazer quando o embed do vturb chegar:
- *   - Trocar o bloco "PLACEHOLDER VSL" pelos preloads do vturb +
- *     <vturb-smartplayer> + <Script src=".../player.js">.
- *   - (Opcional) revelar os kits só depois do pitch: adicionar `esconder`
- *     na section dos kits + script `player:ready` chamando
- *     player.displayHiddenElements(<delay>, ['.esconder'], {persist:true}).
- *
- * A fazer quando os checkouts do Payt chegarem:
- *   - Trocar o `href="#"` de cada kit pelo link do Payt do respectivo SKU.
+ * Sem delay configurado por enquanto: kits ficam visíveis do load. Pra
+ * revelar só aos N segundos do vídeo, adicionar `esconder` na section dos
+ * kits + <Script> com `player:ready` chamando
+ * player.displayHiddenElements(<delay>, ['.esconder'], {persist:true}).
  */
 export default function KoreanPage() {
   return (
     <main className="min-h-screen bg-white">
+      {/* Vturb preloads (velocidade) */}
+      <Script id="vturb-plt" strategy="beforeInteractive">
+        {`!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);`}
+      </Script>
+      <link rel="preload" href="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a9c1f3a1097df473488f3a7/v4/player.js" as="script" />
+      <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
+      <link rel="preload" href="https://cdn.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/6a9c1efbbd07ff5ac8bedac6/main.m3u8" as="fetch" />
+      <link rel="dns-prefetch" href="https://cdn.converteai.net" />
+      <link rel="dns-prefetch" href="https://scripts.converteai.net" />
+      <link rel="dns-prefetch" href="https://images.converteai.net" />
+      <link rel="dns-prefetch" href="https://license.vturb.com" />
+
       <style jsx global>{`
         .esconder {
           display: none;
@@ -26,21 +34,18 @@ export default function KoreanPage() {
 
       <div className="max-w-2xl mx-auto">
         {/* ====================================================================
-            1. VSL PLAYER — placeholder
+            1. VSL PLAYER - Vturb (LEAD 6a9c1f3a...)
         ==================================================================== */}
-        <section className="w-full pt-6 sm:pt-8 px-4">
-          <div className="relative w-full max-w-[400px] mx-auto aspect-[9/16] bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-            <div className="text-center px-6">
-              <p className="text-gray-400 text-sm font-mono uppercase tracking-wider mb-1">
-                [ Placeholder VSL ]
-              </p>
-              <p className="text-gray-500 text-xs">
-                Colar aqui o embed do vturb
-                <br />
-                (portrait 9:16, max 400px)
-              </p>
-            </div>
-          </div>
+        <section className="w-full pt-6 sm:pt-8">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: '<vturb-smartplayer id="vid-6a9c1f3a1097df473488f3a7" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>'
+            }}
+          />
+          <Script
+            src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a9c1f3a1097df473488f3a7/v4/player.js"
+            strategy="afterInteractive"
+          />
         </section>
 
         {/* ====================================================================
@@ -49,7 +54,7 @@ export default function KoreanPage() {
         ==================================================================== */}
         <section className="px-4 py-8 space-y-4">
           {/* Kit 1 - 6 Kits (mais escolhido) */}
-          <a href="#" className="block w-[70%] max-w-[340px] mx-auto">
+          <a href="https://checkout.payt.com.br/4124ea70640414fd58d7cf15b3bd65fc?split=12" className="block w-[70%] max-w-[340px] mx-auto">
             <div
               className="relative w-full rounded-lg overflow-hidden"
               style={{ aspectRatio: '3/4' }}
@@ -65,7 +70,7 @@ export default function KoreanPage() {
           </a>
 
           {/* Kit 2 - 3 Kits */}
-          <a href="#" className="block w-[70%] max-w-[340px] mx-auto">
+          <a href="https://checkout.payt.com.br/4d68b4af57b565253f59317b45f1a628?split=12" className="block w-[70%] max-w-[340px] mx-auto">
             <div
               className="relative w-full rounded-lg overflow-hidden"
               style={{ aspectRatio: '3/4' }}
@@ -81,7 +86,7 @@ export default function KoreanPage() {
           </a>
 
           {/* Kit 3 - 2 Kits */}
-          <a href="#" className="block w-[70%] max-w-[340px] mx-auto">
+          <a href="https://checkout.payt.com.br/6d70ea89a5c1f26e3e9d09ee960b8107?split=12" className="block w-[70%] max-w-[340px] mx-auto">
             <div
               className="relative w-full rounded-lg overflow-hidden"
               style={{ aspectRatio: '3/4' }}
