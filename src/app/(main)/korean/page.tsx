@@ -46,13 +46,47 @@ export default function KoreanPage() {
             src="https://scripts.converteai.net/637f9657-7454-4e03-ad13-ab875efdb78d/players/6a9c1f3a1097df473488f3a7/v4/player.js"
             strategy="afterInteractive"
           />
+          {/* Delay: revela kits + FAQ aos 3208s (53:28) do video +
+              auto-scroll suave pros kits quando aparecer (so na primeira
+              vez, nao no reload persist) */}
+          <Script id="vturb-delay" strategy="afterInteractive">
+            {`
+              (function () {
+                var alreadyInitialized = false;
+                document.addEventListener('player:ready', function (event) {
+                  if (alreadyInitialized) return;
+                  var detail = event.detail || {};
+                  var player = detail.player || document.querySelector('vturb-smartplayer');
+                  if (!player || typeof player.displayHiddenElements !== 'function') return;
+                  alreadyInitialized = true;
+
+                  var kits = document.getElementById('kits');
+                  var wasHidden = kits && getComputedStyle(kits).display === 'none';
+
+                  if (kits && wasHidden) {
+                    var observer = new MutationObserver(function () {
+                      if (getComputedStyle(kits).display !== 'none') {
+                        observer.disconnect();
+                        setTimeout(function () {
+                          kits.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 400);
+                      }
+                    });
+                    observer.observe(kits, { attributes: true, attributeFilter: ['class', 'style'] });
+                  }
+
+                  player.displayHiddenElements(3208, ['.esconder'], { persist: true });
+                });
+              })();
+            `}
+          </Script>
         </section>
 
         {/* ====================================================================
-            2. KITS — 6 / 3 / 2 (imagens ja com botao "EU QUERO" embutido)
-            TROCAR href="#" pelo checkout do Payt de cada SKU.
+            2. KITS — 6 / 3 / 2 (imagens ja com botao "EU QUERO" embutido).
+            Escondidos ate 3208s do video (script de delay acima).
         ==================================================================== */}
-        <section className="px-4 py-8 space-y-4">
+        <section id="kits" className="esconder px-4 py-8 space-y-4">
           {/* Kit 1 - 6 Kits (mais escolhido) */}
           <a href="https://checkout.payt.com.br/4124ea70640414fd58d7cf15b3bd65fc?split=12" className="block w-[70%] max-w-[340px] mx-auto">
             <div
@@ -111,9 +145,9 @@ export default function KoreanPage() {
         </section>
 
         {/* ====================================================================
-            3. FAQ
+            3. FAQ — escondido junto com os kits ate 3208s do video.
         ==================================================================== */}
-        <section className="px-4 pt-6 pb-10">
+        <section className="esconder px-4 pt-6 pb-10">
           <h2 className="text-4xl sm:text-5xl font-black text-center text-gray-900 mb-8 tracking-tight">
             FAQ
           </h2>
