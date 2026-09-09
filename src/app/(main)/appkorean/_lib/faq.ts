@@ -1092,17 +1092,41 @@ function normalizar(texto: string): string {
 }
 
 /**
- * Busca simples por termo. Pontua o titulo mais alto que o corpo, para a
- * pergunta mais obvia aparecer primeiro.
+ * Palavras vazias: aparecem em quase toda pergunta e nao dizem nada sobre o
+ * assunto. Sem isso, "qual a capital da australia" casava com "Qual a melhor
+ * hora para tomar o po" so pelo "qual".
  */
-export function buscarPerguntas(termo: string): PerguntaFaq[] {
+const VAZIAS = new Set([
+  'qual', 'quais', 'quando', 'onde', 'como', 'quanto', 'quanta', 'quantos', 'quantas',
+  'que', 'porque', 'por', 'para', 'pra', 'pro', 'com', 'sem', 'sobre', 'entre',
+  'meu', 'minha', 'meus', 'minhas', 'seu', 'sua', 'seus', 'suas', 'dele', 'dela',
+  'esse', 'essa', 'esses', 'essas', 'isso', 'aquilo', 'este', 'esta', 'aquele', 'aquela',
+  'uma', 'uns', 'umas', 'dos', 'das', 'nos', 'nas', 'aos',
+  'mais', 'menos', 'muito', 'muita', 'pouco', 'pouca', 'tudo', 'nada', 'algum', 'alguma',
+  'posso', 'pode', 'podem', 'preciso', 'precisa', 'tenho', 'tem', 'estou', 'esta', 'estao',
+  'sou', 'ser', 'ter', 'fazer', 'faco', 'faz', 'vou', 'vai', 'quero', 'queria',
+  'ainda', 'agora', 'depois', 'antes', 'sempre', 'nunca', 'talvez', 'entao',
+  'nao', 'sim', 'ola', 'oi', 'voce', 'vc', 'eu', 'ele', 'ela',
+  'mesmo', 'mesma', 'outro', 'outra', 'todo', 'toda', 'cada', 'algo',
+]);
+
+/** Resultado pontuado, usado pelo chat para decidir o que responder. */
+export interface Acerto {
+  item: PerguntaFaq;
+  pontos: number;
+}
+
+/** Busca pontuada: o titulo pesa mais que os termos, que pesam mais que o corpo. */
+export function buscarComPontos(termo: string): Acerto[] {
   const alvo = normalizar(termo.trim());
   if (alvo.length < 2) return [];
 
-  const palavras = alvo.split(/\s+/).filter((p) => p.length > 1);
+  const palavras = alvo
+    .split(/\s+/)
+    .filter((p) => p.length > 2 && !VAZIAS.has(p));
   if (palavras.length === 0) return [];
 
-  const pontuadas = FAQ.map((item) => {
+  return FAQ.map((item) => {
     const titulo = normalizar(item.pergunta);
     const extras = normalizar((item.termos ?? []).join(' '));
     const corpo = normalizar(item.resposta.join(' '));
@@ -1110,16 +1134,149 @@ export function buscarPerguntas(termo: string): PerguntaFaq[] {
     let pontos = 0;
     for (const palavra of palavras) {
       if (titulo.includes(palavra)) pontos += 10;
-      if (extras.includes(palavra)) pontos += 6;
+      if (extras.includes(palavra)) pontos += 7;
       if (corpo.includes(palavra)) pontos += 1;
     }
-    if (titulo.includes(alvo)) pontos += 15;
+    // frase inteira batendo no titulo e sinal forte
+    if (titulo.includes(alvo)) pontos += 20;
 
     return { item, pontos };
-  });
+  })
+    .filter((a) => a.pontos > 0)
+    .sort((a, b) => b.pontos - a.pontos);
+}
 
-  return pontuadas
-    .filter((p) => p.pontos > 0)
-    .sort((a, b) => b.pontos - a.pontos)
-    .map((p) => p.item);
+/** Mantida para busca em lista (nao usada pelo chat). */
+export function buscarPerguntas(termo: string): PerguntaFaq[] {
+  return buscarComPontos(termo).map((a) => a.item);
+}
+
+/* ================== MOTOR DE RESPOSTA DO CHAT ================== */
+
+export type RespostaChat =
+  | { tipo: 'resposta'; item: PerguntaFaq }
+  | { tipo: 'sugestoes'; texto: string; opcoes: PerguntaFaq[] }
+  | { tipo: 'social'; paragrafos: string[]; opcoes: PerguntaFaq[] }
+  | { tipo: 'nao_entendi'; paragrafos: string[]; opcoes: PerguntaFaq[] };
+
+const SAUDACOES = ['oi', 'ola', 'ei', 'bom dia', 'boa tarde', 'boa noite', 'tudo bem', 'oi tudo bem'];
+const AGRADECIMENTOS = ['obrigada', 'obrigado', 'valeu', 'brigada', 'brigado', 'muito obrigada', 'muito obrigado', 'vlw', 'agradecida'];
+const DESPEDIDAS = ['tchau', 'ate mais', 'ate logo', 'falou', 'boa noite entao'];
+
+/** Perguntas oferecidas quando a pessoa so cumprimenta ou nao foi entendida. */
+const SUGESTOES_PADRAO = [
+  'rotina-como-usar',
+  'resultado-tempo',
+  'rotina-esqueci-po',
+  'seg-efeito-colateral',
+];
+
+function porIds(ids: string[]): PerguntaFaq[] {
+  return ids
+    .map((id) => FAQ.find((p) => p.id === id))
+    .filter((p): p is PerguntaFaq => Boolean(p));
+}
+
+/** Sugestoes iniciais mostradas na abertura do chat. */
+export function sugestoesIniciais(): PerguntaFaq[] {
+  return porIds([
+    'rotina-como-usar',
+    'resultado-tempo',
+    'rotina-esqueci-po',
+    'sk-protetor',
+    'seg-efeito-colateral',
+    'ped-garantia',
+  ]);
+}
+
+/**
+ * Decide o que a assistente responde para um texto livre.
+ *
+ * - acerto isolado e forte   -> entrega a resposta direto
+ * - varios acertos parecidos -> pergunta qual deles e o caso
+ * - nada     -> assume que nao entendeu e oferece caminhos
+ */
+export function responderPergunta(entrada: string): RespostaChat {
+  const texto = normalizar(entrada.trim());
+
+  if (texto.length === 0) {
+    return {
+      tipo: 'nao_entendi',
+      paragrafos: ['Me conta o que você quer saber que eu procuro aqui.'],
+      opcoes: porIds(SUGESTOES_PADRAO),
+    };
+  }
+
+  // Conversa social: cumprimento, agradecimento, despedida.
+  if (SAUDACOES.includes(texto)) {
+    return {
+      tipo: 'social',
+      paragrafos: [
+        'Oi! Que bom te ver por aqui.',
+        'Pode me perguntar sobre a rotina do Korean Kit, sobre a sua pele ou sobre o seu pedido. Escreva do seu jeito, sem formalidade.',
+      ],
+      opcoes: porIds(SUGESTOES_PADRAO),
+    };
+  }
+
+  if (AGRADECIMENTOS.some((a) => texto === a || texto.startsWith(a + ' '))) {
+    return {
+      tipo: 'social',
+      paragrafos: [
+        'Imagina, estou aqui para isso.',
+        'Se pintar outra dúvida, é só escrever.',
+      ],
+      opcoes: [],
+    };
+  }
+
+  if (DESPEDIDAS.includes(texto)) {
+    return {
+      tipo: 'social',
+      paragrafos: ['Até mais! Não esquece da sua rotina de hoje.'],
+      opcoes: [],
+    };
+  }
+
+  const acertos = buscarComPontos(entrada);
+
+  if (acertos.length === 0) {
+    return {
+      tipo: 'nao_entendi',
+      paragrafos: [
+        'Não encontrei uma resposta pronta para isso aqui.',
+        'Tente escrever de outro jeito, ou escolha um dos assuntos abaixo. Se for algo específico do seu pedido ou da sua saúde, a nossa equipe te atende no WhatsApp.',
+      ],
+      opcoes: porIds(SUGESTOES_PADRAO),
+    };
+  }
+
+  // Score baixo significa que so bateu no corpo do texto, por coincidencia.
+  // Nesse caso e mais honesto dizer que nao entendeu.
+  if (acertos[0].pontos < 7) {
+    return {
+      tipo: 'nao_entendi',
+      paragrafos: [
+        'Essa eu não sei responder por aqui.',
+        'Eu ajudo com a rotina do Korean Kit, com dúvidas sobre a sua pele e com o seu pedido. Se for algo específico do seu caso, a nossa equipe te atende no WhatsApp.',
+      ],
+      opcoes: porIds(SUGESTOES_PADRAO),
+    };
+  }
+
+  const melhor = acertos[0];
+  const segundo = acertos[1];
+
+  // Acerto isolado, ou muito mais forte que o proximo: responde direto.
+  const isolado = !segundo || melhor.pontos >= segundo.pontos + 8;
+  if (isolado && melhor.pontos >= 7) {
+    return { tipo: 'resposta', item: melhor.item };
+  }
+
+  // Empate tecnico: pergunta qual e o caso.
+  return {
+    tipo: 'sugestoes',
+    texto: 'Acho que entendi. Sobre qual desses você quer saber?',
+    opcoes: acertos.slice(0, 4).map((a) => a.item),
+  };
 }
