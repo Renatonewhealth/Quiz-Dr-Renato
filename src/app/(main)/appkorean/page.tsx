@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CalendarCheck, Camera, Gift, Sparkles } from 'lucide-react';
+import { CalendarCheck, Camera, Gift, HelpCircle } from 'lucide-react';
 
 import TabRotina from './_components/TabRotina';
 import TabDiario from './_components/TabDiario';
@@ -15,7 +15,7 @@ const ROSA = '#c4448f';
 const TABS: { id: TabId; label: string; icon: typeof CalendarCheck }[] = [
   { id: 'hoje', label: 'Hoje', icon: CalendarCheck },
   { id: 'diario', label: 'Diário', icon: Camera },
-  { id: 'assistente', label: 'Assistente', icon: Sparkles },
+  { id: 'assistente', label: 'Dúvidas', icon: HelpCircle },
   { id: 'bonus', label: 'Bônus', icon: Gift },
 ];
 
