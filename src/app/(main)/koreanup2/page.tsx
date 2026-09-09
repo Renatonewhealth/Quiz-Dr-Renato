@@ -1,16 +1,15 @@
 'use client';
 
 import Script from 'next/script';
+import LinkPreservandoParams from '@/components/LinkPreservandoParams';
 
 /**
  * Upsell 2 do Korean — para quem comprou 6 kits.
  * VSL: vid-6aa0c335c07f91f1f252944c (duração real 5:30 / 330s).
  * Recusa → /koreandwns2 (downsell de +2 kits por R$337).
- *
- * TODO: trocar PAYT_OBJ pelo product id real do Payt (data-object).
  */
 export default function KoreanUp2Page() {
-  const PAYT_OBJ = 'PAYT-ID-PENDENTE';
+  const PAYT_OBJ = 'LXNNQ5-47Z93G';
 
   return (
     <main className="min-h-screen bg-white">
@@ -95,12 +94,12 @@ export default function KoreanUp2Page() {
             src="https://checkout.payt.com.br/multiple-oneclickbuyscript/RDEWEP.js"
             strategy="afterInteractive"
           />
-          <a
+          <LinkPreservandoParams
             href="/koreandwns2"
             className="block text-center text-xs sm:text-sm text-gray-400 hover:text-gray-600 mt-5 underline underline-offset-2 decoration-1 transition-colors"
           >
             NÃO QUERO! E sei que não terei essa oportunidade novamente
-          </a>
+          </LinkPreservandoParams>
         </section>
 
         {/* Script de delay - libera elementos após 250s (VSL tem 5:30) */}

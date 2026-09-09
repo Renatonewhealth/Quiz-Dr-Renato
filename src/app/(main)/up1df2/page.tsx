@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import LinkPreservandoParams from '@/components/LinkPreservandoParams';
 
 export default function Up1df2Page() {
   return (
@@ -86,9 +87,12 @@ export default function Up1df2Page() {
             src="https://checkout.payt.com.br/multiple-oneclickbuyscript/RDEWEP.js"
             strategy="afterInteractive"
           />
-          <a href="/dws1df2" className="block text-center text-xs sm:text-sm text-gray-400 hover:text-gray-600 mt-5 underline underline-offset-2 decoration-1 transition-colors">
+          <LinkPreservandoParams
+            href="/dws1df2"
+            className="block text-center text-xs sm:text-sm text-gray-400 hover:text-gray-600 mt-5 underline underline-offset-2 decoration-1 transition-colors"
+          >
             Não quero aproveitar essa oportunidade e sei que ela nunca mais voltará.
-          </a>
+          </LinkPreservandoParams>
         </section>
 
         {/* Script de delay - libera elementos após 250s */}

@@ -12,11 +12,9 @@ import { ShieldCheck, Truck } from 'lucide-react';
  * One-click: como a navegação /koreanup2 → /koreandwns2 é same-origin via
  * <a href>, os cookies do Payt (setados no checkout inicial) persistem
  * intactos e o botão cobra sem re-pedir cartão.
- *
- * TODO: trocar paytObj pelo product id real do Payt (data-object).
  */
 export default function KoreanDwns2Page() {
-  const paytObj = 'PAYT-ID-PENDENTE';
+  const paytObj = '4EXXJ5-R29A2A';
   const ctaLabel = 'Sim, quero incluir mais 2 kits por R$337';
 
   return (
@@ -140,7 +138,7 @@ export default function KoreanDwns2Page() {
             <p className="text-4xl sm:text-5xl font-black text-[#c4448f] my-2 leading-none">R$337</p>
             <p className="text-base sm:text-lg text-gray-700 font-semibold">à vista</p>
             <p className="text-base sm:text-lg text-gray-700">
-              ou 12x de <strong>R$33,90</strong>
+              ou 12x de <strong>R$33,84</strong>
             </p>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-sm sm:text-base text-gray-700">
               <span className="inline-flex items-center gap-1.5">
@@ -224,14 +222,14 @@ export default function KoreanDwns2Page() {
       {/* Foto do produto + Dois Motivos */}
       <section className="bg-gray-50 py-10 sm:py-12 border-y border-gray-200">
         <div className="max-w-2xl mx-auto px-5 sm:px-6">
-          {/* TODO: trocar pelo product shot limpo do Korean Kit */}
-          <div className="relative w-full max-w-[320px] sm:max-w-sm mx-auto aspect-[3/4] mb-8 bg-white border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center">
-            <div className="text-center px-6">
-              <p className="text-gray-400 text-sm font-mono uppercase tracking-wider mb-1">
-                [ Foto do Korean Kit ]
-              </p>
-              <p className="text-gray-500 text-xs">Aguardando product shot</p>
-            </div>
+          <div className="relative w-full max-w-[320px] sm:max-w-sm mx-auto aspect-[3/4] mb-8">
+            <Image
+              src="/images/korean-kit-produto.png"
+              alt="Korean Kit: Sérum Hialurônico e Regenera Skin"
+              fill
+              className="object-contain"
+              sizes="(max-width: 640px) 320px, 384px"
+            />
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black text-center text-gray-900 mb-6">
