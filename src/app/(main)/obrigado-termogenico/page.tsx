@@ -16,7 +16,7 @@ import {
  * O objetivo aqui é um só: tirar a pessoa da dúvida logo depois do pagamento.
  * Ela acabou de comprar e a pergunta na cabeça dela é "e agora, onde eu
  * acesso?". Por isso os três passos aparecem numerados e em ordem, com o
- * e-mail do alpaclass em primeiro lugar, que é onde a maioria trava.
+ * e-mail do MemberKit em primeiro lugar, que é onde a maioria trava.
  */
 
 const LARANJA = '#ea580c';
@@ -58,14 +58,14 @@ export default function ObrigadoTermogenicoPage() {
         </p>
 
         <div className="space-y-4">
-          {/* Passo 1 — alpaclass */}
+          {/* Passo 1 — MemberKit */}
           <Passo numero={1} titulo="Acesse as suas aulas">
             <div className="mb-4 flex items-start gap-2.5 rounded-xl bg-white p-4 ring-1 ring-gray-200">
               <Mail className="mt-0.5 h-5 w-5 flex-shrink-0" style={{ color: LARANJA }} strokeWidth={2.5} />
               <p className="text-[15px] leading-relaxed text-gray-800">
                 O link de acesso foi enviado para o{' '}
                 <strong>e-mail que você usou na compra</strong>. Procure na sua
-                caixa de entrada por <strong>alpaclass</strong>.
+                caixa de entrada por <strong>MemberKit</strong>.
               </p>
             </div>
 
@@ -75,7 +75,7 @@ export default function ObrigadoTermogenicoPage() {
             >
               <Search className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: LARANJA }} strokeWidth={2.5} />
               <p className="text-[14px] leading-relaxed text-gray-700">
-                Não achou? Escreva <strong>alpaclass</strong> na busca do seu
+                Não achou? Escreva <strong>MemberKit</strong> na busca do seu
                 e-mail e confira também a caixa de spam e a aba de promoções. Se
                 ainda assim não aparecer, fale com a gente no fim desta página.
               </p>

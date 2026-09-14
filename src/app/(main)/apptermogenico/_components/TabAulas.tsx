@@ -57,7 +57,7 @@ export default function TabAulas() {
 
           <p className="mt-3 text-[15px] leading-relaxed text-white/90">
             Procure na sua caixa de entrada por{' '}
-            <strong className="font-bold text-white">alpaclass</strong>. É lá que
+            <strong className="font-bold text-white">MemberKit</strong>. É lá que
             ficam todas as aulas, os treinos e as meditações do protocolo.
           </p>
 
@@ -65,7 +65,7 @@ export default function TabAulas() {
             <p className="flex items-start gap-2 text-[15px] leading-relaxed">
               <Search className="mt-0.5 h-4 w-4 flex-shrink-0" strokeWidth={2.5} />
               <span>
-                Não achou? Escreva <strong>alpaclass</strong> na busca do seu e-mail
+                Não achou? Escreva <strong>MemberKit</strong> na busca do seu e-mail
                 e confira também a caixa de spam e a aba de promoções.
               </span>
             </p>

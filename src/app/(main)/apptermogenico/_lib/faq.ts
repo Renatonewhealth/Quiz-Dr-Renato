@@ -185,7 +185,7 @@ export const FAQ: PerguntaFaq[] = [
     resposta: [
       'Semanas 1 e 2: escolha um vídeo na plataforma e faça 1x ao dia, em qualquer horário.',
       'Semana 3: são 2 treinos por dia. Essa semana é mais intensa mesmo.',
-      'Os vídeos estão na plataforma de aulas, que chegou no seu e-mail com o nome alpaclass.',
+      'Os vídeos estão na plataforma de aulas, que chegou no seu e-mail com o nome MemberKit.',
     ],
     termos: ['treinos', 'quantas vezes', 'aulas'],
   },
@@ -387,10 +387,10 @@ export const FAQ: PerguntaFaq[] = [
     pergunta: 'Onde ficam as aulas e os treinos?',
     resposta: [
       'Na plataforma de aulas, cujo link foi enviado para o e-mail que você usou na compra.',
-      'Procure na sua caixa de entrada por alpaclass. É lá que ficam os treinos, as meditações e as aulas do método.',
+      'Procure na sua caixa de entrada por MemberKit. É lá que ficam os treinos, as meditações e as aulas do método.',
       'Se não encontrar, confira o spam e a aba de promoções, ou fale com o suporte que a gente reenvia.',
     ],
-    termos: ['aulas', 'treinos', 'plataforma', 'alpaclass', 'acesso'],
+    termos: ['aulas', 'treinos', 'plataforma', 'memberkit', 'acesso'],
   },
   {
     id: 'a-conta',
