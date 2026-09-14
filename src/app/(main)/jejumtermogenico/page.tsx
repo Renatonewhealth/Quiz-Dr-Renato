@@ -11,9 +11,7 @@ import Script from 'next/script';
  * player.js traz "pitchTime: 2310", ou seja, a oferta é revelada aos
  * 2310s (38:30) de um vídeo de 47:31.
  *
- * TODO: o botão ainda não tem checkout. Quando o link da Payt chegar, é só
- * trocar o href (ou usar payt_action="oneclick_buy" + data-object, como nas
- * páginas de upsell).
+ * O botão leva direto ao checkout da Payt (venda de front, não one-click).
  */
 export default function JejumTermogenicoPage() {
   return (
@@ -88,7 +86,7 @@ export default function JejumTermogenicoPage() {
         {/* Botão — escondido até o pitch */}
         <section id="oferta" className="esconder px-4 py-8">
           <a
-            href="#"
+            href="https://checkout.payt.com.br/caa983a409a5baabc26fa567def360f8?split=12"
             className="mx-auto block w-full max-w-[400px] rounded-xl bg-[#ea580c] px-6 py-5 text-center text-2xl font-black uppercase tracking-wide text-white shadow-[0_6px_24px_rgba(234,88,12,0.4)] transition-colors hover:bg-[#c2410c]"
           >
             EU QUERO
