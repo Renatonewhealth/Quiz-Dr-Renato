@@ -102,8 +102,10 @@ export default function JejumTermogenicoPage() {
         </section>
       </div>
 
-      {/* Footer */}
-      <footer className="w-full bg-gray-900 py-6 text-white">
+      {/* Footer.
+          A margem existe porque a section da oferta fica display:none ate o
+          pitch: sem ela, o rodape encosta no player. */}
+      <footer className="mt-12 w-full bg-gray-900 py-6 text-white sm:mt-16">
         <div className="mx-auto max-w-2xl px-4">
           <div className="space-y-3 text-center">
             <div className="flex justify-center gap-4 text-xs">
