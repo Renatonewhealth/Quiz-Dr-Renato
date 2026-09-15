@@ -1,4 +1,4 @@
-import Script from "next/script";
+import UtmifyPixelGlobal from "@/components/UtmifyPixelGlobal";
 
 export default function MainLayout({
   children,
@@ -7,17 +7,9 @@ export default function MainLayout({
 }>) {
   return (
     <>
-      {/* Utmify Pixel - Páginas principais */}
-      <Script id="utmify-pixel" strategy="afterInteractive">
-        {`
-          window.pixelId = "69badc4635d947be06ab5e3c";
-          var a = document.createElement("script");
-          a.setAttribute("async", "");
-          a.setAttribute("defer", "");
-          a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-          document.head.appendChild(a);
-        `}
-      </Script>
+      {/* Pixel padrão da Utmify. O componente se omite nas rotas que carregam
+          o próprio pixel, para os dois não brigarem pela mesma global. */}
+      <UtmifyPixelGlobal />
       {children}
     </>
   );
